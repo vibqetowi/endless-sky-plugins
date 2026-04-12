@@ -25,9 +25,10 @@ mission "gci banking account update"
 	on offer
 		datedifference = "days since start" - lastvisit
 		lastvisit = "days since start"
-		dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+		dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 		deposit += datedifference * dailyincome
 		fail
+
 
 mission "gci stock setup"
 	entering
@@ -64,7 +65,19 @@ mission "gci stock dividends"
 	non-blocking
 	destination "Earth"
 	to offer
-		"day" == 1
+		or
+			and
+				"day" == 1
+				"month" == 1
+			and
+				"day" == 1
+				"month" == 4
+			and
+				"day" == 1
+				"month" == 7
+			and
+				"day" == 1
+				"month" == 10
 		or
 			"stock amount Southbound Shipyards" > 0
 			"stock amount Lionheart Shipyards" > 0
@@ -86,424 +99,195 @@ mission "gci stock dividends"
 			branch "end"
 				"passed days" == 0
 			action
-				"stock roll Southbound Shipyards" = "roll: 100"
-				"stock multiplier Southbound Shipyards" = 102
-			branch "dividend roll 1 Southbound Shipyards"
-				"stock roll Southbound Shipyards" == 1
-			branch "dividend roll 2 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 6
-			branch "dividend roll 3 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 16
-			branch "dividend roll 4 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 30
-			branch "dividend roll 5 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 75
-			branch "apply Southbound Shipyards"
-			label "dividend roll 1 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 75
-			branch "apply Southbound Shipyards"
-			label "dividend roll 2 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 98
-			branch "apply Southbound Shipyards"
-			label "dividend roll 3 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 99
-			branch "apply Southbound Shipyards"
-			label "dividend roll 4 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 100
-			branch "apply Southbound Shipyards"
-			label "dividend roll 5 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 101
-			label "apply Southbound Shipyards"
-			action
-				"stock value Southbound Shipyards" = "stock value Southbound Shipyards" * "stock multiplier Southbound Shipyards" / 100
-			branch "updated Southbound Shipyards"
-				"stock value Southbound Shipyards" >= 100
-			action
-				"stock value Southbound Shipyards" = 100
-			label "updated Southbound Shipyards"
+				"stock tendency Southbound Shipyards" = "roll: 3" - 1
+				"stock tendency Lionheart Shipyards" = "roll: 3" - 1
+				"stock tendency Megaparsec Shipyards" = "roll: 3" - 1
+				"stock tendency Syndicate Shipyards" = "roll: 3" - 1
+				"stock tendency Kraz Cybernetics" = "roll: 3" - 1
+				"stock tendency Deep Sky" = "roll: 3" - 1
+				"stock tendency Lovelace Labs" = "roll: 3" - 1
+				"stock tendency Delta V" = "roll: 3" - 1
+				"stock tendency Betelgeuse Shipyards" = "roll: 3" - 1
+				"stock tendency Tarazed Corporation" = "roll: 3" - 1
 
+			label "stock loop Southbound Shipyards"
+			branch "notnull Southbound Shipyards"
+				"stock tendency Southbound Shipyards" != 0
 			action
-				"stock roll Lionheart Shipyards" = "roll: 100"
-				"stock multiplier Lionheart Shipyards" = 104
-			branch "growth roll 1 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" == 1
-			branch "growth roll 2 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 11
-			branch "growth roll 3 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 27
-			branch "growth roll 4 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 40
-			branch "growth roll 5 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 76
-			branch "apply Lionheart Shipyards"
-			label "growth roll 1 Lionheart Shipyards"
+				"stock tendency Southbound Shipyards" = "roll: 3" - 1
+			branch "stock loop Southbound Shipyards"
+			label "notnull Southbound Shipyards"
 			action
-				"stock multiplier Lionheart Shipyards" = 75
-			branch "apply Lionheart Shipyards"
-			label "growth roll 2 Lionheart Shipyards"
+				"stock change Southbound Shipyards" = "roll: 50" * "stock tendency Southbound Shipyards"
+			branch "positive Southbound Shipyards"
+				"stock value Southbound Shipyards" + "stock change Southbound Shipyards" >= 100
 			action
-				"stock multiplier Lionheart Shipyards" = 96
-			branch "apply Lionheart Shipyards"
-			label "growth roll 3 Lionheart Shipyards"
+				"stock change Southbound Shipyards" *= -1
+			label "positive Southbound Shipyards"
 			action
-				"stock multiplier Lionheart Shipyards" = 98
-			branch "apply Lionheart Shipyards"
-			label "growth roll 4 Lionheart Shipyards"
-			action
-				"stock multiplier Lionheart Shipyards" = 100
-			branch "apply Lionheart Shipyards"
-			label "growth roll 5 Lionheart Shipyards"
-			action
-				"stock multiplier Lionheart Shipyards" = 102
-			label "apply Lionheart Shipyards"
-			action
-				"stock value Lionheart Shipyards" = "stock value Lionheart Shipyards" * "stock multiplier Lionheart Shipyards" / 100
-			branch "updated Lionheart Shipyards"
-				"stock value Lionheart Shipyards" >= 100
-			action
-				"stock value Lionheart Shipyards" = 100
-			label "updated Lionheart Shipyards"
+				"stock value Southbound Shipyards" += "stock change Southbound Shipyards"
 
-			action
-				"stock roll Megaparsec Shipyards" = "roll: 100"
-				"stock multiplier Megaparsec Shipyards" = 104
-			branch "growth roll 1 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" == 1
-			branch "growth roll 2 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 11
-			branch "growth roll 3 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 27
-			branch "growth roll 4 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 40
-			branch "growth roll 5 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 76
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 1 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 75
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 2 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 96
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 3 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 98
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 4 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 100
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 5 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 102
-			label "apply Megaparsec Shipyards"
-			action
-				"stock value Megaparsec Shipyards" = "stock value Megaparsec Shipyards" * "stock multiplier Megaparsec Shipyards" / 100
-			branch "updated Megaparsec Shipyards"
-				"stock value Megaparsec Shipyards" >= 100
-			action
-				"stock value Megaparsec Shipyards" = 100
-			label "updated Megaparsec Shipyards"
 
+			label "stock loop Lionheart Shipyards"
+			branch "notnull Lionheart Shipyards"
+				"stock tendency Lionheart Shipyards" != 0
 			action
-				"stock roll Syndicate Shipyards" = "roll: 100"
-				"stock multiplier Syndicate Shipyards" = 102
-			branch "dividend roll 1 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" == 1
-			branch "dividend roll 2 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 6
-			branch "dividend roll 3 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 16
-			branch "dividend roll 4 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 30
-			branch "dividend roll 5 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 75
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 1 Syndicate Shipyards"
+				"stock tendency Lionheart Shipyards" = "roll: 3" - 1
+			branch "stock loop Lionheart Shipyards"
+			label "notnull Lionheart Shipyards"
 			action
-				"stock multiplier Syndicate Shipyards" = 75
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 2 Syndicate Shipyards"
+				"stock change Lionheart Shipyards" = "roll: 50" * "stock tendency Lionheart Shipyards"
+			branch "positive Lionheart Shipyards"
+				"stock value Lionheart Shipyards" + "stock change Lionheart Shipyards" >= 100
 			action
-				"stock multiplier Syndicate Shipyards" = 98
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 3 Syndicate Shipyards"
+				"stock change Lionheart Shipyards" *= -1
+			label "positive Lionheart Shipyards"
 			action
-				"stock multiplier Syndicate Shipyards" = 99
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 4 Syndicate Shipyards"
-			action
-				"stock multiplier Syndicate Shipyards" = 100
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 5 Syndicate Shipyards"
-			action
-				"stock multiplier Syndicate Shipyards" = 101
-			label "apply Syndicate Shipyards"
-			action
-				"stock value Syndicate Shipyards" = "stock value Syndicate Shipyards" * "stock multiplier Syndicate Shipyards" / 100
-			branch "updated Syndicate Shipyards"
-				"stock value Syndicate Shipyards" >= 100
-			action
-				"stock value Syndicate Shipyards" = 100
-			label "updated Syndicate Shipyards"
+				"stock value Lionheart Shipyards" += "stock change Lionheart Shipyards"
 
-			action
-				"stock roll Kraz Cybernetics" = "roll: 100"
-				"stock multiplier Kraz Cybernetics" = 102
-			branch "dividend roll 1 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" == 1
-			branch "dividend roll 2 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 6
-			branch "dividend roll 3 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 16
-			branch "dividend roll 4 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 30
-			branch "dividend roll 5 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 75
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 1 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 75
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 2 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 98
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 3 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 99
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 4 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 100
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 5 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 101
-			label "apply Kraz Cybernetics"
-			action
-				"stock value Kraz Cybernetics" = "stock value Kraz Cybernetics" * "stock multiplier Kraz Cybernetics" / 100
-			branch "updated Kraz Cybernetics"
-				"stock value Kraz Cybernetics" >= 100
-			action
-				"stock value Kraz Cybernetics" = 100
-			label "updated Kraz Cybernetics"
 
+			label "stock loop Megaparsec Shipyards"
+			branch "notnull Megaparsec Shipyards"
+				"stock tendency Megaparsec Shipyards" != 0
 			action
-				"stock roll Deep Sky" = "roll: 100"
-				"stock multiplier Deep Sky" = 104
-			branch "growth roll 1 Deep Sky"
-				"stock roll Deep Sky" == 1
-			branch "growth roll 2 Deep Sky"
-				"stock roll Deep Sky" <= 11
-			branch "growth roll 3 Deep Sky"
-				"stock roll Deep Sky" <= 27
-			branch "growth roll 4 Deep Sky"
-				"stock roll Deep Sky" <= 40
-			branch "growth roll 5 Deep Sky"
-				"stock roll Deep Sky" <= 76
-			branch "apply Deep Sky"
-			label "growth roll 1 Deep Sky"
+				"stock tendency Megaparsec Shipyards" = "roll: 3" - 1
+			branch "stock loop Megaparsec Shipyards"
+			label "notnull Megaparsec Shipyards"
 			action
-				"stock multiplier Deep Sky" = 75
-			branch "apply Deep Sky"
-			label "growth roll 2 Deep Sky"
+				"stock change Megaparsec Shipyards" = "roll: 50" * "stock tendency Megaparsec Shipyards"
+			branch "positive Megaparsec Shipyards"
+				"stock value Megaparsec Shipyards" + "stock change Megaparsec Shipyards" >= 100
 			action
-				"stock multiplier Deep Sky" = 96
-			branch "apply Deep Sky"
-			label "growth roll 3 Deep Sky"
+				"stock change Megaparsec Shipyards" *= -1
+			label "positive Megaparsec Shipyards"
 			action
-				"stock multiplier Deep Sky" = 98
-			branch "apply Deep Sky"
-			label "growth roll 4 Deep Sky"
-			action
-				"stock multiplier Deep Sky" = 100
-			branch "apply Deep Sky"
-			label "growth roll 5 Deep Sky"
-			action
-				"stock multiplier Deep Sky" = 102
-			label "apply Deep Sky"
-			action
-				"stock value Deep Sky" = "stock value Deep Sky" * "stock multiplier Deep Sky" / 100
-			branch "updated Deep Sky"
-				"stock value Deep Sky" >= 100
-			action
-				"stock value Deep Sky" = 100
-			label "updated Deep Sky"
+				"stock value Megaparsec Shipyards" += "stock change Megaparsec Shipyards"
 
-			action
-				"stock roll Lovelace Labs" = "roll: 100"
-				"stock multiplier Lovelace Labs" = 102
-			branch "dividend roll 1 Lovelace Labs"
-				"stock roll Lovelace Labs" == 1
-			branch "dividend roll 2 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 6
-			branch "dividend roll 3 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 16
-			branch "dividend roll 4 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 30
-			branch "dividend roll 5 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 75
-			branch "apply Lovelace Labs"
-			label "dividend roll 1 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 75
-			branch "apply Lovelace Labs"
-			label "dividend roll 2 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 98
-			branch "apply Lovelace Labs"
-			label "dividend roll 3 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 99
-			branch "apply Lovelace Labs"
-			label "dividend roll 4 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 100
-			branch "apply Lovelace Labs"
-			label "dividend roll 5 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 101
-			label "apply Lovelace Labs"
-			action
-				"stock value Lovelace Labs" = "stock value Lovelace Labs" * "stock multiplier Lovelace Labs" / 100
-			branch "updated Lovelace Labs"
-				"stock value Lovelace Labs" >= 100
-			action
-				"stock value Lovelace Labs" = 100
-			label "updated Lovelace Labs"
 
+			label "stock loop Syndicate Shipyards"
+			branch "notnull Syndicate Shipyards"
+				"stock tendency Syndicate Shipyards" != 0
 			action
-				"stock roll Delta V" = "roll: 100"
-				"stock multiplier Delta V" = 104
-			branch "growth roll 1 Delta V"
-				"stock roll Delta V" == 1
-			branch "growth roll 2 Delta V"
-				"stock roll Delta V" <= 11
-			branch "growth roll 3 Delta V"
-				"stock roll Delta V" <= 27
-			branch "growth roll 4 Delta V"
-				"stock roll Delta V" <= 40
-			branch "growth roll 5 Delta V"
-				"stock roll Delta V" <= 76
-			branch "apply Delta V"
-			label "growth roll 1 Delta V"
+				"stock tendency Syndicate Shipyards" = "roll: 3" - 1
+			branch "stock loop Syndicate Shipyards"
+			label "notnull Syndicate Shipyards"
 			action
-				"stock multiplier Delta V" = 75
-			branch "apply Delta V"
-			label "growth roll 2 Delta V"
+				"stock change Syndicate Shipyards" = "roll: 50" * "stock tendency Syndicate Shipyards"
+			branch "positive Syndicate Shipyards"
+				"stock value Syndicate Shipyards" + "stock change Syndicate Shipyards" >= 100
 			action
-				"stock multiplier Delta V" = 96
-			branch "apply Delta V"
-			label "growth roll 3 Delta V"
+				"stock change Syndicate Shipyards" *= -1
+			label "positive Syndicate Shipyards"
 			action
-				"stock multiplier Delta V" = 98
-			branch "apply Delta V"
-			label "growth roll 4 Delta V"
-			action
-				"stock multiplier Delta V" = 100
-			branch "apply Delta V"
-			label "growth roll 5 Delta V"
-			action
-				"stock multiplier Delta V" = 102
-			label "apply Delta V"
-			action
-				"stock value Delta V" = "stock value Delta V" * "stock multiplier Delta V" / 100
-			branch "updated Delta V"
-				"stock value Delta V" >= 100
-			action
-				"stock value Delta V" = 100
-			label "updated Delta V"
+				"stock value Syndicate Shipyards" += "stock change Syndicate Shipyards"
 
-			action
-				"stock roll Betelgeuse Shipyards" = "roll: 100"
-				"stock multiplier Betelgeuse Shipyards" = 102
-			branch "dividend roll 1 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" == 1
-			branch "dividend roll 2 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 6
-			branch "dividend roll 3 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 16
-			branch "dividend roll 4 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 30
-			branch "dividend roll 5 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 75
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 1 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 75
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 2 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 98
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 3 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 99
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 4 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 100
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 5 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 101
-			label "apply Betelgeuse Shipyards"
-			action
-				"stock value Betelgeuse Shipyards" = "stock value Betelgeuse Shipyards" * "stock multiplier Betelgeuse Shipyards" / 100
-			branch "updated Betelgeuse Shipyards"
-				"stock value Betelgeuse Shipyards" >= 100
-			action
-				"stock value Betelgeuse Shipyards" = 100
-			label "updated Betelgeuse Shipyards"
 
+			label "stock loop Kraz Cybernetics"
+			branch "notnull Kraz Cybernetics"
+				"stock tendency Kraz Cybernetics" != 0
 			action
-				"stock roll Tarazed Corporation" = "roll: 100"
-				"stock multiplier Tarazed Corporation" = 104
-			branch "growth roll 1 Tarazed Corporation"
-				"stock roll Tarazed Corporation" == 1
-			branch "growth roll 2 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 11
-			branch "growth roll 3 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 27
-			branch "growth roll 4 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 40
-			branch "growth roll 5 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 76
-			branch "apply Tarazed Corporation"
-			label "growth roll 1 Tarazed Corporation"
+				"stock tendency Kraz Cybernetics" = "roll: 3" - 1
+			branch "stock loop Kraz Cybernetics"
+			label "notnull Kraz Cybernetics"
 			action
-				"stock multiplier Tarazed Corporation" = 75
-			branch "apply Tarazed Corporation"
-			label "growth roll 2 Tarazed Corporation"
+				"stock change Kraz Cybernetics" = "roll: 50" * "stock tendency Kraz Cybernetics"
+			branch "positive Kraz Cybernetics"
+				"stock value Kraz Cybernetics" + "stock change Kraz Cybernetics" >= 100
 			action
-				"stock multiplier Tarazed Corporation" = 96
-			branch "apply Tarazed Corporation"
-			label "growth roll 3 Tarazed Corporation"
+				"stock change Kraz Cybernetics" *= -1
+			label "positive Kraz Cybernetics"
 			action
-				"stock multiplier Tarazed Corporation" = 98
-			branch "apply Tarazed Corporation"
-			label "growth roll 4 Tarazed Corporation"
+				"stock value Kraz Cybernetics" += "stock change Kraz Cybernetics"
+
+
+			label "stock loop Deep Sky"
+			branch "notnull Deep Sky"
+				"stock tendency Deep Sky" != 0
 			action
-				"stock multiplier Tarazed Corporation" = 100
-			branch "apply Tarazed Corporation"
-			label "growth roll 5 Tarazed Corporation"
+				"stock tendency Deep Sky" = "roll: 3" - 1
+			branch "stock loop Deep Sky"
+			label "notnull Deep Sky"
 			action
-				"stock multiplier Tarazed Corporation" = 102
-			label "apply Tarazed Corporation"
+				"stock change Deep Sky" = "roll: 50" * "stock tendency Deep Sky"
+			branch "positive Deep Sky"
+				"stock value Deep Sky" + "stock change Deep Sky" >= 100
 			action
-				"stock value Tarazed Corporation" = "stock value Tarazed Corporation" * "stock multiplier Tarazed Corporation" / 100
-			branch "updated Tarazed Corporation"
-				"stock value Tarazed Corporation" >= 100
+				"stock change Deep Sky" *= -1
+			label "positive Deep Sky"
 			action
-				"stock value Tarazed Corporation" = 100
-			label "updated Tarazed Corporation"
+				"stock value Deep Sky" += "stock change Deep Sky"
+
+
+			label "stock loop Lovelace Labs"
+			branch "notnull Lovelace Labs"
+				"stock tendency Lovelace Labs" != 0
+			action
+				"stock tendency Lovelace Labs" = "roll: 3" - 1
+			branch "stock loop Lovelace Labs"
+			label "notnull Lovelace Labs"
+			action
+				"stock change Lovelace Labs" = "roll: 50" * "stock tendency Lovelace Labs"
+			branch "positive Lovelace Labs"
+				"stock value Lovelace Labs" + "stock change Lovelace Labs" >= 100
+			action
+				"stock change Lovelace Labs" *= -1
+			label "positive Lovelace Labs"
+			action
+				"stock value Lovelace Labs" += "stock change Lovelace Labs"
+
+
+			label "stock loop Delta V"
+			branch "notnull Delta V"
+				"stock tendency Delta V" != 0
+			action
+				"stock tendency Delta V" = "roll: 3" - 1
+			branch "stock loop Delta V"
+			label "notnull Delta V"
+			action
+				"stock change Delta V" = "roll: 50" * "stock tendency Delta V"
+			branch "positive Delta V"
+				"stock value Delta V" + "stock change Delta V" >= 100
+			action
+				"stock change Delta V" *= -1
+			label "positive Delta V"
+			action
+				"stock value Delta V" += "stock change Delta V"
+
+
+			label "stock loop Betelgeuse Shipyards"
+			branch "notnull Betelgeuse Shipyards"
+				"stock tendency Betelgeuse Shipyards" != 0
+			action
+				"stock tendency Betelgeuse Shipyards" = "roll: 3" - 1
+			branch "stock loop Betelgeuse Shipyards"
+			label "notnull Betelgeuse Shipyards"
+			action
+				"stock change Betelgeuse Shipyards" = "roll: 50" * "stock tendency Betelgeuse Shipyards"
+			branch "positive Betelgeuse Shipyards"
+				"stock value Betelgeuse Shipyards" + "stock change Betelgeuse Shipyards" >= 100
+			action
+				"stock change Betelgeuse Shipyards" *= -1
+			label "positive Betelgeuse Shipyards"
+			action
+				"stock value Betelgeuse Shipyards" += "stock change Betelgeuse Shipyards"
+
+
+			label "stock loop Tarazed Corporation"
+			branch "notnull Tarazed Corporation"
+				"stock tendency Tarazed Corporation" != 0
+			action
+				"stock tendency Tarazed Corporation" = "roll: 3" - 1
+			branch "stock loop Tarazed Corporation"
+			label "notnull Tarazed Corporation"
+			action
+				"stock change Tarazed Corporation" = "roll: 50" * "stock tendency Tarazed Corporation"
+			branch "positive Tarazed Corporation"
+				"stock value Tarazed Corporation" + "stock change Tarazed Corporation" >= 100
+			action
+				"stock change Tarazed Corporation" *= -1
+			label "positive Tarazed Corporation"
+			action
+				"stock value Tarazed Corporation" += "stock change Tarazed Corporation"
 
 			action
 				"passed days" -= 1
@@ -512,15 +296,15 @@ mission "gci stock dividends"
 			action
 				"stock last day" = "days since start"
 				"dividend Southbound Shipyards" = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" / 100 * 3
-				"dividend Lionheart Shipyards" = 0
-				"dividend Megaparsec Shipyards" = 0
+				"dividend Lionheart Shipyards" = "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" / 100 * 3
+				"dividend Megaparsec Shipyards" = "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" / 100 * 3
 				"dividend Syndicate Shipyards" = "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" / 100 * 3
 				"dividend Kraz Cybernetics" = "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" / 100 * 3
-				"dividend Deep Sky" = 0
+				"dividend Deep Sky" = "stock amount Deep Sky" * "stock value Deep Sky" / 100 * 3
 				"dividend Lovelace Labs" = "stock amount Lovelace Labs" * "stock value Lovelace Labs" / 100 * 3
-				"dividend Delta V" = 0
+				"dividend Delta V" = "stock amount Delta V" * "stock value Delta V" / 100 * 3
 				"dividend Betelgeuse Shipyards" = "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" / 100 * 3
-				"dividend Tarazed Corporation" = 0
+				"dividend Tarazed Corporation" = "stock amount Tarazed Corporation" * "stock value Tarazed Corporation" / 100 * 3
 				"stock dividends addi" = "dividend Southbound Shipyards" + "dividend Lionheart Shipyards" + "dividend Megaparsec Shipyards" + "dividend Syndicate Shipyards" + "dividend Kraz Cybernetics" + "dividend Deep Sky" + "dividend Lovelace Labs" + "dividend Delta V" + "dividend Betelgeuse Shipyards" + "dividend Tarazed Corporation"
 				"stock all dividends" = "stock dividends addi"
 
@@ -574,35 +358,35 @@ mission "gci stock dividends"
 
 			label "dividends payment done"
 			scene "scene/stock_chart_analysis"
-			`This is your monthly stock report and dividend payout.`
-			`You hold &[stock amount Southbound Shipyards] "Southbound Shipyards" stocks at &[stock value Southbound Shipyards] credits each.  Monthly dividend (3%): &[dividend Southbound Shipyards]`
+			`This is your quarterly stock report and divident payout.`
+			`You hold &[stock amount Southbound Shipyards] "Southbound Shipyards" stocks at &[stock value Southbound Shipyards] credits each. Dividend(3%): &[dividend Southbound Shipyards]`
 				to display
 					"stock amount Southbound Shipyards" > 0
-			`You hold &[stock amount Lionheart Shipyards] "Lionheart Shipyards" stocks at &[stock value Lionheart Shipyards] credits each. Dividend(0%): &[dividend Lionheart Shipyards]`
+			`You hold &[stock amount Lionheart Shipyards] "Lionheart Shipyards" stocks at &[stock value Lionheart Shipyards] credits each. Dividend(3%): &[dividend Lionheart Shipyards]`
 				to display
 					"stock amount Lionheart Shipyards" > 0
-			`You hold &[stock amount Megaparsec Shipyards] "Megaparsec Shipyards" stocks at &[stock value Megaparsec Shipyards] credits each. Dividend(0%): &[dividend Megaparsec Shipyards]`
+			`You hold &[stock amount Megaparsec Shipyards] "Megaparsec Shipyards" stocks at &[stock value Megaparsec Shipyards] credits each. Dividend(3%): &[dividend Megaparsec Shipyards]`
 				to display
 					"stock amount Megaparsec Shipyards" > 0
-			`You hold &[stock amount Syndicate Shipyards] "Syndicate Shipyards" stocks at &[stock value Syndicate Shipyards] credits each.  Monthly dividend (3%): &[dividend Syndicate Shipyards]`
+			`You hold &[stock amount Syndicate Shipyards] "Syndicate Shipyards" stocks at &[stock value Syndicate Shipyards] credits each. Dividend(3%): &[dividend Syndicate Shipyards]`
 				to display
 					"stock amount Syndicate Shipyards" > 0
-			`You hold &[stock amount Kraz Cybernetics] "Kraz Cybernetics" stocks at &[stock value Kraz Cybernetics] credits each.  Monthly dividend (3%): &[dividend Kraz Cybernetics]`
+			`You hold &[stock amount Kraz Cybernetics] "Kraz Cybernetics" stocks at &[stock value Kraz Cybernetics] credits each. Dividend(3%): &[dividend Kraz Cybernetics]`
 				to display
 					"stock amount Kraz Cybernetics" > 0
-			`You hold &[stock amount Deep Sky] "Deep Sky" stocks at &[stock value Deep Sky] credits each. Dividend(0%): &[dividend Deep Sky]`
+			`You hold &[stock amount Deep Sky] "Deep Sky" stocks at &[stock value Deep Sky] credits each. Dividend(3%): &[dividend Deep Sky]`
 				to display
 					"stock amount Deep Sky" > 0
-			`You hold &[stock amount Lovelace Labs] "Lovelace Labs" stocks at &[stock value Lovelace Labs] credits each.  Monthly dividend (3%): &[dividend Lovelace Labs]`
+			`You hold &[stock amount Lovelace Labs] "Lovelace Labs" stocks at &[stock value Lovelace Labs] credits each. Dividend(3%): &[dividend Lovelace Labs]`
 				to display
 					"stock amount Lovelace Labs" > 0
-			`You hold &[stock amount Delta V] "Delta V" stocks at &[stock value Delta V] credits each. Dividend(0%): &[dividend Delta V]`
+			`You hold &[stock amount Delta V] "Delta V" stocks at &[stock value Delta V] credits each. Dividend(3%): &[dividend Delta V]`
 				to display
 					"stock amount Delta V" > 0
-			`You hold &[stock amount Betelgeuse Shipyards] "Betelgeuse Shipyards" stocks at &[stock value Betelgeuse Shipyards] credits each.  Monthly dividend (3%): &[dividend Betelgeuse Shipyards]`
+			`You hold &[stock amount Betelgeuse Shipyards] "Betelgeuse Shipyards" stocks at &[stock value Betelgeuse Shipyards] credits each. Dividend(3%): &[dividend Betelgeuse Shipyards]`
 				to display
 					"stock amount Betelgeuse Shipyards" > 0
-			`You hold &[stock amount Tarazed Corporation] "Tarazed Corporation" stocks at &[stock value Tarazed Corporation] credits each. Dividend(0%): &[dividend Tarazed Corporation]`
+			`You hold &[stock amount Tarazed Corporation] "Tarazed Corporation" stocks at &[stock value Tarazed Corporation] credits each. Dividend(3%): &[dividend Tarazed Corporation]`
 				to display
 					"stock amount Tarazed Corporation" > 0
 			``
@@ -631,424 +415,195 @@ mission "gci banking terminal"
 			branch "calculations end"
 				"passed days" == 0
 			action
-				"stock roll Southbound Shipyards" = "roll: 100"
-				"stock multiplier Southbound Shipyards" = 102
-			branch "dividend roll 1 Southbound Shipyards"
-				"stock roll Southbound Shipyards" == 1
-			branch "dividend roll 2 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 6
-			branch "dividend roll 3 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 16
-			branch "dividend roll 4 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 30
-			branch "dividend roll 5 Southbound Shipyards"
-				"stock roll Southbound Shipyards" <= 75
-			branch "apply Southbound Shipyards"
-			label "dividend roll 1 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 75
-			branch "apply Southbound Shipyards"
-			label "dividend roll 2 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 98
-			branch "apply Southbound Shipyards"
-			label "dividend roll 3 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 99
-			branch "apply Southbound Shipyards"
-			label "dividend roll 4 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 100
-			branch "apply Southbound Shipyards"
-			label "dividend roll 5 Southbound Shipyards"
-			action
-				"stock multiplier Southbound Shipyards" = 101
-			label "apply Southbound Shipyards"
-			action
-				"stock value Southbound Shipyards" = "stock value Southbound Shipyards" * "stock multiplier Southbound Shipyards" / 100
-			branch "updated Southbound Shipyards"
-				"stock value Southbound Shipyards" >= 100
-			action
-				"stock value Southbound Shipyards" = 100
-			label "updated Southbound Shipyards"
+				"stock tendency Southbound Shipyards" = "roll: 3" - 1
+				"stock tendency Lionheart Shipyards" = "roll: 3" - 1
+				"stock tendency Megaparsec Shipyards" = "roll: 3" - 1
+				"stock tendency Syndicate Shipyards" = "roll: 3" - 1
+				"stock tendency Kraz Cybernetics" = "roll: 3" - 1
+				"stock tendency Deep Sky" = "roll: 3" - 1
+				"stock tendency Lovelace Labs" = "roll: 3" - 1
+				"stock tendency Delta V" = "roll: 3" - 1
+				"stock tendency Betelgeuse Shipyards" = "roll: 3" - 1
+				"stock tendency Tarazed Corporation" = "roll: 3" - 1
 
+			label "stock loop Southbound Shipyards"
+			branch "notnull Southbound Shipyards"
+				"stock tendency Southbound Shipyards" != 0
 			action
-				"stock roll Lionheart Shipyards" = "roll: 100"
-				"stock multiplier Lionheart Shipyards" = 104
-			branch "growth roll 1 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" == 1
-			branch "growth roll 2 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 11
-			branch "growth roll 3 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 27
-			branch "growth roll 4 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 40
-			branch "growth roll 5 Lionheart Shipyards"
-				"stock roll Lionheart Shipyards" <= 76
-			branch "apply Lionheart Shipyards"
-			label "growth roll 1 Lionheart Shipyards"
+				"stock tendency Southbound Shipyards" = "roll: 3" - 1
+			branch "stock loop Southbound Shipyards"
+			label "notnull Southbound Shipyards"
 			action
-				"stock multiplier Lionheart Shipyards" = 75
-			branch "apply Lionheart Shipyards"
-			label "growth roll 2 Lionheart Shipyards"
+				"stock change Southbound Shipyards" = "roll: 50" * "stock tendency Southbound Shipyards"
+			branch "positive Southbound Shipyards"
+				"stock value Southbound Shipyards" + "stock change Southbound Shipyards" >= 100
 			action
-				"stock multiplier Lionheart Shipyards" = 96
-			branch "apply Lionheart Shipyards"
-			label "growth roll 3 Lionheart Shipyards"
+				"stock change Southbound Shipyards" *= -1
+			label "positive Southbound Shipyards"
 			action
-				"stock multiplier Lionheart Shipyards" = 98
-			branch "apply Lionheart Shipyards"
-			label "growth roll 4 Lionheart Shipyards"
-			action
-				"stock multiplier Lionheart Shipyards" = 100
-			branch "apply Lionheart Shipyards"
-			label "growth roll 5 Lionheart Shipyards"
-			action
-				"stock multiplier Lionheart Shipyards" = 102
-			label "apply Lionheart Shipyards"
-			action
-				"stock value Lionheart Shipyards" = "stock value Lionheart Shipyards" * "stock multiplier Lionheart Shipyards" / 100
-			branch "updated Lionheart Shipyards"
-				"stock value Lionheart Shipyards" >= 100
-			action
-				"stock value Lionheart Shipyards" = 100
-			label "updated Lionheart Shipyards"
+				"stock value Southbound Shipyards" += "stock change Southbound Shipyards"
 
-			action
-				"stock roll Megaparsec Shipyards" = "roll: 100"
-				"stock multiplier Megaparsec Shipyards" = 104
-			branch "growth roll 1 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" == 1
-			branch "growth roll 2 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 11
-			branch "growth roll 3 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 27
-			branch "growth roll 4 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 40
-			branch "growth roll 5 Megaparsec Shipyards"
-				"stock roll Megaparsec Shipyards" <= 76
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 1 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 75
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 2 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 96
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 3 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 98
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 4 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 100
-			branch "apply Megaparsec Shipyards"
-			label "growth roll 5 Megaparsec Shipyards"
-			action
-				"stock multiplier Megaparsec Shipyards" = 102
-			label "apply Megaparsec Shipyards"
-			action
-				"stock value Megaparsec Shipyards" = "stock value Megaparsec Shipyards" * "stock multiplier Megaparsec Shipyards" / 100
-			branch "updated Megaparsec Shipyards"
-				"stock value Megaparsec Shipyards" >= 100
-			action
-				"stock value Megaparsec Shipyards" = 100
-			label "updated Megaparsec Shipyards"
 
+			label "stock loop Lionheart Shipyards"
+			branch "notnull Lionheart Shipyards"
+				"stock tendency Lionheart Shipyards" != 0
 			action
-				"stock roll Syndicate Shipyards" = "roll: 100"
-				"stock multiplier Syndicate Shipyards" = 102
-			branch "dividend roll 1 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" == 1
-			branch "dividend roll 2 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 6
-			branch "dividend roll 3 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 16
-			branch "dividend roll 4 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 30
-			branch "dividend roll 5 Syndicate Shipyards"
-				"stock roll Syndicate Shipyards" <= 75
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 1 Syndicate Shipyards"
+				"stock tendency Lionheart Shipyards" = "roll: 3" - 1
+			branch "stock loop Lionheart Shipyards"
+			label "notnull Lionheart Shipyards"
 			action
-				"stock multiplier Syndicate Shipyards" = 75
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 2 Syndicate Shipyards"
+				"stock change Lionheart Shipyards" = "roll: 50" * "stock tendency Lionheart Shipyards"
+			branch "positive Lionheart Shipyards"
+				"stock value Lionheart Shipyards" + "stock change Lionheart Shipyards" >= 100
 			action
-				"stock multiplier Syndicate Shipyards" = 98
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 3 Syndicate Shipyards"
+				"stock change Lionheart Shipyards" *= -1
+			label "positive Lionheart Shipyards"
 			action
-				"stock multiplier Syndicate Shipyards" = 99
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 4 Syndicate Shipyards"
-			action
-				"stock multiplier Syndicate Shipyards" = 100
-			branch "apply Syndicate Shipyards"
-			label "dividend roll 5 Syndicate Shipyards"
-			action
-				"stock multiplier Syndicate Shipyards" = 101
-			label "apply Syndicate Shipyards"
-			action
-				"stock value Syndicate Shipyards" = "stock value Syndicate Shipyards" * "stock multiplier Syndicate Shipyards" / 100
-			branch "updated Syndicate Shipyards"
-				"stock value Syndicate Shipyards" >= 100
-			action
-				"stock value Syndicate Shipyards" = 100
-			label "updated Syndicate Shipyards"
+				"stock value Lionheart Shipyards" += "stock change Lionheart Shipyards"
 
-			action
-				"stock roll Kraz Cybernetics" = "roll: 100"
-				"stock multiplier Kraz Cybernetics" = 102
-			branch "dividend roll 1 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" == 1
-			branch "dividend roll 2 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 6
-			branch "dividend roll 3 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 16
-			branch "dividend roll 4 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 30
-			branch "dividend roll 5 Kraz Cybernetics"
-				"stock roll Kraz Cybernetics" <= 75
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 1 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 75
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 2 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 98
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 3 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 99
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 4 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 100
-			branch "apply Kraz Cybernetics"
-			label "dividend roll 5 Kraz Cybernetics"
-			action
-				"stock multiplier Kraz Cybernetics" = 101
-			label "apply Kraz Cybernetics"
-			action
-				"stock value Kraz Cybernetics" = "stock value Kraz Cybernetics" * "stock multiplier Kraz Cybernetics" / 100
-			branch "updated Kraz Cybernetics"
-				"stock value Kraz Cybernetics" >= 100
-			action
-				"stock value Kraz Cybernetics" = 100
-			label "updated Kraz Cybernetics"
 
+			label "stock loop Megaparsec Shipyards"
+			branch "notnull Megaparsec Shipyards"
+				"stock tendency Megaparsec Shipyards" != 0
 			action
-				"stock roll Deep Sky" = "roll: 100"
-				"stock multiplier Deep Sky" = 104
-			branch "growth roll 1 Deep Sky"
-				"stock roll Deep Sky" == 1
-			branch "growth roll 2 Deep Sky"
-				"stock roll Deep Sky" <= 11
-			branch "growth roll 3 Deep Sky"
-				"stock roll Deep Sky" <= 27
-			branch "growth roll 4 Deep Sky"
-				"stock roll Deep Sky" <= 40
-			branch "growth roll 5 Deep Sky"
-				"stock roll Deep Sky" <= 76
-			branch "apply Deep Sky"
-			label "growth roll 1 Deep Sky"
+				"stock tendency Megaparsec Shipyards" = "roll: 3" - 1
+			branch "stock loop Megaparsec Shipyards"
+			label "notnull Megaparsec Shipyards"
 			action
-				"stock multiplier Deep Sky" = 75
-			branch "apply Deep Sky"
-			label "growth roll 2 Deep Sky"
+				"stock change Megaparsec Shipyards" = "roll: 50" * "stock tendency Megaparsec Shipyards"
+			branch "positive Megaparsec Shipyards"
+				"stock value Megaparsec Shipyards" + "stock change Megaparsec Shipyards" >= 100
 			action
-				"stock multiplier Deep Sky" = 96
-			branch "apply Deep Sky"
-			label "growth roll 3 Deep Sky"
+				"stock change Megaparsec Shipyards" *= -1
+			label "positive Megaparsec Shipyards"
 			action
-				"stock multiplier Deep Sky" = 98
-			branch "apply Deep Sky"
-			label "growth roll 4 Deep Sky"
-			action
-				"stock multiplier Deep Sky" = 100
-			branch "apply Deep Sky"
-			label "growth roll 5 Deep Sky"
-			action
-				"stock multiplier Deep Sky" = 102
-			label "apply Deep Sky"
-			action
-				"stock value Deep Sky" = "stock value Deep Sky" * "stock multiplier Deep Sky" / 100
-			branch "updated Deep Sky"
-				"stock value Deep Sky" >= 100
-			action
-				"stock value Deep Sky" = 100
-			label "updated Deep Sky"
+				"stock value Megaparsec Shipyards" += "stock change Megaparsec Shipyards"
 
-			action
-				"stock roll Lovelace Labs" = "roll: 100"
-				"stock multiplier Lovelace Labs" = 102
-			branch "dividend roll 1 Lovelace Labs"
-				"stock roll Lovelace Labs" == 1
-			branch "dividend roll 2 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 6
-			branch "dividend roll 3 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 16
-			branch "dividend roll 4 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 30
-			branch "dividend roll 5 Lovelace Labs"
-				"stock roll Lovelace Labs" <= 75
-			branch "apply Lovelace Labs"
-			label "dividend roll 1 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 75
-			branch "apply Lovelace Labs"
-			label "dividend roll 2 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 98
-			branch "apply Lovelace Labs"
-			label "dividend roll 3 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 99
-			branch "apply Lovelace Labs"
-			label "dividend roll 4 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 100
-			branch "apply Lovelace Labs"
-			label "dividend roll 5 Lovelace Labs"
-			action
-				"stock multiplier Lovelace Labs" = 101
-			label "apply Lovelace Labs"
-			action
-				"stock value Lovelace Labs" = "stock value Lovelace Labs" * "stock multiplier Lovelace Labs" / 100
-			branch "updated Lovelace Labs"
-				"stock value Lovelace Labs" >= 100
-			action
-				"stock value Lovelace Labs" = 100
-			label "updated Lovelace Labs"
 
+			label "stock loop Syndicate Shipyards"
+			branch "notnull Syndicate Shipyards"
+				"stock tendency Syndicate Shipyards" != 0
 			action
-				"stock roll Delta V" = "roll: 100"
-				"stock multiplier Delta V" = 104
-			branch "growth roll 1 Delta V"
-				"stock roll Delta V" == 1
-			branch "growth roll 2 Delta V"
-				"stock roll Delta V" <= 11
-			branch "growth roll 3 Delta V"
-				"stock roll Delta V" <= 27
-			branch "growth roll 4 Delta V"
-				"stock roll Delta V" <= 40
-			branch "growth roll 5 Delta V"
-				"stock roll Delta V" <= 76
-			branch "apply Delta V"
-			label "growth roll 1 Delta V"
+				"stock tendency Syndicate Shipyards" = "roll: 3" - 1
+			branch "stock loop Syndicate Shipyards"
+			label "notnull Syndicate Shipyards"
 			action
-				"stock multiplier Delta V" = 75
-			branch "apply Delta V"
-			label "growth roll 2 Delta V"
+				"stock change Syndicate Shipyards" = "roll: 50" * "stock tendency Syndicate Shipyards"
+			branch "positive Syndicate Shipyards"
+				"stock value Syndicate Shipyards" + "stock change Syndicate Shipyards" >= 100
 			action
-				"stock multiplier Delta V" = 96
-			branch "apply Delta V"
-			label "growth roll 3 Delta V"
+				"stock change Syndicate Shipyards" *= -1
+			label "positive Syndicate Shipyards"
 			action
-				"stock multiplier Delta V" = 98
-			branch "apply Delta V"
-			label "growth roll 4 Delta V"
-			action
-				"stock multiplier Delta V" = 100
-			branch "apply Delta V"
-			label "growth roll 5 Delta V"
-			action
-				"stock multiplier Delta V" = 102
-			label "apply Delta V"
-			action
-				"stock value Delta V" = "stock value Delta V" * "stock multiplier Delta V" / 100
-			branch "updated Delta V"
-				"stock value Delta V" >= 100
-			action
-				"stock value Delta V" = 100
-			label "updated Delta V"
+				"stock value Syndicate Shipyards" += "stock change Syndicate Shipyards"
 
-			action
-				"stock roll Betelgeuse Shipyards" = "roll: 100"
-				"stock multiplier Betelgeuse Shipyards" = 102
-			branch "dividend roll 1 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" == 1
-			branch "dividend roll 2 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 6
-			branch "dividend roll 3 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 16
-			branch "dividend roll 4 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 30
-			branch "dividend roll 5 Betelgeuse Shipyards"
-				"stock roll Betelgeuse Shipyards" <= 75
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 1 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 75
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 2 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 98
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 3 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 99
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 4 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 100
-			branch "apply Betelgeuse Shipyards"
-			label "dividend roll 5 Betelgeuse Shipyards"
-			action
-				"stock multiplier Betelgeuse Shipyards" = 101
-			label "apply Betelgeuse Shipyards"
-			action
-				"stock value Betelgeuse Shipyards" = "stock value Betelgeuse Shipyards" * "stock multiplier Betelgeuse Shipyards" / 100
-			branch "updated Betelgeuse Shipyards"
-				"stock value Betelgeuse Shipyards" >= 100
-			action
-				"stock value Betelgeuse Shipyards" = 100
-			label "updated Betelgeuse Shipyards"
 
+			label "stock loop Kraz Cybernetics"
+			branch "notnull Kraz Cybernetics"
+				"stock tendency Kraz Cybernetics" != 0
 			action
-				"stock roll Tarazed Corporation" = "roll: 100"
-				"stock multiplier Tarazed Corporation" = 104
-			branch "growth roll 1 Tarazed Corporation"
-				"stock roll Tarazed Corporation" == 1
-			branch "growth roll 2 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 11
-			branch "growth roll 3 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 27
-			branch "growth roll 4 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 40
-			branch "growth roll 5 Tarazed Corporation"
-				"stock roll Tarazed Corporation" <= 76
-			branch "apply Tarazed Corporation"
-			label "growth roll 1 Tarazed Corporation"
+				"stock tendency Kraz Cybernetics" = "roll: 3" - 1
+			branch "stock loop Kraz Cybernetics"
+			label "notnull Kraz Cybernetics"
 			action
-				"stock multiplier Tarazed Corporation" = 75
-			branch "apply Tarazed Corporation"
-			label "growth roll 2 Tarazed Corporation"
+				"stock change Kraz Cybernetics" = "roll: 50" * "stock tendency Kraz Cybernetics"
+			branch "positive Kraz Cybernetics"
+				"stock value Kraz Cybernetics" + "stock change Kraz Cybernetics" >= 100
 			action
-				"stock multiplier Tarazed Corporation" = 96
-			branch "apply Tarazed Corporation"
-			label "growth roll 3 Tarazed Corporation"
+				"stock change Kraz Cybernetics" *= -1
+			label "positive Kraz Cybernetics"
 			action
-				"stock multiplier Tarazed Corporation" = 98
-			branch "apply Tarazed Corporation"
-			label "growth roll 4 Tarazed Corporation"
+				"stock value Kraz Cybernetics" += "stock change Kraz Cybernetics"
+
+
+			label "stock loop Deep Sky"
+			branch "notnull Deep Sky"
+				"stock tendency Deep Sky" != 0
 			action
-				"stock multiplier Tarazed Corporation" = 100
-			branch "apply Tarazed Corporation"
-			label "growth roll 5 Tarazed Corporation"
+				"stock tendency Deep Sky" = "roll: 3" - 1
+			branch "stock loop Deep Sky"
+			label "notnull Deep Sky"
 			action
-				"stock multiplier Tarazed Corporation" = 102
-			label "apply Tarazed Corporation"
+				"stock change Deep Sky" = "roll: 50" * "stock tendency Deep Sky"
+			branch "positive Deep Sky"
+				"stock value Deep Sky" + "stock change Deep Sky" >= 100
 			action
-				"stock value Tarazed Corporation" = "stock value Tarazed Corporation" * "stock multiplier Tarazed Corporation" / 100
-			branch "updated Tarazed Corporation"
-				"stock value Tarazed Corporation" >= 100
+				"stock change Deep Sky" *= -1
+			label "positive Deep Sky"
 			action
-				"stock value Tarazed Corporation" = 100
-			label "updated Tarazed Corporation"
+				"stock value Deep Sky" += "stock change Deep Sky"
+
+
+			label "stock loop Lovelace Labs"
+			branch "notnull Lovelace Labs"
+				"stock tendency Lovelace Labs" != 0
+			action
+				"stock tendency Lovelace Labs" = "roll: 3" - 1
+			branch "stock loop Lovelace Labs"
+			label "notnull Lovelace Labs"
+			action
+				"stock change Lovelace Labs" = "roll: 50" * "stock tendency Lovelace Labs"
+			branch "positive Lovelace Labs"
+				"stock value Lovelace Labs" + "stock change Lovelace Labs" >= 100
+			action
+				"stock change Lovelace Labs" *= -1
+			label "positive Lovelace Labs"
+			action
+				"stock value Lovelace Labs" += "stock change Lovelace Labs"
+
+
+			label "stock loop Delta V"
+			branch "notnull Delta V"
+				"stock tendency Delta V" != 0
+			action
+				"stock tendency Delta V" = "roll: 3" - 1
+			branch "stock loop Delta V"
+			label "notnull Delta V"
+			action
+				"stock change Delta V" = "roll: 50" * "stock tendency Delta V"
+			branch "positive Delta V"
+				"stock value Delta V" + "stock change Delta V" >= 100
+			action
+				"stock change Delta V" *= -1
+			label "positive Delta V"
+			action
+				"stock value Delta V" += "stock change Delta V"
+
+
+			label "stock loop Betelgeuse Shipyards"
+			branch "notnull Betelgeuse Shipyards"
+				"stock tendency Betelgeuse Shipyards" != 0
+			action
+				"stock tendency Betelgeuse Shipyards" = "roll: 3" - 1
+			branch "stock loop Betelgeuse Shipyards"
+			label "notnull Betelgeuse Shipyards"
+			action
+				"stock change Betelgeuse Shipyards" = "roll: 50" * "stock tendency Betelgeuse Shipyards"
+			branch "positive Betelgeuse Shipyards"
+				"stock value Betelgeuse Shipyards" + "stock change Betelgeuse Shipyards" >= 100
+			action
+				"stock change Betelgeuse Shipyards" *= -1
+			label "positive Betelgeuse Shipyards"
+			action
+				"stock value Betelgeuse Shipyards" += "stock change Betelgeuse Shipyards"
+
+
+			label "stock loop Tarazed Corporation"
+			branch "notnull Tarazed Corporation"
+				"stock tendency Tarazed Corporation" != 0
+			action
+				"stock tendency Tarazed Corporation" = "roll: 3" - 1
+			branch "stock loop Tarazed Corporation"
+			label "notnull Tarazed Corporation"
+			action
+				"stock change Tarazed Corporation" = "roll: 50" * "stock tendency Tarazed Corporation"
+			branch "positive Tarazed Corporation"
+				"stock value Tarazed Corporation" + "stock change Tarazed Corporation" >= 100
+			action
+				"stock change Tarazed Corporation" *= -1
+			label "positive Tarazed Corporation"
+			action
+				"stock value Tarazed Corporation" += "stock change Tarazed Corporation"
 
 			action
 				"passed days" -= 1
@@ -1060,25 +615,22 @@ mission "gci banking terminal"
 			label singleline
 				goto menu
 			label menu
-			action
-				bankroute = 1
-			goto "calc bank values"
-			label "calc bank values return menu"
 			scene scene/gci_terminal
 			action
-				goto "calc stocktotal"
-			label "calc stocktotal return menu"
-
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
+				available = deposit - "salary: Galactic Capital Transfer" / 12 * 100 * 365
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
+ 
 			`Welcome to "Galactic Capital Investment Bank Service"! Your last visit is &[datedifference] day/s ago.`
 			``
 			`Cash chip balance:`
 			`	&[credits] credits`
-			`Savings account balance:`
+			`savings account balance:`
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
-			`	&[dailyincome] credits daily interest (15% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
+			`	&[dailyincome] credits daily interest (12% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			``
 			`Daily investment salary to your cash chip: &[salary: Galactic Capital] credits`
-			`Stock depot value: &[stocktotalvalue] credits (dividend stocks include 3% monthly payout)`
+			`Stock depot value: &[stocktotalvalue] credits (12% p.a. but risky, quarterly paid)`
 			`Family trust: &[global: familytrust] credits (for all pilots, 0% p.a.)`
 			``
 			choice
@@ -1109,18 +661,17 @@ mission "gci banking terminal"
 			``
 			label bankaccount
 			action
-				bankroute = 2
-			goto "calc bank values"
-			label "calc bank values return bankaccount"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
+				available = deposit - "salary: Galactic Capital Transfer" / 12 * 100 * 365
 			scene scene/gci_terminal
-			`Your savings account generates daily interest via a passively managed bonds portfolio.`
+			`Access to your savings account. It will generate an interest, added daily to your savings account, through a managed mutual fund targeting a 12% yearly return.`
 			`The daily interest display is lowered by your cash transfer.`
 			``
 			`Cash chip:`
 			`	&[credits] credits`
 			`Account balance:`
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
-			`	&[dailyincome] credits daily interest (15% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
+			`	&[dailyincome] credits daily interest (12% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			``
 			``
 			choice
@@ -1134,18 +685,17 @@ mission "gci banking terminal"
 			``
 			label bankaccountD
 			action
-				bankroute = 3
-			goto "calc bank values"
-			label "calc bank values return bankaccountD"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
+				available = deposit - "salary: Galactic Capital Transfer" / 12 * 100 * 365
 			scene scene/gci_terminal
-			`Your savings account generates daily interest via a passively managed bonds portfolio.`
+			`Access to your savings account. It will generate an interest, added daily to your savings account, through a managed mutual fund targeting a 12% yearly return.`
 			`The daily interest display is lowered by your cash transfer.`
 			``
 			`Cash chip:`
 			`	&[credits] credits`
 			`Account balance:`
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
-			`	&[dailyincome] credits daily interest (15% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
+			`	&[dailyincome] credits daily interest (12% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			``
 			``
 			choice
@@ -1153,7 +703,7 @@ mission "gci banking terminal"
 					to display
 						"credits" >= 1000000000000
 					goto d1,000,000,000,000
-				`	[deposit 100,000,000,000 credits, daily interest +32876715 credits]`
+				`	[deposit 100,000,000,000 credits, daily interest +32876712 credits]`
 					to display
 						"credits" >= 100000000000
 					goto d100,000,000,000
@@ -1191,81 +741,80 @@ mission "gci banking terminal"
 			action
 				payment -10000
 				deposit += 10000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d100,000
 			action
 				payment -100000
 				deposit += 100000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d1,000,000
 			action
 				payment -1000000
 				deposit += 1000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d10,000,000
 			action
 				payment -10000000
 				deposit += 10000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d100,000,000
 			action
 				payment -100000000
 				deposit += 100000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d1,000,000,000
 			action
 				payment -1000000000
 				deposit += 1000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d10,000,000,000
 			action
 				payment -10000000000
 				deposit += 10000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d100,000,000,000
 			action
 				payment -100000000000
 				deposit += 100000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label d1,000,000,000,000
 			action
 				payment -1000000000000
 				deposit += 1000000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountD
 			label linebankaccountW
 			``
 			label bankaccountW
 			action
-				bankroute = 4
-			goto "calc bank values"
-			label "calc bank values return bankaccountW"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
+				available = deposit - "salary: Galactic Capital Transfer" / 12 * 100 * 365
 			scene scene/gci_terminal
-			`Your savings account generates daily interest via a passively managed bonds portfolio.`
+			`Access to your savings account. It will generate an interest, added daily to your savings account, through a managed mutual fund targeting a 12% yearly return.`
 			`The daily interest display is lowered by your cash transfer.`
 			``
 			`Cash chip:`
 			`	&[credits] credits`
 			`Account balance:`
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
-			`	&[dailyincome] credits daily interest (15% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
+			`	&[dailyincome] credits daily interest (12% annualized return) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			`	(to withdraw more credits, reduce your daily cash transfer)`
 			``
 			choice
@@ -1274,7 +823,7 @@ mission "gci banking terminal"
 						deposit >= 1000000000000
 						dailyincome >= 328767123
 					goto w1,000,000,000,000
-				`	[withdraw 100,000,000,000 credits, daily interest -32876715 credits]`
+				`	[withdraw 100,000,000,000 credits, daily interest -32876712 credits]`
 					to display
 						deposit >= 100000000000
 						dailyincome >= 32876712
@@ -1321,63 +870,63 @@ mission "gci banking terminal"
 			action
 				payment 10000
 				deposit -= 10000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w100,000
 			action
 				payment 100000
 				deposit -= 100000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w1,000,000
 			action
 				payment 1000000
 				deposit -= 1000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w10,000,000
 			action
 				payment 10000000
 				deposit -= 10000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w100,000,000
 			action
 				payment 100000000
 				deposit -= 100000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w1,000,000,000
 			action
 				payment 1000000000
 				deposit -= 1000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w10,000,000,000
 			action
 				payment 10000000000
 				deposit -= 10000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w100,000,000,000
 			action
 				payment 100000000000
 				deposit -= 100000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 			label w1,000,000,000,000
 			action
 				payment 1000000000000
 				deposit -= 1000000000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto bankaccountW
 # deposit/withdraw of family trust
@@ -1611,55 +1160,6 @@ mission "gci banking terminal"
 			``
 				goto familytrustW
 # stock exchange
-			label "calc bank values"
-			action
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
-				available = deposit - "salary: Galactic Capital Transfer" / 15 * 100 * 365
-			branch "calc bank values return menu"
-				bankroute == 1
-			branch "calc bank values return bankaccount"
-				bankroute == 2
-			branch "calc bank values return bankaccountD"
-				bankroute == 3
-			branch "calc bank values return bankaccountW"
-				bankroute == 4
-			branch "calc bank values return cashtransfer"
-				bankroute == 5
-			branch "calc bank values return transfert"
-				bankroute == 6
-			branch "calc bank values return transferb"
-				bankroute == 7
-			branch "menu"
-
-			label "calc stocktotal"
-			action
-				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
-			branch "calc stocktotal return menu"
-				stockroute == 1
-			branch "calc stocktotal return stockoverview"
-				stockroute == 2
-			branch "calc stocktotal return Southbound Shipyards"
-				stockroute == 3
-			branch "calc stocktotal return Lionheart Shipyards"
-				stockroute == 4
-			branch "calc stocktotal return Megaparsec Shipyards"
-				stockroute == 5
-			branch "calc stocktotal return Syndicate Shipyards"
-				stockroute == 6
-			branch "calc stocktotal return Kraz Cybernetics"
-				stockroute == 7
-			branch "calc stocktotal return Deep Sky"
-				stockroute == 8
-			branch "calc stocktotal return Lovelace Labs"
-				stockroute == 9
-			branch "calc stocktotal return Delta V"
-				stockroute == 10
-			branch "calc stocktotal return Betelgeuse Shipyards"
-				stockroute == 11
-			branch "calc stocktotal return Tarazed Corporation"
-				stockroute == 12
-			branch "stockoverview"
-
 			label linestockexchange
 			``
 				goto stockoverview
@@ -1667,39 +1167,33 @@ mission "gci banking terminal"
 			``
 			label "stockoverview"
 			action
-				stockroute = 2
-			goto "calc stocktotal"
-			label "calc stocktotal return stockoverview"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Welcome to Galactic Stock Exchange`
 			``
 			`Cash chip balance: &[credits]`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`Stock Types:`
-			`  Dividend Stocks: Stable growth with 3% monthly dividend payouts. Lower volatility, steady income.`
-			`  Growth Stocks: High volatility with higher price appreciation potential. No dividend payouts.`
-			``
 			choice
-				`	Trade "Southbound Shipyards" (Dividend) at &[stock value Southbound Shipyards] credits each. You hold &[stock amount Southbound Shipyards].`
+				`	Trade "Southbound Shipyards" stocks at &[stock value Southbound Shipyards] credits each. You hold &[stock amount Southbound Shipyards].`
 					goto "lineSouthbound Shipyards"
-				`	Trade "Lionheart Shipyards" (Growth) at &[stock value Lionheart Shipyards] credits each. You hold &[stock amount Lionheart Shipyards].`
+				`	Trade "Lionheart Shipyards" stocks at &[stock value Lionheart Shipyards] credits each. You hold &[stock amount Lionheart Shipyards].`
 					goto "lineLionheart Shipyards"
-				`	Trade "Megaparsec Shipyards" (Growth) at &[stock value Megaparsec Shipyards] credits each. You hold &[stock amount Megaparsec Shipyards].`
+				`	Trade "Megaparsec Shipyards" stocks at &[stock value Megaparsec Shipyards] credits each. You hold &[stock amount Megaparsec Shipyards].`
 					goto "lineMegaparsec Shipyards"
-				`	Trade "Syndicate Shipyards" (Dividend) at &[stock value Syndicate Shipyards] credits each. You hold &[stock amount Syndicate Shipyards].`
+				`	Trade "Syndicate Shipyards" stocks at &[stock value Syndicate Shipyards] credits each. You hold &[stock amount Syndicate Shipyards].`
 					goto "lineSyndicate Shipyards"
-				`	Trade "Kraz Cybernetics" (Dividend) at &[stock value Kraz Cybernetics] credits each. You hold &[stock amount Kraz Cybernetics].`
+				`	Trade "Kraz Cybernetics" stocks at &[stock value Kraz Cybernetics] credits each. You hold &[stock amount Kraz Cybernetics].`
 					goto "lineKraz Cybernetics"
-				`	Trade "Deep Sky" (Growth) at &[stock value Deep Sky] credits each. You hold &[stock amount Deep Sky].`
+				`	Trade "Deep Sky" stocks at &[stock value Deep Sky] credits each. You hold &[stock amount Deep Sky].`
 					goto "lineDeep Sky"
-				`	Trade "Lovelace Labs" (Dividend) at &[stock value Lovelace Labs] credits each. You hold &[stock amount Lovelace Labs].`
+				`	Trade "Lovelace Labs" stocks at &[stock value Lovelace Labs] credits each. You hold &[stock amount Lovelace Labs].`
 					goto "lineLovelace Labs"
-				`	Trade "Delta V" (Growth) at &[stock value Delta V] credits each. You hold &[stock amount Delta V].`
+				`	Trade "Delta V" stocks at &[stock value Delta V] credits each. You hold &[stock amount Delta V].`
 					goto "lineDelta V"
-				`	Trade "Betelgeuse Shipyards" (Dividend) at &[stock value Betelgeuse Shipyards] credits each. You hold &[stock amount Betelgeuse Shipyards].`
+				`	Trade "Betelgeuse Shipyards" stocks at &[stock value Betelgeuse Shipyards] credits each. You hold &[stock amount Betelgeuse Shipyards].`
 					goto "lineBetelgeuse Shipyards"
-				`	Trade "Tarazed Corporation" (Growth) at &[stock value Tarazed Corporation] credits each. You hold &[stock amount Tarazed Corporation].`
+				`	Trade "Tarazed Corporation" stocks at &[stock value Tarazed Corporation] credits each. You hold &[stock amount Tarazed Corporation].`
 					goto "lineTarazed Corporation"
 				`	[back]`
 					goto clearscreen
@@ -1714,16 +1208,14 @@ mission "gci banking terminal"
 				"stock value Southbound Shipyards 100" = "stock value Southbound Shipyards" * 100
 				"stock value Southbound Shipyards 10" = "stock value Southbound Shipyards" * 10
 			action
-				stockroute = 3
-			goto "calc stocktotal"
-			label "calc stocktotal return Southbound Shipyards"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Southbound Shipyards`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Southbound Shipyards] stocks at &[stock value Southbound Shipyards] credits each.`
+			`You hold: &[stock amount Southbound Shipyards] stocks at &[stock value Southbound Shipyards] credits each..`
 			choice
 				`	Buy Southbound Shipyards stocks`
 					to display
@@ -1828,16 +1320,14 @@ mission "gci banking terminal"
 				"stock value Lionheart Shipyards 100" = "stock value Lionheart Shipyards" * 100
 				"stock value Lionheart Shipyards 10" = "stock value Lionheart Shipyards" * 10
 			action
-				stockroute = 4
-			goto "calc stocktotal"
-			label "calc stocktotal return Lionheart Shipyards"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Lionheart Shipyards`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Lionheart Shipyards] stocks at &[stock value Lionheart Shipyards] credits each.`
+			`You hold: &[stock amount Lionheart Shipyards] stocks at &[stock value Lionheart Shipyards] credits each..`
 			choice
 				`	Buy Lionheart Shipyards stocks`
 					to display
@@ -1942,16 +1432,14 @@ mission "gci banking terminal"
 				"stock value Megaparsec Shipyards 100" = "stock value Megaparsec Shipyards" * 100
 				"stock value Megaparsec Shipyards 10" = "stock value Megaparsec Shipyards" * 10
 			action
-				stockroute = 5
-			goto "calc stocktotal"
-			label "calc stocktotal return Megaparsec Shipyards"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Megaparsec Shipyards`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Megaparsec Shipyards] stocks at &[stock value Megaparsec Shipyards] credits each.`
+			`You hold: &[stock amount Megaparsec Shipyards] stocks at &[stock value Megaparsec Shipyards] credits each..`
 			choice
 				`	Buy Megaparsec Shipyards stocks`
 					to display
@@ -2056,16 +1544,14 @@ mission "gci banking terminal"
 				"stock value Syndicate Shipyards 100" = "stock value Syndicate Shipyards" * 100
 				"stock value Syndicate Shipyards 10" = "stock value Syndicate Shipyards" * 10
 			action
-				stockroute = 6
-			goto "calc stocktotal"
-			label "calc stocktotal return Syndicate Shipyards"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Syndicate Shipyards`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Syndicate Shipyards] stocks at &[stock value Syndicate Shipyards] credits each.`
+			`You hold: &[stock amount Syndicate Shipyards] stocks at &[stock value Syndicate Shipyards] credits each..`
 			choice
 				`	Buy Syndicate Shipyards stocks`
 					to display
@@ -2170,16 +1656,14 @@ mission "gci banking terminal"
 				"stock value Kraz Cybernetics 100" = "stock value Kraz Cybernetics" * 100
 				"stock value Kraz Cybernetics 10" = "stock value Kraz Cybernetics" * 10
 			action
-				stockroute = 7
-			goto "calc stocktotal"
-			label "calc stocktotal return Kraz Cybernetics"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Kraz Cybernetics`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Kraz Cybernetics] stocks at &[stock value Kraz Cybernetics] credits each.`
+			`You hold: &[stock amount Kraz Cybernetics] stocks at &[stock value Kraz Cybernetics] credits each..`
 			choice
 				`	Buy Kraz Cybernetics stocks`
 					to display
@@ -2284,16 +1768,14 @@ mission "gci banking terminal"
 				"stock value Deep Sky 100" = "stock value Deep Sky" * 100
 				"stock value Deep Sky 10" = "stock value Deep Sky" * 10
 			action
-				stockroute = 8
-			goto "calc stocktotal"
-			label "calc stocktotal return Deep Sky"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Deep Sky`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Deep Sky] stocks at &[stock value Deep Sky] credits each.`
+			`You hold: &[stock amount Deep Sky] stocks at &[stock value Deep Sky] credits each..`
 			choice
 				`	Buy Deep Sky stocks`
 					to display
@@ -2398,16 +1880,14 @@ mission "gci banking terminal"
 				"stock value Lovelace Labs 100" = "stock value Lovelace Labs" * 100
 				"stock value Lovelace Labs 10" = "stock value Lovelace Labs" * 10
 			action
-				stockroute = 9
-			goto "calc stocktotal"
-			label "calc stocktotal return Lovelace Labs"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Lovelace Labs`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Lovelace Labs] stocks at &[stock value Lovelace Labs] credits each.`
+			`You hold: &[stock amount Lovelace Labs] stocks at &[stock value Lovelace Labs] credits each..`
 			choice
 				`	Buy Lovelace Labs stocks`
 					to display
@@ -2512,16 +1992,14 @@ mission "gci banking terminal"
 				"stock value Delta V 100" = "stock value Delta V" * 100
 				"stock value Delta V 10" = "stock value Delta V" * 10
 			action
-				stockroute = 10
-			goto "calc stocktotal"
-			label "calc stocktotal return Delta V"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Delta V`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Delta V] stocks at &[stock value Delta V] credits each.`
+			`You hold: &[stock amount Delta V] stocks at &[stock value Delta V] credits each..`
 			choice
 				`	Buy Delta V stocks`
 					to display
@@ -2626,16 +2104,14 @@ mission "gci banking terminal"
 				"stock value Betelgeuse Shipyards 100" = "stock value Betelgeuse Shipyards" * 100
 				"stock value Betelgeuse Shipyards 10" = "stock value Betelgeuse Shipyards" * 10
 			action
-				stockroute = 11
-			goto "calc stocktotal"
-			label "calc stocktotal return Betelgeuse Shipyards"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Betelgeuse Shipyards`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Betelgeuse Shipyards] stocks at &[stock value Betelgeuse Shipyards] credits each.`
+			`You hold: &[stock amount Betelgeuse Shipyards] stocks at &[stock value Betelgeuse Shipyards] credits each..`
 			choice
 				`	Buy Betelgeuse Shipyards stocks`
 					to display
@@ -2740,16 +2216,14 @@ mission "gci banking terminal"
 				"stock value Tarazed Corporation 100" = "stock value Tarazed Corporation" * 100
 				"stock value Tarazed Corporation 10" = "stock value Tarazed Corporation" * 10
 			action
-				stockroute = 12
-			goto "calc stocktotal"
-			label "calc stocktotal return Tarazed Corporation"
+				stocktotalvalue = "stock amount Southbound Shipyards" * "stock value Southbound Shipyards" + "stock amount Lionheart Shipyards" * "stock value Lionheart Shipyards" + "stock amount Megaparsec Shipyards" * "stock value Megaparsec Shipyards" + "stock amount Syndicate Shipyards" * "stock value Syndicate Shipyards" + "stock amount Kraz Cybernetics" * "stock value Kraz Cybernetics" + "stock amount Deep Sky" * "stock value Deep Sky" + "stock amount Lovelace Labs" * "stock value Lovelace Labs" + "stock amount Delta V" * "stock value Delta V" + "stock amount Betelgeuse Shipyards" * "stock value Betelgeuse Shipyards" + "stock amount Tarazed Corporation" * "stock value Tarazed Corporation"
 			scene "scene/stock_chart_analysis"
 			`Tarazed Corporation`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
-			`You hold: &[stock amount Tarazed Corporation] stocks at &[stock value Tarazed Corporation] credits each.`
+			`You hold: &[stock amount Tarazed Corporation] stocks at &[stock value Tarazed Corporation] credits each..`
 			choice
 				`	Buy Tarazed Corporation stocks`
 					to display
@@ -4895,18 +4369,17 @@ mission "gci banking terminal"
 			``
 				goto cashtransfer
 			label cashtransfer
-			action
-				bankroute = 5
-			goto "calc bank values"
-			label "calc bank values return cashtransfer"
 			scene scene/gci_terminal
+			action
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
+				available = deposit - "salary: Galactic Capital Transfer" / 12 * 100 * 365
 			`Set up a daily transfer of credits, from you savings account to your cash chip. It must be equal or lower than your daily interest.`
 			``
 			`Cash chip:`
 			`	&[credits] credits`
 			`Account balance:`
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
-			`	&[dailyincome] credits daily interest (15% annualized return)  + &[salary: Galactic Capital Transfer] credits daily cash transfer`
+			`	&[dailyincome] credits daily interest (12% annualized return)  + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			``
 			choice
 				`	[transfer credits from daily interest to daily cash transfer]`
@@ -4923,28 +4396,19 @@ mission "gci banking terminal"
 			``
 				goto transfert
 			label transfert
-			action
-				bankroute = 6
-			goto "calc bank values"
-			label "calc bank values return transfert"
 			scene scene/gci_terminal
+			action
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
+				available = deposit - "salary: Galactic Capital Transfer" / 12 * 100 * 365
 			`Set up a daily transfer of credits, from you savings account to your cash chip. It must be equal or lower than your daily interest.`
 			``
 			`Cash chip:`
 			`	&[credits] credits`
 			`Account balance:`
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
-			`	&[dailyincome] credits daily interest (15% annualized return)  + &[salary: Galactic Capital Transfer] credits daily cash transfer`
+			`	&[dailyincome] credits daily interest (12% annualized return)  + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			``
 			choice
-				`	[transfer 10,000,000 credits of your daily interest]`
-					to display
-						"dailyincome" >= 10000000
-					goto t10,000,000			
-				`	[transfer 1,000,000 credits of your daily interest]`
-					to display
-						"dailyincome" >= 1000000
-					goto t1,000,000
 				`	[transfer 100,000 credits of your daily interest]`
 					to display
 						"dailyincome" >= 100000
@@ -4967,28 +4431,19 @@ mission "gci banking terminal"
 			``
 				goto transferb
 			label transferb
-			action
-				bankroute = 7
-			goto "calc bank values"
-			label "calc bank values return transferb"
 			scene scene/gci_terminal
+			action
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
+				available = deposit - "salary: Galactic Capital Transfer" / 12 * 100 * 365
 			`Set up a daily transfer of credits, from you savings account to your cash chip. It must be equal or lower than your daily interest.`
 			``
 			`Cash chip:`
 			`	&[credits] credits`
 			`Account balance:`
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
-			`	&[dailyincome] credits daily interest (15% annualized return)  + &[salary: Galactic Capital Transfer] credits daily cash transfer`
+			`	&[dailyincome] credits daily interest (12% annualized return)  + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			``
 			choice
-				`	[transfer 10,000,000 credits back to your daily interest]`
-					to display
-						"salary: Galactic Capital Transfer" >= 10000000
-					goto b10,000,000
-				`	[transfer 1,000,000 credits back to your daily interest]`
-					to display
-						"salary: Galactic Capital Transfer" >= 1000000
-					goto b1,000,000
 				`	[transfer 100,000 credits back to your daily interest]`
 					to display
 						"salary: Galactic Capital Transfer" >= 100000
@@ -5010,73 +4465,49 @@ mission "gci banking terminal"
 			label t100
 			action
 				"salary: Galactic Capital Transfer" += 100
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transfert
 			label t1,000
 			action
 				"salary: Galactic Capital Transfer" += 1000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transfert
 			label t10,000
 			action
 				"salary: Galactic Capital Transfer" += 10000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transfert
 			label t100,000
 			action
 				"salary: Galactic Capital Transfer" += 100000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
-			``
-				goto transfert
-			label t1,000,000
-			action
-				"salary: Galactic Capital Transfer" += 1000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
-			``
-				goto transfert
-			label t10,000,000
-			action
-				"salary: Galactic Capital Transfer" += 10000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transfert
 			label b100
 			action
 				"salary: Galactic Capital Transfer" -= 100
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transferb
 			label b1,000
 			action
 				"salary: Galactic Capital Transfer" -= 1000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transferb
 			label b10,000
 			action
 				"salary: Galactic Capital Transfer" -= 10000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transferb
 			label b100,000
 			action
 				"salary: Galactic Capital Transfer" -= 100000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
-			``
-				goto transferb
-			label b1,000,000
-			action
-				"salary: Galactic Capital Transfer" -= 1000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"
-			``
-				goto transferb
-			label b10,000,000
-			action
-				"salary: Galactic Capital Transfer" -= 10000000
-				dailyincome = deposit * 15 / 100 / 365 - "salary: Galactic Capital Transfer"	
+				dailyincome = deposit * 12 / 100 / 365 - "salary: Galactic Capital Transfer"
 			``
 				goto transferb
 # activate/deactivate jobs
