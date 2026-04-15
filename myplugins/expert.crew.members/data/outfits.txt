@@ -6,7 +6,7 @@ outfit "combat isaac wirth"
 	category "Crew"
 	"display name" "(Combat) Isaac Wirth"
 	thumbnail "portrait/ecmbm03"
-	"operating costs" 2000
+	"operating costs" 200
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -21,7 +21,7 @@ outfit "combat jessy tuta"
 	category "Crew"
 	"display name" "(Combat) Jessy Tuta"
 	thumbnail "portrait/ecmbf02"
-	"operating costs" 2600
+	"operating costs" 260
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -36,7 +36,7 @@ outfit "combat kianoush royston"
 	category "Crew"
 	"display name" "(Combat) Kianoush Royston"
 	thumbnail "portrait/ecmam03"
-	"operating costs" 3100
+	"operating costs" 310
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -51,7 +51,7 @@ outfit "combat rodrigo bain"
 	category "Crew"
 	"display name" "(Combat) Rodrigo Bain"
 	thumbnail "portrait/ecmbm04"
-	"operating costs" 3500
+	"operating costs" 350
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -66,7 +66,7 @@ outfit "combat tieeitch"
 	category "Crew"
 	"display name" "(Combat) Tieeitch"
 	thumbnail "portrait/gegno01"
-	"operating costs" 3600
+	"operating costs" 360
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -81,7 +81,7 @@ outfit "combat ainem wahpip"
 	category "Crew"
 	"display name" "(Combat) Ainem Wahpip"
 	thumbnail "portrait/hai02"
-	"operating costs" 3800
+	"operating costs" 380
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -96,7 +96,7 @@ outfit "combat asvip rap"
 	category "Crew"
 	"display name" "(Combat) Asvip Rap"
 	thumbnail "portrait/korath03"
-	"operating costs" 4300
+	"operating costs" 430
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -111,7 +111,7 @@ outfit "combat ry'i"
 	category "Crew"
 	"display name" "(Combat) Ry'i"
 	thumbnail "portrait/kimek03"
-	"operating costs" 4600
+	"operating costs" 460
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -126,7 +126,7 @@ outfit "combat lugub"
 	category "Crew"
 	"display name" "(Combat) Lugub"
 	thumbnail "portrait/arachi04"
-	"operating costs" 5000
+	"operating costs" 500
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -141,7 +141,7 @@ outfit "combat biana"
 	category "Crew"
 	"display name" "(Combat) Biana"
 	thumbnail "portrait/avgi01"
-	"operating costs" 1900
+	"operating costs" 190
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -156,7 +156,7 @@ outfit "cooling atreus bodilsen"
 	category "Crew"
 	"display name" "(Cooling) Atreus Bodilsen"
 	thumbnail "portrait/ecmwm01"
-	"operating costs" 2200
+	"operating costs" 220
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -171,7 +171,7 @@ outfit "cooling beckah feidhelm"
 	category "Crew"
 	"display name" "(Cooling) Beckah Feidhelm"
 	thumbnail "portrait/ecmwf01"
-	"operating costs" 2900
+	"operating costs" 290
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -187,7 +187,7 @@ outfit "cooling caspar laurentinus"
 	category "Crew"
 	"display name" "(Cooling) Caspar Laurentinus"
 	thumbnail "portrait/ecmwm02"
-	"operating costs" 3000
+	"operating costs" 300
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -202,7 +202,7 @@ outfit "cooling itoro signe"
 	category "Crew"
 	"display name" "(Cooling) Itoro Signe"
 	thumbnail "portrait/ecmaf01"
-	"operating costs" 3600
+	"operating costs" 360
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -217,7 +217,7 @@ outfit "cooling dyeisc"
 	category "Crew"
 	"display name" "(Cooling) Dyeisc"
 	thumbnail "portrait/gegno05"
-	"operating costs" 3800
+	"operating costs" 380
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -232,7 +232,7 @@ outfit "cooling lohmahow monuden"
 	category "Crew"
 	"display name" "(Cooling) Lohmahow Monuden"
 	thumbnail "portrait/hai05"
-	"operating costs" 4000
+	"operating costs" 400
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -247,7 +247,7 @@ outfit "cooling krikey"
 	category "Crew"
 	"display name" "(Cooling) Krikey"
 	thumbnail "portrait/wanderer10"
-	"operating costs" 4100
+	"operating costs" 410
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -263,7 +263,7 @@ outfit "cooling kemme ranris"
 	category "Crew"
 	"display name" "(Cooling) Kemme Ranris"
 	thumbnail "portrait/korath04"
-	"operating costs" 4200
+	"operating costs" 420
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -278,7 +278,7 @@ outfit "cooling lotura"
 	category "Crew"
 	"display name" "(Cooling) Lotura"
 	thumbnail "portrait/saryd01"
-	"operating costs" 4900
+	"operating costs" 490
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -293,7 +293,7 @@ outfit "cooling chana"
 	category "Crew"
 	"display name" "(Cooling) Chana"
 	thumbnail "portrait/avgi02"
-	"operating costs" 3300
+	"operating costs" 330
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -308,7 +308,7 @@ outfit "energy deirdre ciaran"
 	category "Crew"
 	"display name" "(Energy) Deirdre Ciaran"
 	thumbnail "portrait/ecmwf02"
-	"operating costs" 2100
+	"operating costs" 210
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -323,7 +323,7 @@ outfit "energy lisa zola"
 	category "Crew"
 	"display name" "(Energy) Lisa Zola"
 	thumbnail "portrait/ecmwf03"
-	"operating costs" 2500
+	"operating costs" 250
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -338,7 +338,7 @@ outfit "energy normand kiran"
 	category "Crew"
 	"display name" "(Energy) Normand Kiran"
 	thumbnail "portrait/ecmwm10"
-	"operating costs" 2900
+	"operating costs" 290
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -353,7 +353,7 @@ outfit "energy simona branka"
 	category "Crew"
 	"display name" "(Energy) Simona Branka"
 	thumbnail "portrait/ecmwf04"
-	"operating costs" 3400
+	"operating costs" 340
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -368,7 +368,7 @@ outfit "energy auriiel"
 	category "Crew"
 	"display name" "(Energy) Auriiel"
 	thumbnail "portrait/gegno02"
-	"operating costs" 3600
+	"operating costs" 360
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -383,7 +383,7 @@ outfit "energy akane sakai"
 	category "Crew"
 	"display name" "(Energy) Akane Sakai"
 	thumbnail "portrait/bunrodea01"
-	"operating costs" 3700
+	"operating costs" 370
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -398,7 +398,7 @@ outfit "energy aikach"
 	category "Crew"
 	"display name" "(Energy) Aikach"
 	thumbnail "portrait/wanderer01"
-	"operating costs" 3900
+	"operating costs" 390
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -413,7 +413,7 @@ outfit "energy raindrop"
 	category "Crew"
 	"display name" "(Energy) Raindrop"
 	thumbnail "portrait/remnant04"
-	"operating costs" 4200
+	"operating costs" 420
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -428,7 +428,7 @@ outfit "energy paicha"
 	category "Crew"
 	"display name" "(Energy) Paicha"
 	thumbnail "portrait/kimek01"
-	"operating costs" 4600
+	"operating costs" 460
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -444,7 +444,7 @@ outfit "energy pilos"
 	category "Crew"
 	"display name" "(Energy) Pilos"
 	thumbnail "portrait/avgi03"
-	"operating costs" 2400
+	"operating costs" 240
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -459,7 +459,7 @@ outfit "engine anahit bodil"
 	category "Crew"
 	"display name" "(Engine) Anahit Bodil"
 	thumbnail "portrait/ecmbf03"
-	"operating costs" 2000
+	"operating costs" 200
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -475,7 +475,7 @@ outfit "engine chetana jaleh"
 	category "Crew"
 	"display name" "(Engine) Chetana Jaleh"
 	thumbnail "portrait/ecmbf01"
-	"operating costs" 2800
+	"operating costs" 280
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -491,7 +491,7 @@ outfit "engine neal fransson"
 	category "Crew"
 	"display name" "(Engine) Neal Fransson"
 	thumbnail "portrait/ecmwm03"
-	"operating costs" 3200
+	"operating costs" 320
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -507,7 +507,7 @@ outfit "engine valeriya jannick"
 	category "Crew"
 	"display name" "(Engine) Valeriya Jannick"
 	thumbnail "portrait/ecmwf05"
-	"operating costs" 3600
+	"operating costs" 360
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -523,7 +523,7 @@ outfit "engine efeduefyu"
 	category "Crew"
 	"display name" "(Engine) Efeduefyu"
 	thumbnail "portrait/gegno04"
-	"operating costs" 3700
+	"operating costs" 370
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -539,7 +539,7 @@ outfit "engine riko ishii"
 	category "Crew"
 	"display name" "(Engine) Riko Ishii"
 	thumbnail "portrait/bunrodea02"
-	"operating costs" 3900
+	"operating costs" 390
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -555,7 +555,7 @@ outfit "engine ifir rakik"
 	category "Crew"
 	"display name" "(Engine) Ifir Rakik"
 	thumbnail "portrait/korath05"
-	"operating costs" 4200
+	"operating costs" 420
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -571,7 +571,7 @@ outfit "engine midnight"
 	category "Crew"
 	"display name" "(Engine) Midnight"
 	thumbnail "portrait/remnant09"
-	"operating costs" 4400
+	"operating costs" 440
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -587,7 +587,7 @@ outfit "engine kyree"
 	category "Crew"
 	"display name" "(Engine) Kyree"
 	thumbnail "portrait/kimek04"
-	"operating costs" 4900
+	"operating costs" 490
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -604,7 +604,7 @@ outfit "engine ulos"
 	category "Crew"
 	"display name" "(Engine) Ulos"
 	thumbnail "portrait/avgi04"
-	"operating costs" 4000
+	"operating costs" 400
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -620,7 +620,7 @@ outfit "fuel carl ahmad"
 	category "Crew"
 	"display name" "(Fuel) Carl Ahmad"
 	thumbnail "portrait/ecmam04"
-	"operating costs" 2300
+	"operating costs" 230
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -635,7 +635,7 @@ outfit "fuel kfir balam"
 	category "Crew"
 	"display name" "(Fuel) Kfir Balam"
 	thumbnail "portrait/ecmbm01"
-	"operating costs" 2800
+	"operating costs" 280
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -650,7 +650,7 @@ outfit "fuel kostis joona"
 	category "Crew"
 	"display name" "(Fuel) Kostis Joona"
 	thumbnail "portrait/ecmwm04"
-	"operating costs" 3100
+	"operating costs" 310
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -665,7 +665,7 @@ outfit "fuel nina sotiroula"
 	category "Crew"
 	"display name" "(Fuel) Nina Sotiroula"
 	thumbnail "portrait/ecmbf04"
-	"operating costs" 3400
+	"operating costs" 340
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -680,7 +680,7 @@ outfit "fuel sookot dulur"
 	category "Crew"
 	"display name" "(Fuel) Sookot Dulur"
 	thumbnail "portrait/hai06"
-	"operating costs" 3800
+	"operating costs" 380
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -695,7 +695,7 @@ outfit "fuel voriar"
 	category "Crew"
 	"display name" "(Fuel) Voriar"
 	thumbnail "portrait/wanderer02"
-	"operating costs" 4000
+	"operating costs" 400
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -710,7 +710,7 @@ outfit "fuel ozon"
 	category "Crew"
 	"display name" "(Fuel) Ozon"
 	thumbnail "portrait/remnant06"
-	"operating costs" 4500
+	"operating costs" 450
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -725,7 +725,7 @@ outfit "fuel comseci"
 	category "Crew"
 	"display name" "(Fuel) Comseci"
 	thumbnail "portrait/saryd05"
-	"operating costs" 5000
+	"operating costs" 500
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -740,7 +740,7 @@ outfit "fuel boudaa"
 	category "Crew"
 	"display name" "(Fuel) Boudaa"
 	thumbnail "portrait/successor01"
-	"operating costs" 4600
+	"operating costs" 460
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -755,7 +755,7 @@ outfit "fuel isi"
 	category "Crew"
 	"display name" "(Fuel) Isi"
 	thumbnail "portrait/avgi05"
-	"operating costs" 4700
+	"operating costs" 470
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -770,7 +770,7 @@ outfit "hull anuradha talin"
 	category "Crew"
 	"display name" "(Hull) Anuradha Talin"
 	thumbnail "portrait/ecmaf03"
-	"operating costs" 2100
+	"operating costs" 210
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -785,7 +785,7 @@ outfit "hull julia grainne"
 	category "Crew"
 	"display name" "(Hull) Julia Grainne"
 	thumbnail "portrait/ecmwf06"
-	"operating costs" 2600
+	"operating costs" 260
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -800,7 +800,7 @@ outfit "hull silvius hildegard"
 	category "Crew"
 	"display name" "(Hull) Silvius Hildegard"
 	thumbnail "portrait/ecmwm05"
-	"operating costs" 3200
+	"operating costs" 320
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -816,7 +816,7 @@ outfit "hull sabina draga"
 	category "Crew"
 	"display name" "(Hull) Sabina Draga"
 	thumbnail "portrait/ecmwf07"
-	"operating costs" 3500
+	"operating costs" 350
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -832,7 +832,7 @@ outfit "hull atras"
 	category "Crew"
 	"display name" "(Hull) Atras"
 	thumbnail "portrait/incipias05"
-	"operating costs" 3700
+	"operating costs" 370
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -848,7 +848,7 @@ outfit "hull shiro kan"
 	category "Crew"
 	"display name" "(Hull) Shiro Kan"
 	thumbnail "portrait/bunrodea03"
-	"operating costs" 3900
+	"operating costs" 390
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -864,7 +864,7 @@ outfit "hull ak'en oaip"
 	category "Crew"
 	"display name" "(Hull) Ak'en Oaip"
 	thumbnail "portrait/korath07"
-	"operating costs" 4300
+	"operating costs" 430
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -879,7 +879,7 @@ outfit "hull achee"
 	category "Crew"
 	"display name" "(Hull) Achee"
 	thumbnail "portrait/kimek02"
-	"operating costs" 4700
+	"operating costs" 470
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -895,7 +895,7 @@ outfit "hull potamog"
 	category "Crew"
 	"display name" "(Hull) Potamog"
 	thumbnail "portrait/arachi01"
-	"operating costs" 4900
+	"operating costs" 490
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -910,7 +910,7 @@ outfit "hull kinmi"
 	category "Crew"
 	"display name" "(Hull) Kinmi"
 	thumbnail "portrait/successor02"
-	"operating costs" 4800
+	"operating costs" 480
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -926,7 +926,7 @@ outfit "jamming aline mai"
 	category "Crew"
 	"display name" "(Jamming) Aline Mai"
 	thumbnail "portrait/ecmaf04"
-	"operating costs" 2200
+	"operating costs" 220
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -941,7 +941,7 @@ outfit "jamming dominik bullock"
 	category "Crew"
 	"display name" "(Jamming) Dominik Bullock"
 	thumbnail "portrait/ecmwm06"
-	"operating costs" 2800
+	"operating costs" 280
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -956,7 +956,7 @@ outfit "jamming enver diefenbach"
 	category "Crew"
 	"display name" "(Jamming) Enver Diefenbach"
 	thumbnail "portrait/ecmwm07"
-	"operating costs" 3200
+	"operating costs" 320
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -972,7 +972,7 @@ outfit "jamming raban fields"
 	category "Crew"
 	"display name" "(Jamming) Raban Fields"
 	thumbnail "portrait/ecmam05"
-	"operating costs" 3600
+	"operating costs" 360
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -987,7 +987,7 @@ outfit "jamming umeo ageta"
 	category "Crew"
 	"display name" "(Jamming) Umeo Ageta"
 	thumbnail "portrait/bunrodea07"
-	"operating costs" 3800
+	"operating costs" 380
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1003,7 +1003,7 @@ outfit "jamming merus"
 	category "Crew"
 	"display name" "(Jamming) Merus"
 	thumbnail "portrait/incipias04"
-	"operating costs" 4000
+	"operating costs" 400
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1018,7 +1018,7 @@ outfit "jamming snowfall"
 	category "Crew"
 	"display name" "(Jamming) Snowfall"
 	thumbnail "portrait/remnant01"
-	"operating costs" 4100
+	"operating costs" 410
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1033,7 +1033,7 @@ outfit "jamming temtuor"
 	category "Crew"
 	"display name" "(Jamming) Temtuor"
 	thumbnail "portrait/saryd04"
-	"operating costs" 4600
+	"operating costs" 460
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1048,7 +1048,7 @@ outfit "jamming plortab"
 	category "Crew"
 	"display name" "(Jamming) Plortab"
 	thumbnail "portrait/arachi02"
-	"operating costs" 4900
+	"operating costs" 490
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1063,7 +1063,7 @@ outfit "jamming naaq"
 	category "Crew"
 	"display name" "(Jamming) Naaq"
 	thumbnail "portrait/successor03"
-	"operating costs" 5000
+	"operating costs" 500
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1078,7 +1078,7 @@ outfit "scanner ivanus kozlov"
 	category "Crew"
 	"display name" "(Scanner) Ivanus Kozlov"
 	thumbnail "portrait/ecmwm08"
-	"operating costs" 2000
+	"operating costs" 200
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1094,7 +1094,7 @@ outfit "scanner mikmel wanjala"
 	category "Crew"
 	"display name" "(Scanner) Mikmel Wanjala"
 	thumbnail "portrait/ecmbm05"
-	"operating costs" 2500
+	"operating costs" 250
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1110,7 +1110,7 @@ outfit "scanner saffira ivka"
 	category "Crew"
 	"display name" "(Scanner) Saffira Ivka"
 	thumbnail "portrait/ecmaf05"
-	"operating costs" 2900
+	"operating costs" 290
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1126,7 +1126,7 @@ outfit "scanner kasar"
 	category "Crew"
 	"display name" "(Scanner) Kasar"
 	thumbnail "portrait/incipias03"
-	"operating costs" 3100
+	"operating costs" 310
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1142,7 +1142,7 @@ outfit "scanner tichaona yong"
 	category "Crew"
 	"display name" "(Scanner) Tichaona Yong"
 	thumbnail "portrait/ecmaf02"
-	"operating costs" 3400
+	"operating costs" 340
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1158,7 +1158,7 @@ outfit "scanner rashi vaitle"
 	category "Crew"
 	"display name" "(Scanner) Rashi Vaitle"
 	thumbnail "portrait/hai10"
-	"operating costs" 4000
+	"operating costs" 400
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1174,7 +1174,7 @@ outfit "scanner kriik"
 	category "Crew"
 	"display name" "(Scanner) Kriik"
 	thumbnail "portrait/wanderer05"
-	"operating costs" 4200
+	"operating costs" 420
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1190,7 +1190,7 @@ outfit "scanner expari"
 	category "Crew"
 	"display name" "(Scanner) Expari"
 	thumbnail "portrait/saryd03"
-	"operating costs" 4600
+	"operating costs" 460
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1206,7 +1206,7 @@ outfit "scanner tugrup"
 	category "Crew"
 	"display name" "(Scanner) Tugrup"
 	thumbnail "portrait/arachi03"
-	"operating costs" 5000
+	"operating costs" 500
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1222,7 +1222,7 @@ outfit "scanner oublaa"
 	category "Crew"
 	"display name" "(Scanner) Oublaa"
 	thumbnail "portrait/successor04"
-	"operating costs" 4500
+	"operating costs" 450
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1239,7 +1239,7 @@ outfit "shield lucille meritites"
 	category "Crew"
 	"display name" "(Shield) Lucille Meritites"
 	thumbnail "portrait/ecmbf05"
-	"operating costs" 2200
+	"operating costs" 220
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1254,7 +1254,7 @@ outfit "shield sonja halimah"
 	category "Crew"
 	"display name" "(Shield) Sonja Halimah"
 	thumbnail "portrait/ecmwf10"
-	"operating costs" 2900
+	"operating costs" 290
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1269,7 +1269,7 @@ outfit "shield taisto nithin"
 	category "Crew"
 	"display name" "(Shield) Taisto Nithin"
 	thumbnail "portrait/ecmam01"
-	"operating costs" 3300
+	"operating costs" 330
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1285,7 +1285,7 @@ outfit "shield lativa"
 	category "Crew"
 	"display name" "(Shield) Lativa"
 	thumbnail "portrait/incipias02"
-	"operating costs" 3400
+	"operating costs" 340
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1301,7 +1301,7 @@ outfit "shield monika raganhildis"
 	category "Crew"
 	"display name" "(Shield) Monika Raganhildis"
 	thumbnail "portrait/ecmwf08"
-	"operating costs" 3600
+	"operating costs" 360
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1316,7 +1316,7 @@ outfit "shield saburo aoki"
 	category "Crew"
 	"display name" "(Shield) Saburo Aoki"
 	thumbnail "portrait/bunrodea09"
-	"operating costs" 3800
+	"operating costs" 380
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1331,7 +1331,7 @@ outfit "shield ilesam bableh"
 	category "Crew"
 	"display name" "(Shield) Ilesam Bableh"
 	thumbnail "portrait/korath10"
-	"operating costs" 4100
+	"operating costs" 410
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1347,7 +1347,7 @@ outfit "shield nisieum"
 	category "Crew"
 	"display name" "(Shield) Nisieum"
 	thumbnail "portrait/saryd02"
-	"operating costs" 4400
+	"operating costs" 440
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1362,7 +1362,7 @@ outfit "shield chi'a"
 	category "Crew"
 	"display name" "(Shield) Chi'a"
 	thumbnail "portrait/kimek05"
-	"operating costs" 4900
+	"operating costs" 490
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1377,7 +1377,7 @@ outfit "shield uondi"
 	category "Crew"
 	"display name" "(Shield) Uondi"
 	thumbnail "portrait/successor05"
-	"operating costs" 4600
+	"operating costs" 460
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1393,7 +1393,7 @@ outfit "storage darius hasegawa"
 	category "Crew"
 	"display name" "(Storage) Darius Hasegawa"
 	thumbnail "portrait/ecmam02"
-	"operating costs" 2300
+	"operating costs" 230
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1408,7 +1408,7 @@ outfit "storage eduardo wapasha"
 	category "Crew"
 	"display name" "(Storage) Eduardo Wapasha"
 	thumbnail "portrait/ecmbm02"
-	"operating costs" 2400
+	"operating costs" 240
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1423,7 +1423,7 @@ outfit "storage mani godefrid"
 	category "Crew"
 	"display name" "(Storage) Mani Godefrid"
 	thumbnail "portrait/ecmwm09"
-	"operating costs" 3000
+	"operating costs" 300
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1438,7 +1438,7 @@ outfit "storage aelia"
 	category "Crew"
 	"display name" "(Storage) Aelia"
 	thumbnail "portrait/incipias01"
-	"operating costs" 3100
+	"operating costs" 310
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1453,7 +1453,7 @@ outfit "storage marie zohreh"
 	category "Crew"
 	"display name" "(Storage) Marie Zohreh"
 	thumbnail "portrait/ecmwf09"
-	"operating costs" 3600
+	"operating costs" 360
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1468,7 +1468,7 @@ outfit "storage yxoorevyt"
 	category "Crew"
 	"display name" "(Storage) Yxoorevyt"
 	thumbnail "portrait/gegno03"
-	"operating costs" 3800
+	"operating costs" 380
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1483,7 +1483,7 @@ outfit "storage touna farchi"
 	category "Crew"
 	"display name" "(Storage) Touna Farchi"
 	thumbnail "portrait/hai07"
-	"operating costs" 3900
+	"operating costs" 390
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1498,7 +1498,7 @@ outfit "storage reisek"
 	category "Crew"
 	"display name" "(Storage) Reisek"
 	thumbnail "portrait/wanderer06"
-	"operating costs" 4200
+	"operating costs" 420
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1513,7 +1513,7 @@ outfit "storage swift"
 	category "Crew"
 	"display name" "(Storage) Swift"
 	thumbnail "portrait/remnant02"
-	"operating costs" 4500
+	"operating costs" 450
 	bunks -1
 	"unplunderable" 1
 	"unique" 1
@@ -1528,7 +1528,7 @@ outfit "storage mupoop"
 	category "Crew"
 	"display name" "(Storage) Mupoop"
 	thumbnail "portrait/arachi05"
-	"operating costs" 5000
+	"operating costs" 500
 	bunks -1
 	"unplunderable" 1
 	"unique" 1

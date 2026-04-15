@@ -6,13 +6,12 @@ mission "Galactic Capital 100k"
 	name "(GCI) Subordinated Debt Note: 100k"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	description "GCI is issuing debt notes to fund an asteroid prospecting claim. Purchase a 100k note for a fixed yield of 500 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate" 
 	to offer
 		has "global: gcijobs active"
-		"credits" > 100000
+		"credits" >= 100000
 	on accept
 		payment -100000
 		"salary: Galactic Capital" += 500
@@ -23,15 +22,14 @@ mission "Galactic Capital 1M"
 	name "(GCI) Venture Debt Facility: 1M"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
 	description "GCI is providing debt financing to a promising biotech startup. Fund a 1M tranche for a fixed yield of 2,500 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate"
 	to offer
 		has "Galactic Capital Intro B: offered"
 		has "global: gcijobs active"
-		"credits" > 1000000
+		"credits" >= 1000000
 		random < 33
 	on accept
 		payment -1000000
@@ -43,15 +41,14 @@ mission "Galactic Capital 10M"
 	name "(GCI) Pre-IPO Convertible Note: 10M"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
-	description "GCI is offering convertible notes in a regional manufacturer's pending IPO. Secure a 10M note for a guaranteed yield of 25,000 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate"
+	description "GCI is offering convertible notes in a regional manufacturer's pending IPO. Secure a 10M note for a guaranteed yield of 25 thousand credits daily."
 	to offer
 		has "Galactic Capital Intro B: offered"
 		has "global: gcijobs active"
-		"credits" > 10000000
+		"credits" >= 10000000
 		random < 33
 	on accept
 		payment -10000000
@@ -63,15 +60,14 @@ mission "Galactic Capital 100M"
 	name "(GCI) Leveraged Buyout Bond: 100M"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
-	description "GCI is raising capital to acquire an interstellar conglomerate. Fund the LBO for a yield of 250,000 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate"
+	description "GCI is raising capital to acquire an interstellar conglomerate. Fund the LBO for a yield of 250 thousand credits daily."
 	to offer
 		has "Galactic Capital Intro B: offered"
 		has "global: gcijobs active"
-		"credits" > 100000000
+		"credits" >= 100000000
 		random < 33
 	on accept
 		payment -100000000
@@ -83,19 +79,18 @@ mission "Galactic Capital 1B"
 	name "(GCI) Terraforming Land Lease: 1B"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
-	description "GCI is selling land leases in newly-terraformed systems. Secure a 1B lease for a guaranteed rental yield of 2,500,000 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate"
+	description "GCI is selling land leases in newly-terraformed systems. Secure a 1B lease for a guaranteed rental yield of 10 million credits daily."
 	to offer
-		has "Galactic Capital Colonize 9: offered"
+		has "GCI blood money"
 		has "global: gcijobs active"
-		"credits" > 1000000000
+		"credits" >= 1000000000
 		random < 33
 	on accept
 		payment -1000000000
-		"salary: Galactic Capital" += 2500000
+		"salary: Galactic Capital" += 10000000
 		fail
 
 # 10B Tier
@@ -103,15 +98,14 @@ mission "Galactic Capital 10B"
 	name "(GCI) Quarg Tech Royalty: 10B"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
-	description "GCI is pre-selling royalty rights for reverse-engineered Quarg technology. Secure a 10B contract for a guaranteed yield of 100,000,000 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate" "Wanderer" "Remnant" "Coalition"
+	description "GCI is pre-selling royalty rights for reverse-engineered Quarg technology. Secure a 10B contract for a guaranteed yield of 100 million credits daily."
 	to offer
-		has "Galactic Capital Colonize 9: offered"
+		has "GCI blood money"
 		has "global: gcijobs active"
-		"credits" > 10000000000
+		"credits" >= 10000000000
 		random < 33
 	on accept
 		payment -10000000000
@@ -123,15 +117,14 @@ mission "Galactic Capital 100B"
 	name "(GCI) War Bonds: 100B"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
-	description "GCI is issuing war bonds to build a ringworld-invasion fleet. A perpetuity yielding 1,000,000,000 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate" "Wanderer" "Remnant" "Coalition"
+	description "GCI is issuing war bonds to build a ringworld-invasion fleet. A perpetuity yielding 1 billion credits daily."
 	to offer
-		has "Galactic Capital Colonize 9: offered"
+		has "GCI blood money"
 		has "global: gcijobs active"
-		"credits" > 100000000000
+		"credits" >= 100000000000
 		random < 33
 	on accept
 		payment -100000000000
@@ -143,15 +136,14 @@ mission "Galactic Capital 1T"
 	name "(GCI) Sovereign Wealth Fund: 1T"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
-	description "GCI is issuing bonds on behalf of its new Sovereign Wealth Fund to finance Archon deposition. Yields 10,000,000,000 credits daily."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate" "Wanderer" "Remnant" "Coalition"
+	description "GCI is issuing bonds on behalf of its new Sovereign Wealth Fund to finance Archon deposition. Yields 10 billion credits daily."
 	to offer
-		has "Galactic Capital Colonize 9: offered"
+		has "GCI blood money"
 		has "global: gcijobs active"
-		"credits" > 1000000000000
+		"credits" >= 1000000000000
 		random < 33
 	on accept
 		payment -1000000000000
@@ -163,16 +155,15 @@ mission "Galactic Capital 1Qa"
 	name "(GCI) Event Horizon Initiative: 1Qa"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
+	"apparent payment" 9999999
 	job
 	repeat
 	description "GCI is engineering a pocket dimension inside Sagittarius A* to outlast the eventual heat death of the universe. Yields immeasurable credits upon completion."
-	source
-		government "Republic" "Free Worlds" "Syndicate" "Quarg" "Neutral" "Hai" "Pirate" "Wanderer" "Remnant" "Coalition"
 	to offer
-		has "Galactic Capital Colonize 9: offered"
+		has "GCI blood money"
 		has "global: gcijobs active"
-		"credits" > 1000000000000000
+		"credits" >= 1000000000000000
 		random < 33
 	on accept
 		payment -1000000000000000
-		fail
+		

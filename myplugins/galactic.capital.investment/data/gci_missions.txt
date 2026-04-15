@@ -1,25 +1,7 @@
-# mission "Galactic Capital Intro A"     fly to earth
-# mission "Galactic Capital Intro B"     invest 2m
-# mission "Galactic Capital Colonize 1"  fly to earth
-# event "GCI add planet"
-# mission "Galactic Capital Colonize 2"  invest 500m, escort to sapphire
-# event "GCI wait colonization"          wait 120
-# mission "Galactic Capital Colonize 3"  transport goulding to earth
-# mission "Galactic Capital Colonize 4"  fly to earth
-# mission "Galactic Capital Colonize 5"  invest 250m
-# event "GCI wait infrastructure"        wait 120
-# mission "Galactic Capital Colonize 6"  fly to earth
-# mission "Galactic Capital Colonize 7"  invest 250m
-# event "GCI wait defense fleet"         wait 120
-# mission "Galactic Capital Colonize 8"  fly to sapphire
-# mission "Galactic Capital Colonize 9"  get reward
-
-# Notes on @vibqetowi's rewrite:
 # Original text from @zuckung already position GCI as a morally bankrupt conglomerate explicitely enacting Xenogenocide through biological warfare. 
-# This violates at least 24 Republic treaties.
 # I take that logic to its conclusion while plugging plot hole about why the largest bank in human space is so dependent on a random ship captain.
 # (Cat's paw)
-
+# These mission are intentionally difficult.
 
 
 mission "Galactic Capital Intro A"
@@ -38,9 +20,9 @@ mission "Galactic Capital Intro A"
 			`You dock for a routine refueling cycle. Instead of the usual maintenance tech, a man in a precision-tailored suit is waiting at the gantry.`
 			`"Captain <last>. I am Warren Goulding, Senior Manager at Galactic Capital Investment. Our data division recently flagged your account as high interest."`
 			choice
-				`		"How did you....?"`
+				`"How did you....?"`
 					goto security
-				`		"Am I in trouble?"`
+				`"Am I in trouble?"`
 					goto notrouble
 			label security
 			`"We manage the transaction infrastructure for over forty percent of human space."`
@@ -49,18 +31,17 @@ mission "Galactic Capital Intro A"
 			`"On the contrary."`
 				goto toearth
 			label toearth
-			`"GCI frequently requires strategic partners with your specific asset profile of field capacity and high liquidity.`
-            `Please visit our headquarters on next time you come to Earth. We have a suite of highly profitable investments for customers of your caliber."` 
+			`"GCI frequently requires strategic partners with your specific asset profile of high capital liquidity and robust operational capabilities.`
+			`Please visit our headquarters next time you come to Earth. We have a suite of highly profitable investments for customers of your caliber."` 
 				accept
 	on complete
-		conversation
-			`Your terminal beeps with a message from Goulding.`
-			`"Transport has been arranged, please head to the spaceport."`
+		dialog `A priority message from GCI: Please proceed to the spaceport, transportation has been arranged.
 
 
 mission "Galactic Capital Intro B"
 	invisible
 	source "Earth"
+	destination "Earth"
 	to offer
 		has "Galactic Capital Intro A: done"
 		"credits" > 1000000
@@ -68,18 +49,17 @@ mission "Galactic Capital Intro B"
 		conversation
 			scene "scene/gci_galactic_capital"
 			`Fitting the largest bank in human space, GCI headquarters is a towering pyramid of glass and polished stone. You are escorted to Warren Goulding's office.`
-            `"Let's get to business. We offer Private Market investments to our premium clients. These are high growth initiatives not listed on the Galactic Stock Exchange.`
-			`To make a long story short, our investment team does the hard work using seed capital, investors collect a risk free salary after fees."`
+			`"Let's get to business. We offer exclusive Private Equity allocations. Our analysts identify undervalued assets, deploy seed capital, and our partners collect a risk-adjusted yield."`
 			choice
 				`	(Nod)`
-				goto nod
+					goto nod
 			label nod
 			`"Before I present the offer, standard compliance requires your biometric signature on this Non-Disclosure Agreement, a breach results in an immediate asset freeze and cordial memos from our elite legal team."`
 			`You sign.`
-			`"For your onboarding, we have a vacancy in a Series A venture debt facility for Sapphire Biotech. Xenopathogen research.`
+			`"For your onboarding, we have an open tranche in a venture debt facility for Sapphire Biotech. Xenopathogen research.`
 			`Investment:	1,000,000 credits`
 			`Daily yield:	2,500 credits (after fees)`
-			` "This serves as a preliminary alignment of our interests. Do you authorize the capital transfer?"`
+			`"This serves as a preliminary alignment of our interests. Do you authorize?"`
 			choice
 				`	(Sign the contract.)`
 					goto money
@@ -90,7 +70,7 @@ mission "Galactic Capital Intro B"
 			`Private investments will now regularly appear in your job board, we will also contact you when our primary acquisitions require your profile."`
 				accept
 			label nomoney
-			`"A conservative choice. We will still notify you of investment opportunities via the job board. Your success is our success, Captain <last>"`
+			`"A conservative choice. We will still notify you of private investment opportunities via the job board. Your success is our success, Captain <last>"`
 				decline
 	on accept
 		payment -1000000
@@ -102,20 +82,21 @@ mission "Galactic Capital Intro B"
 
 mission "Galactic Capital Colonize 1"
 	name "Encrypted Prospectus: Project Sapphire"
-	description "GCI has sent an encrypted prospectus regarding a multi-billion credit acquisition. A 250M refundable deposit is required to view the data."
+	description "GCI has sent an encrypted prospectus regarding a multi-billion credit initiative. A 250M refundable deposit is required to view the data."
+	destination "Earth"
 	to offer
 		has "Galactic Capital Intro B: offered"
 		has "global: gcijobs active"
-		"credits" > 1000000000
+		"credits" > 700000000
 		"combat rating" > 3000
 		"reputation: Republic" > 1
 		"reputation: Syndicate" > 1
 		"reputation: Free Worlds" > 1
 	on offer
 		conversation
-			`An encrypted high-priority burst appears on your bridge console. It is a message from Warren Goulding.`
-			`"Captain <last>. We are organizing a multi-generational development project with projected yields in the trillions."`
-			`"To secure your spot at the meeting, GCI requires a fully refundable good-faith deposit of 250 million credits and a project-specific NDA."`
+			`An encrypted high-priority burst appears on your bridge console.`
+			`"Captain <last>. Galactic Capital Investments formally invites you to participate in a multi-generational development project."`
+			`"To secure your spot at the meeting, we requires a fully refundable good-faith deposit of 250 million credits and a project-specific NDA."`
 			choice
 				`	(Authorize the 250M deposit.)`
 					goto pay
@@ -129,7 +110,9 @@ mission "Galactic Capital Colonize 1"
 				fail
 	on accept
 		payment -250000000
+	on complete
 		event "GCI add planet"
+		dialog `A priority message from GCI: Please proceed to the spaceport, transportation has been arranged."`
 
 
 event "GCI add planet"
@@ -145,7 +128,6 @@ event "GCI add planet"
 
 
 mission "Galactic Capital Colonize 2"
-	landing
 	name "Operation: Sapphire"
 	description "Escort three colony ships to Sapphire. Neutralize any interference."
 	source "Earth"
@@ -156,38 +138,59 @@ mission "Galactic Capital Colonize 2"
 		conversation
 			scene "scene/gci_galactic_capital"
 			`You are escorted into a brightly lit boardroom where Republic Senators, Syndicate executives, and major billionaires chat casually over refreshments.`
-			`Lights dim, Goulding begins.`
-			`"Human colonization of space has been stagnant for centuries.Remaining worlds within reach all require expensive terraforming.`
-			`On the edge of the Dirt Belt lies Sapphire, a planet almost perfect for human habitation. For years indigenous insectoid population exhibiting high toxicity and complex territorial behaviour made colonization unviable.`
-			`A few years ago, Galactic Capital Investments supported an up-and-coming genetic engineering company whose research is now paying off. We can now execute a macrophage-driven biological realignment protocol to prepare the site."`
+			`Before you can grab a pastry, lights dim and Goulding takes the podium.`
+			`"Real estate is saturated. Remaining worlds within reach all require expensive terraforming. On the edge of the Dirt Belt lies Sapphire, a Class-1 garden world representing an unparalleled Greenfield development opportunity.`
+			`For years, an indigenous insectoid population exhibiting high toxicity and complex territorial behaviour made colonization unviable.`
+			`A few years ago, Galactic Capital Investments seeded an up-and-coming genetic engineering company whose research is now paying off.`
+			`We can now execute a biological realignment protocol to remove this ecological friction and unlock the planet's true value."`
+			`"Our models predict mass immigration within two years. With its ecological characteristics, Sapphire is perfectly positioned for luxury development and agricultural production."`
 			choice
-				`   Cough`
+				`   (Cough)`
 					goto next
-				`   Hold it in`
+				`   (Hold it in)`
 					goto next
 			label next
-			`"We are offering each of you a partnership stake in this initiative. Operational support grants you exclusive rights to buy land rights at our discounted price of 1B credits. Our analysts have estimated returns in the trillions over the project's lifetime."` 
-			`"To finalize your stake, please authorize a 250 million credit transfer. Further payment will be processed as terraforming progresses."`
-			`Your hand terminal beeps, people around you sign without hesitation. Your choice?`
+			`After a bunch of other slides about SWOT, Sensitivity Analyses and Net Present Values, everyone's hand terminals beep.`
+			`"These were your individual contracts" says Goulding "they have been ratified by your respective legal teams, how about we all take 30 for final reviews?"`
+			`As the executives mingle and drink, you read the document outlining your role of "Orbital Logistics Consultant."`
+			`The title comes with a daily retainer of 100 credits 'for tax reasons' and exclusive rights to purchase dividend-yielding equity shares in infrastructure stuff or something.`
+			`Long story short, you buy your share at the preferred rate (1 billion credits, paid in 4 installments), do some tasks, and your grandchildren will never have to work again. You skim past dense clauses regarding 'Mandatory Capital Calls,' 'CapEx Overruns,' and 'Fiduciary Indemnification.'`
+			`To finalize your stake, please authorize the 2nd 250 million credit installment.`
 			choice
-				`	(Commit. Authorize the 2nd 250M installment.)`
+				`	(Commit to this opportunity of a lifetime.)`
 					goto invest
-				`	(Withdraw. Refund the 250M.)`
+				`	(Decline. Refund the initial 250M.)`
 					goto refund
 			label refund
-			`"Security escorts you back to the lobby, oligarchy ostensibly isn't for you."`
+			`The contract self-deletes. Security silently escorts you out of the building.`
 				fail
 			label invest
-			`The meeting goes on for hours, mostly business stuff you don't understand. Senators provide political legitimacy; the Syndicate provides equipment.`
-            `You are the "Orbital Logistics and Security Consultant", a title that comes with a daily retainer of 100 credits 'for tax reasons'.`
-			`Your first task is accompanying colony ships to Sapphire and eliminating any interference, we expect heavy resistance, prepare accordingly.`
+			branch borrow
+				"credits" < 250000000
+			
+			`Goulding walks over to shake your hand "Welcome to the big leagues Captain <last>"`
+			goto prep
+
+			label borrow
+			`Your hand terminal's low balance warning is immediately overriden by a pre-approved Galactic Capital Investments Line of Credit.`
+			`Goulding catches your eye with a knowing nod. "Welcome to the big leagues Captain <last>."`
+			label prep
+			`Soon afterwards, security personel escort you out of the boardroom to a corporate hotel where you await instructions.` 
+			`After some time, you are tasked with accompanying three colony ships to Sapphire and eliminating any interference. Heavy resistance is expected, prepare accordingly.`
 				accept
 	on fail
-		payment 250000000
+		"salary: Galactic Capital" -= 100
+		clear "global: gcijobs active"
+		payment 100000000
+		dialog
+			`Captain <last>,`
+			`Your recent operational failures represent a material breach of contract.`
+			`Consequently, we will be liquidating your shares and severing our partnership.`
+			`As per clause 15.2.1 of your contract, 100m will be credited to your account.`
+			`Warren Goulding`
 	on accept
 		payment -250000000
 		"salary: Galactic Capital" += 100
-	# HARD COMBAT: WAVE 1 (AMBUSH)
 	npc 
 		government "Pirate"
 		personality nemesis aggressive opportunistic
@@ -200,10 +203,23 @@ mission "Galactic Capital Colonize 2"
 				"Leviathan" 10
 				"Falcon" 10
 				"Protector" 5
-	# HARD COMBAT: WAVE 2 (SYSTEM DEFENSE)
+
+	npc 
+	government "Pirate"
+	personality nemesis aggressive opportunistic
+	confusion 0
+	system "Mora"
+	fleet
+		names "pirate"
+		cargo 1
+		variant
+			"Falcon" 10
+			"Firebird" 20
+			"Corvette" 15 
+
 	npc kill
 		government "Pirate"
-		personality nemesis aggressive opportunistic
+		personality nemesis aggressive opportunistic staying
 		confusion 0
 		system "Limen"
 		fleet
@@ -213,7 +229,7 @@ mission "Galactic Capital Colonize 2"
 				"Leviathan" 20
 				"Falcon" 10
 				"Bactrian" 5
-				"Firebird" 3
+				"Firebird" 20
 	npc accompany save
 		government "Merchant"
 		personality escort timid
@@ -222,21 +238,21 @@ mission "Galactic Capital Colonize 2"
 			variant
 				"Colony Ship" 3
 	on visit
-		dialog phrase "generic arrived-without-npc dialog"
+		dialog
+			`You've either left an escort behind or interfering ships still remain.`
 	on complete
-		event "GCI wait colonization" 120
+		event "GCI wait colonization" 90
 		conversation
 			scene "scene/gci_colonists"
-			`The three GCI ships disperse the viral agents into the atmosphere. Goulding watches the overlay`
-            `After a few hours, the convoy lands and starts unpacking while you enjoy the fresh air and strange alien cries.`
-			`The landed colony ships will serve as living space until the first buildings are erected. In about 4 months the spaceport and a small city settlement will be constructed.`
-
+			`The three GCI ships disperse the viral agents into the atmosphere. Goulding watches the overlay.`
+			`After a few hours, the convoy lands and starts unpacking while you enjoy the fresh air and strange alien cries.`
+			`The landed colony ships will serve as living space until the first buildings are erected. In a few months the spaceport and a small city settlement will be constructed.`
 
 event "GCI wait colonization"
 	planet "Sapphire"
 		attributes "dirt belt"
 		spaceport `The spaceport is surrounded by heavy artillery.`
-		description `Indigenous relocation is still underway. Fortifications are also under construction to protect the growing civilian sectors.`
+		description `Indigenous relocation is still underway. Fortifications are under construction to protect the growing civilian sectors.`
 
 
 mission "Galactic Capital Colonize 3"
@@ -249,7 +265,8 @@ mission "Galactic Capital Colonize 3"
 		has "Galactic Capital Colonize 2: done"
 	on offer
 		conversation
-			`"Initial deployment appears successful," Goulding says, looking at the lush landscape. "Good work Captain, let's head back to Earth."`
+			`Goulding meets you at your ship.`
+			`"Initial deployment appears successful," he says, looking at the lush landscape. "Good work Captain <last>, please escort me back to Earth."`
 				accept
 	on complete
 		conversation
@@ -258,16 +275,26 @@ mission "Galactic Capital Colonize 3"
 
 mission "Galactic Capital Colonize 4"
 	name "Logistics: Agricultural Supplements"
-	description "Pick up specialized agricultural supplements from Earth and deliver them to Sapphire."
-	source "Earth"
+	description "Pick up specialized agricultural supplements from Earth and deliver them to Sapphire. Do not get scanned."
+	landing
+	stopover "Earth"
 	destination "Sapphire"
 	cargo "Agricultural Supplements" 300
+	stealth
+	source
+		not planet "Earth"
 	to offer
 		has "Galactic Capital Colonize 3: done"
 		"cargo space" >= 300
 	on offer
-		dialog `GCI Logistics: "Proceed to Earth automated terminal 4. Retrieve 300 tons of agricultural supplements. Deliver to Sapphire immediately. Customs has been bypassed."`
-	# HARD COMBAT: CARGO INTERDICTION
+		dialog `GCI Logistics: "Proceed to Earth automated terminal 4. Retrieve 300 tons of agricultural supplements. Deliver to Sapphire immediately. Customs has been bypassed, do not get scanned."`
+	
+	on stopover
+		conversation
+			`You land at an abandoned airfield far from Earth's primary cities. The terminal is silent, devoid of personnel.`
+			`An automated crane system activates, transferring unmarked barrels into your cargo hold.`
+			`A notification: 'Loading Complete. Proceed to Sapphire.'`
+
 	npc kill
 		government "Pirate"
 		personality nemesis aggressive opportunistic harvests plunders staying
@@ -279,18 +306,32 @@ mission "Galactic Capital Colonize 4"
 			variant
 				"Leviathan" 15
 				"Falcon" 15
-				"Bactrian" 5
-				"Protector" 10
-				"Dreadnought" 10
+				"Bactrian" 15
+				"Protector" 15
+				"Dreadnought" 15
+				"Shield Beetle" 2
+	npc 
+		government "Pirate"
+		personality nemesis aggressive opportunistic
+		confusion 0
+		system "Merak"
+		fleet
+			names "pirate"
+			cargo 1
+			variant
+				"Kestrel" 30
 	on complete
 		dialog `The heavy canisters are unloaded by hazmat crews. You are instructed to head to the spaceport.`
 	on fail decline
-        "salary: Galactic Capital" -= 100
-        dialog `Captain <last>,`
-        `Your recent actions have prompted the stakeholders to vote you out of this initiative.`
-        `As per clause 15.2.1 of your contract, 100m will be credited to your account.`
-        `Warren Goulding`
-        payment = 100000000
+		"salary: Galactic Capital" -= 100
+		clear "global: gcijobs active"
+		payment 100000000
+		dialog
+			`Captain <last>,`
+			`Your recent operational failures represent a material breach of contract.`
+			`Consequently, we will be liquidating your shares and severing our partnership.`
+			`As per clause 15.2.1 of your contract, 100m will be credited to your account.`
+			`Warren Goulding`
 
 
 mission "Galactic Capital Colonize 5"
@@ -305,22 +346,25 @@ mission "Galactic Capital Colonize 5"
 		conversation
 			scene "scene/gci_spaceport"
 			`Sapphire is a busy fortified town. Goulding meets you in a sterilized mobile office.`
-			`"The indigenous hive is adapting," he says. "The insects are swarming our paving crews and retreating to extensive tunnel networks."`
-			`This requires the 3rd 250 million credit installment of your Joint Venture commitment to hire field specialists. Do you authorize the transfer to protect our timeline?"`
+			`"The indigenous hive is adapting," he says. "The insects are swarming our paving crews and retreating to an ever evolving tunnel networks."`
+			`"It is a fascinating deviation from our risk model, but it increases our CapEx requirements for field specialists."`
+			`"Per Section 4.4.4 of your Limited Partnership Agreement, I am issuing a scheduled Capital Call for your third 250 million credit tranche to cover the operational overhead."`
 			choice
 				` (Authorize the 250M transfer.)`
 					goto invest
 				` (Decline.)`
 					goto noinvest
 			label noinvest
-			`"Operational delays cost money Captain. Return quickly."`
+			`"Delays are costly Captain <last>. Return quickly."`
 				defer
 			label invest
 			`"Excellent, we'll be in touch for next steps."`
 				accept
+	on defer
+		set "GCI: delayed"
 	on accept
 		payment -250000000
-		event "GCI wait infrastructure" 120
+		event "GCI wait infrastructure" 90
 
 
 event "GCI wait infrastructure"
@@ -331,25 +375,28 @@ event "GCI wait infrastructure"
 		outfitter "Common Outfits"
 		outfitter "Lovelace Security"
 		outfitter "Ammo North"
+		outfitter "Syndicate Advanced"
 		shipyard "Basic Ships"
 		shipyard "Betelgeuse Basics"
+		shipyard "Syndicate Advanced"
 	system "Limen"
 		add fleet "Large Southern Merchants" 3000
 		add fleet "Small Republic" 12000
 
 mission "Galactic Capital Colonize 6"
-	landing
 	name "Security Alert: Intercept the Songbird"
-	description "Intercept and eliminate the trespasser ship 'Songbird' in the Limen system."
+	description "Do not let the suspected terrorist on the 'Songbird' leave the Limen system."
+	deadline 5
 	source
 		not planet "Sapphire"
+		near Limen 1 5
 	destination "Sapphire"
 	to offer
 		has "event: GCI wait infrastructure"
 	on offer
 		conversation
 			`A priority transmission from GCI Security overrides your comms. It's Goulding.`
-			`"Captain. We have an urgent Situation on Sapphire. A suspected terrorist group piloting the 'Songbird', is conducting clandestine operations in the quarantine zone. Despite best efforts, our ground team cannot apprehend them."`
+			`"Captain. A suspected terrorist group piloting the 'Songbird', is conducting clandestine operations in the Sapphire quarantine zone. Despite best efforts, our ground team cannot apprehend them."`
 			`"We have officially flagged their transponder as a Pirate vessel in the Republic defense grid. Monitor the situation in orbit, do not let them leave the system."`
 			choice
 				`	(Acknowledge. Course set for Limen.)`
@@ -359,77 +406,97 @@ mission "Galactic Capital Colonize 6"
 			label accept
 			`"Don't delay Captain."`
 				accept
-	# ON SIGHT FAILURE MECHANICS:
+	#shoot on sight
 	on enter
 		system "Limen"
 		set "GCI: in pursuit"
 	on visit
+		and
+			has "GCI: in pursuit"
+			not
+				has "GCI: songbird destroyed"
+				has "GCI: songbird captured"
 		fail
 	on enter
-		not system "Limen"
-		has "GCI: in pursuit"
+		and
+			not system "Limen"
+			has "GCI: in pursuit"
+			not
+				has "GCI: songbird destroyed"
+				has "GCI: songbird captured"
 		fail
-	on fail
-        "salary: Galactic Capital" -= 100
-        dialog `Captain <last>,`
-        `Your recent actions have prompted the stakeholders to vote you out of this initiative.`
-        `As per clause 15.2.1 of your contract, 100m will be credited to your account.`
-        `Warren Goulding`
-        payment = 100000000
+	on fail decline
+		"salary: Galactic Capital" -= 100
+		clear "global: gcijobs active"
+		payment 100000000
+		dialog
+			`Captain <last>,`
+			`Your recent operational failures represent a material breach of contract.`
+			`Consequently, we will be liquidating your shares and severing our partnership.`
+			`As per clause 15.2.1 of your contract, 100m will be credited to your account.`
+			`Warren Goulding`
 	npc kill board
 		government "Pirate"
 		system "Limen"
 		ship "Star Queen" "Songbird"
 		personality quiet staying
+		on kill
+			set "GCI: songbird destroyed"
+			clear "GCI: in pursuit"
+			dialog `The Songbird has been destroyed. You may now land on Sapphire.`
+		on board
+			set "GCI: songbird captured"
+			clear "GCI: in pursuit"
+			dialog `You have captured the Songbird. You may now land on Sapphire.`
 
 
-ship "Star Queen"
-	name Songbird
-	hail `Please, don't open fire! We're an unarmed archeological survey team!`
-	sprite "ship/star queen"
-		"frame rate" 2.0000001
-	thumbnail "thumbnail/star queen"
-	attributes
-		category "Space Liner"
-		cost 4200000
-		mass 525
-		bunks 112
-		"cargo space" 60
-		drag 6.7
-		"engine capacity" 100
-		"fuel capacity" 700
-		"gun ports" 3
-		"heat dissipation" 0.44
-		hull 2200
-		"outfit space" 360
-		"required crew" 1
+	ship "Star Queen"
+		name Songbird
+		hail `Please, don't open fire! We're an unarmed archeological survey team!`
+		sprite "ship/star queen"
+			"frame rate" 2.0000001
+		thumbnail "thumbnail/star queen"
+		attributes
+			category "Space Liner"
+			cost 4200000
+			mass 525
+			bunks 112
+			"cargo space" 60
+			drag 6.7
+			"engine capacity" 100
+			"fuel capacity" 700
+			"gun ports" 3
+			"heat dissipation" 0.44
+			hull 2200
+			"outfit space" 360
+			"required crew" 1
+			shields 4100
+			"turret mounts" 2
+			"weapon capacity" 120
+		outfits
+			"AR120 Reverse Thruster"
+			"D94-YV Shield Generator"
+			Hyperdrive
+			"KP-6 Photovoltaic Array" 4
+			"LP036a Battery Pack"
+			"Luxury Accommodations"
+			"Small Radar Jammer" 3
+			"X2200 Ion Steering"
+			"X3700 Ion Thruster"
+		crew 50
+		fuel 700
 		shields 4100
-		"turret mounts" 2
-		"weapon capacity" 120
-	outfits
-		"AR120 Reverse Thruster"
-		"D94-YV Shield Generator"
-		Hyperdrive
-		"KP-6 Photovoltaic Array" 4
-		"LP036a Battery Pack"
-		"Luxury Accommodations"
-		"Small Radar Jammer" 3
-		"X2200 Ion Steering"
-		"X3700 Ion Thruster"
-	crew 50
-	fuel 700
-	shields 4100
-	hull 2200
-	gun 0 -113
-	gun -24 -76
-	gun 24 -76
-	turret -21.5 2.5
-	turret 21.5 2.5
-	explode "large explosion" 10
-	explode "medium explosion" 25
-	explode "small explosion" 25
-	explode "tiny explosion" 10
-	"final explode" "final explosion medium" 1
+		hull 2200
+		gun 0 -113
+		gun -24 -76
+		gun 24 -76
+		turret -21.5 2.5
+		turret 21.5 2.5
+		explode "large explosion" 10
+		explode "medium explosion" 25
+		explode "small explosion" 25
+		explode "tiny explosion" 10
+		"final explode" "final explosion medium" 1
 
 
 mission "Galactic Capital Colonize 7"
@@ -442,9 +509,18 @@ mission "Galactic Capital Colonize 7"
 		"credits" > 250000000
 	on offer
 		conversation
-			if board: golding thanks you and says they will be questioned 
-            if kill goulding thanks  you for eliminating suspected terrorist and offers you to recover at the new rec center after the meeting
-			`"In either case, it is time for the final 250 million credit transfer. This will finalize the orbital defense grid and secure your permanent ownership stake. Do you authorize?"`
+			`Goulding meets you in a private office just off the Sapphire spaceport concourse.`
+			branch captured
+				has "GCI: songbird captured"
+
+			`"Thank you for eliminating the suspected terrorists, Captain."`
+			goto merge
+
+			label captured
+			`"Excellent work capturing the vessel. The trespassers are being transferred for questioning."`
+			
+			label merge
+			`"In either case, it is time for the final 250 million credit transfer. This will finalize the orbital defense grid and secure your permanent ownership stake."`
 			choice
 				` "Authorize the final 250M."`
 					goto yes
@@ -457,7 +533,7 @@ mission "Galactic Capital Colonize 7"
 			`"Thank you, I'll contact you when the dividend distribution is ready."`
 				accept
 	on accept
-		event "GCI wait defense fleets" 120
+		event "GCI wait defense fleets" 90
 		payment -250000000
 
 
@@ -465,14 +541,13 @@ event "GCI wait defense fleets"
 	planet "Sapphire"
 		spaceport `The spaceport hums with the arrival of countless colonists.`
 		description `Sapphire has been fully stabilized. Construction and legacy infrastructure repurposing are in full swing.`
-		security 0.1
+		security 0
 		tribute 1000
 			threshold 1500
-			fleet "Small Militia" 15
+			fleet "Large Syndicate" 50
 
 
 mission "Galactic Capital Colonize 8"
-	landing
 	name "Final Review: Sapphire"
 	description "Attend the final dividend review with Warren Goulding."
 	source
@@ -483,6 +558,8 @@ mission "Galactic Capital Colonize 8"
 		has "event: GCI wait defense fleets"
 	on offer
 		dialog `Warren Goulding: "Join me on Sapphire for the final dividend review."`
+	on complete
+		dialog `A priority message from GCI pings your terminal: "Please proceed to the Sapphire for final dividend review."`
 
 
 mission "Galactic Capital Colonize 9"
@@ -498,6 +575,54 @@ mission "Galactic Capital Colonize 9"
 		conversation
 			scene "scene/gci_big_city"
 			`Sapphire is beautiful. The infrastructure integrates seamlessly with the pristine environment. You meet Goulding in a penthouse office.`
-			`After pleasant conversation, you get to business. "You'll be happy to learn that profits exceed our analysts' initial projections. Dividend of 10 million credits from your land stake will route to your accounts daily."`
+			`After pleasant conversation, you get to business. "You'll be happy to learn that profits exceed our analysts' initial projections. Dividend of 10 million credits from your equity shares will route to your accounts daily."`
+			
+			branch delayed
+				has "GCI: delayed"
+			goto end_merge
+
+			label delayed
+			`"Additionally, per clause 7.4.2, an amortized penalty of 150 million credits for operational delays has been levied against your account as debt."`
+
+			label end_merge
 			`He hands you a heavy, solid-gold figurine. "A token of appreciation, for your work. We've also unlocked ultra exclusive investments for your account. Keep your eyes on the job board."`
 				decline
+	on decline
+		set "GCI blood money"
+
+
+mission "Galactic Capital Delay Penalty"
+	invisible
+	to offer
+		has "Galactic Capital Colonize 8: done"
+		has "GCI: delayed"
+	on offer
+		debt 150000000
+		fail
+
+# Adds consequences for not paying crew and maintenance, something vanilla really should have. This loan is meant to double every month.
+
+mission "consequence_unpaid_salaries"
+	invisible
+	repeat
+	landing
+	to offer
+		"unpaid salaries" > 100000
+	on offer
+		dialog `Your crew is in open revolt over missing wages exceeding 100 thousand credits. To avoid being spaced, you have secured an ultra short term loan.`
+		debt 100000
+			interest 2.34
+			term 50
+
+
+mission "consequence_unpaid_maintenance"
+	invisible
+	repeat
+	landing
+	to offer
+		"unpaid maintenance" > 100000
+	on offer
+		dialog `With over 100 thousand credits in deferred maintenance, critical ship systems have reached a breaking point. Local port authorities have performed emergency repairs and issued a high-interest collection notice.`
+		debt 100000
+			interest 2.34
+			term 50

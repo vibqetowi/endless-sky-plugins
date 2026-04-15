@@ -28,7 +28,7 @@ def set_globals():
 	fsource = 'crew.list.txt' # input
 	foutfits = 'outfits.txt' # output
 	fmissions = 'missions.txt' # output
-	percent = 98 # mission chance
+	percent = 93 # mission chance
 	names, fields, locations, races, sexes, images, money, stat1, stat2, stat3, saveedit1, saveedit2, saveedit3, sourcelines = [], [], [], [], [], [], [], [], [], [], [], [], [], []
 
 

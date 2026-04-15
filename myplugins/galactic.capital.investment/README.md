@@ -1,154 +1,258 @@
 # Galactic Capital Investments
 
-Galactic Capital Investments (GCI) became the largest bank in human space thanks to combination of attractive financial products, personalized service and... innovation. Perhaps unsurprisingly, the Syndicate is their biggest customer.
+Galactic Capital Investments (GCI) became the largest bank in human space thanks to a combination of attractive financial products, personalized service and... innovative practices. Perhaps unsurprisingly, the Syndicate is their biggest customer.
 
-They control over 40% of financial infrastructure in Human, Hai and Quarg space while also hosting the Galactic Stock Exchanges where investors make and lose fortunes. Their recent public filings show daily revenue in the Trillions.
+In addition to the Galactic Stock Exchange, they control over 40% of financial infrastructure in Human, Hai and Quarg space. Their recent public filings show daily transaction volume in the trillions.
+
+## Table of Contents
+
+- [Purpose](#purpose)
+- [Features](#features)
+- [Design Around Endless Sky Meta](#design-around-endless-sky-meta)
+- [Appendix A: US Market Equivalency Table](#appendix-a-us-market-equivalency-table)
+- [Appendix B: Private Market Yield Schedules](#appendix-b-private-market-yield-schedules)
+- [Appendix C: Stock Math (Stochastic Market Simulation)](#appendix-c-stock-math-stochastic-market-simulation)
+- [Appendix D: Liquidity Friction Model](#appendix-d-liquidity-friction-model)
+- [Appendix E: Lore for Nerds](#appendix-e-lore-for-nerds)
 
 ## Purpose
 
-This plugin fixes the useless passive income system to improve vanilla gameplay and provide a smooth transition to plugin content. Players experience a faster path to a combat fleet, a more engaging midgame, and a rewarding endgame economy (including a legitimate path to the [Quaernan](https://github.com/AvianGeneticist/QuaernanHardpointsCarries)).
+This plugin massively improves the vanilla finance system and provides a smooth transition to plugin content. Players experience a faster path to a combat fleet, a more engaging midgame, and a rewarding endgame economy (including a legitimate path to the  [Quaernan](https://github.com/AvianGeneticist/QuaernanHardpointsCarries)).
 
 ## Features
 
-In addition to **a mission chain unlocking absolutely ludicrous returns**, the system replicates real-world US financial instruments to create a layered economic experience:
-*   **Bonds Portfolio:** A high-yield savings account providing a risk-free return equivalent to Treasury Bonds.
+In addition to a mission chain unlocking absolutely ludicrous returns, the system replicates real-world US financial instruments to create a layered economic experience:
+*   **Bonds Portfolio:** A high-yield savings account providing a risk-free return equivalent to 10Y Treasury Bonds.
 *   **Trust Funds:** Family trust shared between all pilots (0% annualized return).
 *   **Public Markets Investments:** Realistic stock trading with 10 stocks and monthly dividend payouts.
 *   **Private Markets Perpetuities:** Investment missions providing salaries managed by GCI.
 *   **Liquidation:** Optional conversion of investment salary back into cash (at a capital loss).
+*   **Financial Responsibility:** Pay your workers or else.
 
 ## Design Around Endless Sky Meta
 
-*   **Time Compression:** Taking a human working lifetime of 40 years and scaling it down to the vanilla game's soft content limit of roughly 8 in-game years represents a 5x time compression. 
-*   **Bank Loans & Interest Rates:** Vanilla's loan rates establish a minimum 0.20% daily interest (107% APY). By taking this 107% APY as the in-universe prime rate and mapping it to the US long-term average prime rate (6.87%), we establish a strict **15.6x macroeconomic multiplier**.
+*   **Time Compression**: We use the in-universe loan rate as our tangible anchor for the rest of the math. The lowest one in vanilla is 0.2% daily or 107.357% APY, reserved for credit scores of 800. Mapping it to the US long-term average prime rate (6.87%), we establish a strict **15.627x macroeconomic multiplier**.
 *   **Violence Meta:** Ship capturing is the most efficient way to earn capital in vanilla Endless Sky. This system supports that reality by bootstrapping your first combat ship and covering operational expenses in the mid/end game so you can play aggressively.
 *   **Post-Vanilla Meta:** All income becomes obsolete for plugin-scale assets (1B+ ships). The system's ROI architecture specifically shortens payback periods as you invest more, becoming the primary economic engine for trillion-credit fleets.
 
----
+## Appendix A: Game Engine Limitation
+* allows basic arithmetic +, - , *, /, and  % (modulo) 
+* allows an prng from 0 to 99
+* as far as i know does not support PEMDAS, so order of operations is strictly left to right. 
+* prefers stateless operations
+* used 64 bit signed ints
+* integer only, rounds down
 
 ## Appendix A: US Market Equivalency Table
 
-**Anchor:** 0.2% daily = 6.87% (US Long-Term Prime Average).
-**Multiplier:** 15.6x.
+**Anchor:** 0.2% daily = 107.357% APY.
+**Multiplier:** 15.627x.
 
-| Game Product | Game Daily Rate | Game APY | US Market Equivalent (Target Rate) |
+| Game Product | Game Daily Interest | Game Yearly Interest | US Market Equivalent |
 | :--- | :--- | :--- | :--- |
-| Bonds Portfolio | 0.15% | 71.7% | 4.6% (10Y Treasury / Risk-Free) |
-| Prime Loan | 0.20% | 107.2% | 6.87% (Prime Rate) |
-| Private Credit (Perpetuity)| 0.25% | 148.2% | 9.5% (outsttanding Private Credit Fund) |
-| Dividend Stocks | 0.29% | 187.2% | 12.0% (Good year for the S&P index) |
-| High-Interest Loan | 0.40% | 324.5% | 20.8% (Subprime Loan, near Credit Card) |
-| Growth Stocks | 0.42% | 358.8% | 23.0% (Growth/Tech Stocks) |
-| Penalty Loan | 0.6% | 787% | 50.45% (Loan shark) |
+| Bonds Portfolio | 0.149% | 71.884% | 4.6% (10Y Treasury / Risk-Free) |
+| Prime Loan | 0.2% | 107.357% | 6.87% (Prime Rate) |
+| Private Credit | 0.25% | 148.456% | 9.5% (Private Credit Fund) |
+| Dividend Stocks | 0.29% | 187.523% | 12% (S&P 500 Index) |
+| High-Interest Loan | 0.4% | 329.344% | 21.075% (Subprime / Credit Card) |
+| Growth Stocks | 0.419% | 359.419% | 23% (Tech / Growth Stocks) |
+| Penalty Loan | 0.6% | 787.693% | 50.406% (Loan shark) |
 
----
 
 ## Appendix B: Private Market Yield Schedules
 
-The player is purchasing an annuity from GCI. GCI uses the player's capital to fund high-growth ventures, absorbing the risk and paying the player a guaranteed daily perpetuity (after fees).
+GCI uses the player's capital to fund private high-growth ventures, absorbing the risk and paying the player a guaranteed daily perpetuity (after fees). 
 
-*Note 1: The 100k non repeatable Angel Entry intentionally yields higher than the base formula to whet the player's appetite for the plugin's mechanics.*
-*Note 2: Tiers above 1B deliberately break the 15.6x macroeconomic model, defaulting to a flat 1.00% daily yield to accelerate access to post-vanilla plugin content.*
+Finance people may now crucify me for conflating Private Credit, Venture Capital and Private Equity.
+
+*Note: Tiers above 1B deliberately break the 15.627x macroeconomic model, defaulting to a flat 1% daily yield to accelerate access to post-vanilla plugin content. They might look ridiculous using real world logic, but are extremely realistic in game. See appendix D*
 
 ### Investment Jobs (Repeatable)
 
 | Tier | Principal | Daily Yield | Rate | Payback Period |
 | :--- | :--- | ---: | :--- | ---: |
-| Angel Entry (one time)| 100k | 500 | 0.50% | 200 days |
+| Angel Entry | 100k | 500 | 0.5% | 200 days |
 | Seed Venture | 1M | 2,500 | 0.25% | 400 days |
-| IPO Invitation | 10M | 25,000 | 0.25% | 400 days |
-| Corporate Takeover | 100M | 250,000 | 0.25% | 400 days |
-| Planetary Terraforming| 1B | 10,00,000 | 1% | 100 days |
-| Forbidden R&D | 10B | 100,000,000 | 1.00% | 100 days |
-| War Bonds | 100B | 1,000,000,000 | 1.00% | 100 days |
-| Sovereign Wealth Fund| 1T | 10,000,000,000 | 1.00% | 100 days |
+| IPO Invitation | 10M | 25k | 0.25% | 400 days |
+| Corporate Takeover | 100M | 250k | 0.25% | 400 days |
+| Planetary Terraforming| 1B | 10M | 1% | 100 days |
+| Forbidden R&D | 10B | 100M | 1% | 100 days |
+| War Bonds | 100B | 1B | 1% | 100 days |
+| Sovereign Wealth Fund| 1T | 10B | 1% | 100 days |
 
+The penalty for early selling is 30% of the principal which is on the high end of real Private Credit. To balance the 1% daily returns, selling is disabled after the terraforming mission chain.
 
 ### Mission-Chain Investments
 
-*   **Intro Investment (1M principal):** 2,500 daily yield, 400-day payback.
-*   **Colonization Chain Reward (1B total principal):** 10,00,000 daily yield, 100-day payback.
+*   **Intro Investment (1M principal):** 2,500 daily yield, 400-day payback. Unlocks 1M to 100M repeatable investment missions.
+*   **Terraforming/Blood Money Reward (1B total principal):** 10,000,000 daily yield, 100-day payback. Unlocks the post-vanilla 1B+ repeatable investment missions.
 
----
+A fair warning: the terraforming chain mission is very much a dark story, but so is the ES combat system. Most pirates are canonically downtrodden teenagers.
 
-## Appendix C: Math (Stochastic Market Simulation)
+## Appendix C: Stock Math (Stochastic Market Simulation)
 
-The correct engine would use Geometric Brownian Motion with drift to simulate stock prices. Given the constraints of the game engine, we must use log functions and discrete probability buckets to approximate the desired returns and volatility.
+The correct engine would use Geometric Brownian Motion with drift to simulate stock prices. Given the constraints of the game engine, we must use logarithms to precalculate probilities and approximate the desired returns and volatility.
 
 ### Explaining Stock Design Decisions
 
-**1. Choosing a 15.6x Multiplier Over Real Stock Markets**
-*   **Private Market Baseline:** The GCI 100M Perpetuity pays out 250k/day (148% APY), a highly attractive risk-free return.
-*   **Public Market Requirement:** Public stocks carry the risk of total loss. To compel a player to choose the stock market over the private perpetuity, the expected compounding return must map strictly to the 15.6x macroeconomic multiplier to establish a mathematically sound risk premium.
-
-**2. Simulating Black Swan Events**
-*   **IRL Baseline:** SPY experiences a 15-20% drop roughly every 8 years. 
+**Simulating Black Swan Events**
+*   **IRL Baseline:** Capital markets (proxied by the S&P 500) experience a 15-20% drop roughly every 8 years. 
 *   **In-Game Frequency:** A 1% daily chance = an average of 3.65 Black Swans per year.
-*   **Event Magnitude:** The Black Swan event must be a **-25% drop** (multiplier of 0.75), occurring exactly 1% of the time. This scales macroeconomic crashes into the game engine's probability limits.
+*   **Event Magnitude:** The Black Swan event must be an -11.26% drop (multiplier of 0.8874), occurring exactly 1% of the time.
+*   **Derivation of 0.8874:** $\frac{1 \text{ event}}{8 \text{ years}} \times \ln(0.8) \times 15.627 \div 365 \text{ days} = -0.001194$ required daily log drag. To achieve this expected value at a 1% probability, the required multiplier is $e^{\frac{-0.001194}{0.01}} = 0.8874$
 
-**3. Target 1: Dividend Stocks**
-*   **List:** Southbound, Syndicate, Kraz, Lovelace, Betelgeuse.
-*   **Goal:** Based on IRL S&P 500 data (approx. 11% price growth + 1% dividend = **12% total US APY**).
-*   **Dividend Mapping:** The in-game dividend is **1.3% monthly**, targeting a `1% * 15.6 = 15.6%` annualized yield.
-*   **Price Drift Mapping:** The price must grow at `11% * 15.6 = 171.6%` APY. The RNG buckets generate a 2.71x geometric drift to hit this target.
+**Target 1: Dividend Stocks**
+*   **Goal:** Based on IRL S&P 500 data (10.58% price growth + 1.09% dividend).
+*   **Dividend Mapping:** 1.217% monthly, targeting a 15.627% annualized yield.
+*   **Price Drift Mapping:** Target 171.896% APY via a 2.719x geometric drift.
 
-**4. Target 2: High Growth Stocks**
-*   **List:** Lionheart, Deep Sky, Delta V, Tarazed, Megaparsec.
-*   **Goal:** Based on IRL Tech Growth data (**23% total US APY**).
-*   **Dividend:** 0%.
-*   **Price Drift Mapping:** The price must grow at `23% * 15.6 = 358.8%` APY. The RNG buckets use higher volatility to generate a 4.58x geometric drift.
+**Target 2: High Growth Stocks**
+*   **Goal:** Based on IRL NVIDIA/Tech data (approx. 22.8% yearly price growth).
+*   **Price Drift Mapping:** Target 359.419% APY via a 4.594x geometric drift.
 
 ### Return Probability Matrices
 
 **Asset A: Dividend Stocks**
-*Target: ~2.71x Annual Price Growth + 1.3% Monthly Dividend = ~187% Total APY.*
+*Target: ~2.719x Annual Price Growth + 1.217% Monthly Dividend = ~187.523% Total APY.*
 
 | Scenario | Roll | Multiplier ($X$) | $\ln(X)$ | Prob ($P$) | Expected Log ($P \times \ln(X)$) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Black Swan | 1 | 0.75 | -0.28768 | 0.01 | -0.002877 |
-| Lose Big | 2-8 | 0.98 | -0.02020 | 0.07 | -0.001414 |
-| Lose Small | 9-23 | 0.99 | -0.01005 | 0.15 | -0.001507 |
-| Flat | 24-38 | 1.00 | 0.00000 | 0.15 | 0.000000 |
-| Win Small | 39-76 | 1.01 | 0.00995 | 0.38 | +0.003781 |
-| Win Big | 77-100 | 1.02 | 0.01980 | 0.24 | +0.004752 |
-*   **Sum $E[\ln(X)]$:** $\mathbf{0.002735}$
-*   **Annual Price Drift:** $e^{(0.002735 \times 365)} = \mathbf{2.71x}$
+| Black Swan | 0 | 0.8874 | -0.1195 | 0.01 | -0.0012 |
+| Lose Big | 1-6 | 0.98 | -0.0202 | 0.06 | -0.0012 |
+| Lose Small | 7-21 | 0.99 | -0.0101 | 0.15 | -0.0015 |
+| Flat | 22-44 | 1 | 0 | 0.23 | 0 |
+| Win Small | 45-87 | 1.01 | 0.01 | 0.43 | 0.0043 |
+| Win Big | 88-99 | 1.02 | 0.0198 | 0.12 | 0.0024 |
+*   **Sum $E[\ln(X)]$:** **0.0027**
+*   **Annual Price Drift:** **2.719x**
 
-Dividend stocks get a 1.3% dividend paid as cash every 1st of the month. 
 
 **Asset B: High-Growth Stocks**
-*Target: ~4.58x (358.8%) Total APY. High Volatility. Zero Dividend.*
+*Target: ~4.594x (359.419%) Total APY. High Volatility. Zero Dividend.*
 
 | Scenario | Roll | Multiplier ($X$) | $\ln(X)$ | Prob ($P$) | Expected Log ($P \times \ln(X)$) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Black Swan | 1 | 0.75 | -0.28768 | 0.01 | -0.002877 |
-| Lose Big | 2-11 | 0.96 | -0.04082 | 0.10 | -0.004082 |
-| Lose Small | 12-27 | 0.98 | -0.02020 | 0.16 | -0.003232 |
-| Flat | 28-41 | 1.00 | 0.00000 | 0.14 | 0.000000 |
-| Win Small | 42-88 | 1.02 | 0.01980 | 0.47 | +0.009306 |
-| Win Big | 89-100 | 1.04 | 0.03922 | 0.12 | +0.004706 |
-*   **Sum $E[\ln(X)]$:** $\mathbf{0.003821}$
-*   **Annual Price Drift:** $e^{(0.003821 \times 365)} = \mathbf{4.03x}$
+| Black Swan | 0 | 0.8874 | -0.1195 | 0.01 | -0.0012 |
+| Lose Big | 1-6 | 0.96 | -0.0408 | 0.15 | -0.0061 |
+| Lose Small | 7-21 | 0.98 | -0.0202 | 0.23 | -0.0046 |
+| Flat | 22-44 | 1 | 0 | 0.04 | 0 |
+| Win Small | 45-75 | 1.02 | 0.0198 | 0.32 | 0.0063 |
+| Win Big | 76-99 | 1.04 | 0.0392 | 0.25 | 0.0098 |
+*   **Sum $E[\ln(X)]$:** **0.0042**
+*   **Annual Price Drift:** **4.594x**
+
+### Stock splitting
+
+Since the engine truncates integers, we cannot do fracitonal trading, this creates 2 problems:
+1) divide by zero when calculating returns from a stock that has dropped to 0 value
+2) liquidity. Prices that exceed 10k impact flexicility and locks out small investment
+
+To solve this the system simulates **Neutral Stock Splits** (*Fama et al., 1969*) to a target price of 1000 credit/stock. This means market cap doesnt change but the UX is betetr. This very much happens IRL, for example Apple has done 5 stock splits in its history. 
+
+Implementation:
+
+On landing, the system checks if any stock price is above 10,000 or below 100. If so, it applies the appropriate split and adjusts the user's shares accordingly.This is done only on landing not live as you trade because its more realistic and also would be a bitch to code otherwise.
+
+*   **Forward Split (Trigger: Price $\ge 10,000$):**
+    *   `Price = Price % 10`
+    *   `UserShares = UserShares * 10`
+*   **Reverse Split (Trigger: Price $\le 100$):**
+    *   `Remainder = UserShares % 10` 
+    *   `Price = Price * 10`
+    *   `UserShares = UserShares / 10`
+
+TThe engine rounding down craetes capital losses every time a split occurs, forward or backwards. This simulates administration fees (read: the developper is coping).
+
+## Appendix D: Liquidity Friction Model
+
+This model simulates the reality that every transaction physically alters the stock market by consuming liquidity and shifting the price. This extra bit ensures the player has different experiences at different wealth scales
+
+Because the engine lacks a floating-point unit and rtracking TSO is stateful annoyance, we employ a **Cumulative Notional Linear Friction** model based on the permanent impact component of the Almgren-Chriss framework.  In Layman's terms: stocks usually only trade a certain dolalr volume per day (notional value) on the entire market, the more of that daily limit you trade the more you move the price against yourself. Thie code uses a scaling factor this is resistant to the share splitting mechanic above because it uses notional value (credits traded) rather than shares traded as the input for the price impact calculation.
+
+### The Musk-NVIDIA Anchor
+
+To ground the simulation in real-world wealth concentration while adhering to the **8 Trillion Credit** (2 Quaernans) individual soft wealth cap, we apply a real world ratio:
+
+*   **Richest man On Earth (2026):** Elon Musks's net worth is estimated at $800 Billion USD.
+*   **Company with the largest market cap (2026):** NVIDIA at $4.82 Trillion USD. 
+*   **The Ratio:** $4.82T / 0.8T = \mathbf{6.025}$. The largest interstellar shipyard is roughly 6x wealthier than the wealthiest human.
+*   **Galactic Application:** $8\text{ Trillion Credits} \times 6.025 = \mathbf{48.2\text{ Trillion Credits}}$.
+*   **Equity Baseline:** At 1,000 credits per share, a Large Corp has **48,20,000,000 (48.2 Billion) Total Shares Outstanding (TSO).**
+| **Daily Average Vol (ADV)** | $96,400,000,000$ | **0.2% Liquidity-to-Cap Ratio**. Standard for IRL hufge companies
+
+I chose $8T arbitrarily but to be honest there is literally no reason to buy 2 Quaernans. One is enough to destroy the entire galaxy multiple times over.
+
+### Friction Constant Derivation
+
+The Almgren-Chriss model (*Almgren & Chriss, 2000*) defines the permanent price impact of a trade equal to 100% of the ADV as **2% (200 bps)**. this means if you somehow traded the entire daily volume of a stock in one go, you would move the price by 2%. 
+
+Applying the Macroeconimic Multiplier ($15.627$):
+$$\text{Target Impact} = 0.02 \times 15.627 = \mathbf{31.254\%}\text{ (31254 bps)}$$
+
+At the simulation’s anchor price of $1,000$ credits:
+$$\text{Unit Move} = 1,000 \times 0.31254 = \mathbf{312.54 \text{ units}}$$
+
+$C$ represents the Credits required per $1$ unit of price movement:
+$$C = \text{ADV} / \text{Unit Move} = 96,400,000,000 / 312.54 \approx \mathbf{308,440,520}$$
+**Engine Implementation Value:** **$308,440,520$**.
+
+TLDR: trading 308 million credits of stock on a single day will move its price by 1 credit. this works in both directions regardless of split
+
+### Way too much math
+
+We implement a bastard cousin of the **Permanent Impact Component ($\gamma$)** of **Kyle’s Lambda** (*Kyle, 1985*) and **Almgren-Chriss** (*2000*), adapted for Notional Value. To properly model market dynamics.
+
+Combiunation of reactive and practive appprach The price updates via friction after the trade to keep in simple(reactive approach) this does open up a prtentila pump and dump exploit but the proactive spread is a bitch to code 
+
+Engine limitations also actively forbid the elastic component of Kyle, in real life, large trades experience slip, which is a fancy way to say that the price changes as the trade executes obviously I can't code any of that or more accurately can't be bothered to.
+
+simpler is better. We just need to apply a hardcoded bid ask spread and call it a day. this tansform an exzploit to something we intended irl the difference means the delta between the buy and sell price of a stock. MArket makers like GCI make bank just by executing the trade and pocketing that difference.
+
+The system maintains state variables per stock, reset at the start of each simulated day (on landing):
+*   `{abbr)_daily_traded_volume` (Initial: 0 credits)
+*   `bid_ask_spread` = **2.51%** (Multiplier for proactive cost)
+
+To bypass PEMDAS and maintain integer integrity, the logic must be executed as a linear sequence of single operations.
+
+### **PROCEDURAL EXECUTION (BUY)**
+1. `BEFORE = {abbr)_daily_traded_volume / 308440520`
+2. `ASK = price * 10251`
+3. `ASK = ASK / 10000`
+4. `VALUE = ASK * shares`
+5. `CAP = 96400000000 - {abbr)_daily_traded_volume`
+6. IF VALUE > CAP: VALUE = CAP
+7. `{abbr)_daily_traded_volume = {abbr)_daily_traded_volume + VALUE`
+8. `AFTER = {abbr)_daily_traded_volume / 308440520`
+9. `IMPACT = AFTER - BEFORE`
+10. `price = price + IMPACT`
 
 
-*A price floor is hardcoded at 100 credits to avoid bankruptcy loops.*
+### **PROCEDURAL EXECUTION (SELL)**
+1. `BEFORE = {abbr)_daily_traded_volume / 308440520`
+2. `BID = price * 9749`
+3. `BID = BID / 10000`
+4. `VALUE = BID * shares`
+5. `CAP = 96400000000 - {abbr)_daily_traded_volume`
+6. IF VALUE > CAP: VALUE = CAP
+7. `{abbr)_daily_traded_volume = {abbr)_daily_traded_volume + VALUE`
+8. `AFTER = {abbr)_daily_traded_volume / 308440520`
+9. `IMPACT = AFTER - BEFORE`
+10. `price = price - IMPACT`
 
-For some damn reason this code sets a floor properly
 
-```txt
-				"stock value Lionheart Shipyards" >= 100
-			action
-				"stock value Lionheart Shipyards" = 100
-			label "updated Lionheart Shipyards"
-```
 
-while this sets a ceiling
 
-```txt
-				"stock value Lionheart Shipyards" <= 100
-			action
-				"stock value Lionheart Shipyards" = 100
-			label "updated Lionheart Shipyards"
-```
+### **7. BID-ASK SPREAD DERIVATION & PROFITABILITY**
+the diference betweeb the buy and sell prioce was carefully chosen so that the max you can return in a single day via market manipulation is 5%
 
-I don't get it either
+numbers were derived using a python script
+
+| Daily ROI Target | Budget Required (Credits) | % of Daily ADV |  
+| :--- | :--- | :--- | 
+| **-24.8%** | $925,321,559$ | 0.96% | *|
+| **0.0% (Break-even)** | **$77,418,570,423$** | 80.31% |  
+| **1.0% ROI** | **$80,502,975,619$** | 83.51% |  
+| **2.0% ROI** | **$83,587,380,815$** | 86.71% | 
+| **3.0% ROI** | **$86,671,786,011$** | 89.91% | 
+| **4.0% ROI** | **$89,756,191,208$** | 93.11% | 
+| **5.0% ROI** | **$92,840,596,404$** | 96.31% | 

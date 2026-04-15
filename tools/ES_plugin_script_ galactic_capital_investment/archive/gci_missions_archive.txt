@@ -27,24 +27,23 @@ mission "Galactic Capital Intro A"
 	on offer
 		conversation
 			scene "scene/gci_sci-fi_bank"
-			`On your way to the Space port, you make a stop at the bank. As you wait for your turn, a well-dressed man approaches you.`
-			`"Captain <last>, my name is Warren Goulding, fund manager at 'Galactic Capital Investment', and I'm happy to finally meet you. Do you have a moment?"`
+			`On the way to the spaceport you stop at the local bank to check your finances. While looking at the big numbers on your account statement, you remember your career start. The debts which looked so big and frightening, rushing from one contract to the next, sometimes just to pay the interest rates. And now... you are on the winner side. Suddenly a bank employee appears right next to you.`
+			`"Captain <last>, my name is Warren Goulding, I'm an investment manager of 'Galactic Capital Investment', and I'm happy to finally meet you. We need to talk about your recent financial situation."`
 			choice
-				`		"Is there something wrong with my account?"`
+				`		"Is there something wrong with my account? Am I in trouble?"`
 					goto notrouble
-				`		"Hands up, this is robbery!"`
+				`		"Hands up, this is a bank robbery!"`
 					goto robbery
 			label notrouble
-			`"No, no, it's the opposite."`
+			`"No, no, don't worry, it's the opposite."`
 				goto toearth
 			label robbery
-			`Warren Goulding starts laughing out loud.`
-			`"Captain <last> unfortunately, one can't rob a purely digital bank."`
-			`"But... we can fund a pirate fleet for you."`
+			`Warren Goulding looks irritated, then he starts laughing out loud.`
+			`"Captain <last>, you are a very funny person. Sure you know you can't rob a purely digital bank."`
+			`"But..." he looks around conspiratorially, "we can fund a pirate fleet for you." He starts laughing again. After a while he calms down, still smiling.`
 				goto toearth
 			label toearth
-			`"I wanted to personally congratulate you for becoming a premium customer, you are now eligible for highly lucrative private market investments."` 
-			`Here is my card. Please drop by our headquarters next time you visit Earth."`
+			`"With your enormous financial resources, you are now a premium customer. We would like to offer you highly profitable investment opportunities. Unfortunately, I'm in a rush at the moment. Please meet me at 'Galactic Capital Investment' headquarters on Earth."`
 				accept
 	on complete
 		conversation
@@ -62,12 +61,19 @@ mission "Galactic Capital Intro B"
 			scene "scene/gci_galactic_capital"
 			`After a ten-minute train ride you arrive at 'Galactic Capital Investment'. It is the largest bank in human space, and their headquarters reflect that very well. You see six skyscrapers distributed over several square kilometers and a giant glass pyramid that dominates the center of the complex. Everywhere are parks, paths through it, modern weatherproof art installations and thousands of people, mostly in business dresses.`
 			`Twenty minutes later, you reach the office of Warren Goulding. "Captain <last>, welcome to our headquarters. Please take a seat."`
-			`"We offer our premium customers regular investment opportunities in small but established companies. Our analysts review each business plan carefully, to target a payback within months with low risk.` 
-				`	"Tell me more."`
+			`"We offer our premium customers regularly investment possibilities in small but established companies. With an investment of one to several million credits you can generate a daily income which pays off the investment in around four years. Our analysts check these companies and their business plans very carefully, so that there is no risk for you. Of course, we take a small part of the profit for us. Your success is our success. Our services are available in human, Quarg and Hai space."`
+			choice
+				`	"That sounds great."`
 					goto letscontinue
-
+				`	"What and where is 'Hai space?'"`
+					goto haispace
+				`	"Hands up, this is a bank robbery!"`
+					goto robbery
+			label haispace
+			`"Ehm...errr... did I say 'Hai space'? Hmmm that's the german word for 'shark' and I meant the core worlds with that. You know, where the hard business happens." Nervously, he continues doing business.`
+				goto letscontinue
 			label robbery
-			`Goulding chuckles politely beofre continuing his pitch. `
+			`Goulding starts to laugh, he really seems to like this joke. After he calms down he continues doing business. `
 				goto letscontinue
 			label letscontinue
 			`"I already prepared an investment plan for you. Please take a look."`
@@ -75,9 +81,9 @@ mission "Galactic Capital Intro B"
 			`Investment:	`
 			`	1.000.000 credits`
 			`Daily yield:`
-			`	6,700 credits`
-			`Payback target:`
-			`	about 150 days`
+			`	274 credits`
+			`Interest:`
+			`	10% per year`
 			` `
 			`"You don't have to take this investment, because we'll offer you more opportunities in the future. So, do you want to invest now?"`
 			choice
@@ -86,14 +92,14 @@ mission "Galactic Capital Intro B"
 				`	(Don't sign the contract.)`
 					goto nomoney
 			label money
-			`"Great. I will send a message when I have another investment for you. Remember to check the job board. Your success is our success" You say goodbye to Mr. Goulding and leave his office.`
+			`"Great. I will send a message when I have another investment for you. Remember to check the job board." You say goodbye to Mr. Goulding and leave his office.`
 				accept
 			label nomoney
-			`"Yes, it is a lot of money. I can understand that. I will send a message when I have other investments for you.  Maybe you will change your mind. Remember to check the job board. Your success is our success." You say goodbye to Mr. Goulding and leave his office.`
+			`"Yes, it is a lot of money. I can understand that. I will send a message when I have other investments for you.  Maybe you will change your mind. Remember to check the job board." You say goodbye to Mr. Goulding and leave his office.`
 				decline
 	on accept
 		payment -1000000
-		"salary: Galactic Capital" += 6700
+		"salary: Galactic Capital" += 274
 	on daily
 		fail
 
@@ -142,11 +148,10 @@ mission "Galactic Capital Colonize 2"
 	on offer
 		conversation
 			scene "scene/gci_galactic_capital"
-			`When you leave your spaceship, one of Goulding's assistants is waiting for you and escorts you to the headquarters of Galactic Capital Investment.`
-			`The assistant leads you into a large conference room, where you are greeted effusively by Warren Goulding and a horde of suits. After everyone is seated, Goulding begins his presentation.`
-			`"Human colonization of space has been stagnant for centuries. We've already colonized pretty much every world within reach and the ones that remain require expensive terraforming.`
-			`On the edge of the Dirt Belt lies a small world called Sapphire that is almost perfect for humans. The only problem is the extremely poisonous native insects. Until now, this paradise-like world could only be visited by science crews.`
-			`Galactic Capital Investment supported an up-and-coming genetic engineering company a few decades ago, whose research is now paying off. A few months ago we started eradicating these insects with a tailor-made virus and are now completely successful with that. Colonization can now begin. We have invited many large investors to participate in this project. I must admit that the investment is significant, but our analysts expect the first distribution of profits after roughly 8 to 12 months."`
+			`When you leave your spaceship, one of Goulding's assistants is waiting for you and escorts you to the headquarters of Galactic Capital Investment. The assistant leads you into a large conference room, where you are greeted effusively by Warren Goulding and a horde of bankers. After you and everyone else are seated, Goulding begins his presentation.`
+			`"As you probably know, human colonization of space has been stagnant for centuries. That's because we've already colonized pretty much every world within reach. The worlds that remain now require expensive terraforming and are generally too dangerous for humans. So it's not worth it.`
+			`On the edge of the Dirt Belt lies a small world called Sapphire that is almost perfect for humans. The only problem is a native, numerous, species of ant-like extremely poisonous insects. That's why this paradise-like world has been avoided until now, or only visited by well-protected researchers.`
+			`Galactic Capital Investment supported an up-and-coming genetic engineering company a few decades ago, whose research is now paying off. A few months ago we started eradicating these insects with a tailor-made virus and are now completely successful with that. Colonization can now begin. We have invited many large investors to participate in this project. I must admit that the investment is significant, but our analysts assured me that the first distribution of profits will occur after 1 to 1.5 years, and pay off after about 3 years."`
 			`Goulding starts sweating.`
 			`"To participate in this venture we need 500 million credits from you."`
 			`He's actually sweating a lot now.`
@@ -364,14 +369,14 @@ mission "Galactic Capital Colonize 9"
 	to offer
 		has "Galactic Capital Colonize 8: done"
 	on offer
-		"salary: Galactic Capital" += 10000000
+		"salary: Galactic Capital" += 410958
 		outfit "Golden Figurine"
 		conversation
 			scene "scene/gci_big_city"
 			`Sapphire has changed significantly. The spaceport has gotten bigger, and it's filled with people. At an information stand you find out that there are twelve larger cities and hundreds of small settlements, and the population is approaching the 100 million mark. On the way to Galactic Capital Investment's planetary headquarters, you see a lot of activity everywhere. This is what a rising world looks like. The headquarters of Galactic Capital Investment is also very impressive and is one of the first few skyscrapers here. When you enter Goulding's office you are greeted warmly.`
 			`"<first>, I'm glad to see you here." Goulding smiles.`
 			`"Everything is developing splendidly. More than splendidly! We got this venture up and running in record time and now there's nothing left to do. We can enjoy the fruits of our labor. That's why I asked you here. Let's talk about the distribution of profits."`
-			`"The numbers are much better than our analysts predicted. As one of our first investors, you will also be the first to receive a share of the profits. From now on, the planetary government will transfer you around 10 million credits every day! This means that in 100 days you've fully recovered your investment. After that, all that's left is profit!" Goulding smiles even wider.`
+			`"The numbers are much better than our analysts predicted. As one of our first investors, you will also be the first to receive a share of the profits. From now on, the planetary government will transfer you around 400 thousand credits every day! This means that in 5 years you've fully recovered your investment. After that, all that's left is profit!" Goulding smiles even wider.`
 			`"Please <first>, take some time and take a vacation, maybe even here. Sapphire has some really beautiful sights."`
 			`"Before you go, I have something for you, nothing special, just a small gift to celebrate our success here." he hands you a golden figurine of a credit symbol.`
 			`After more small talk, you say goodbye. Before you head out, Goulding mentions that he may come back to you with more investments like this in the future. When you get to the ship, you ask yourself what you should do now.`

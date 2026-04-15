@@ -1,20 +1,15 @@
-### expert.crew.members
-<br>
-<br>
-Adds unique crew members, aquireable through spaceport missions. These crew members are technically outfits which require a bunk and a salary, but no outfit space or mass. They add, depending on their technology field, stats to your ship. Like shield regeneration, more thrust, more cargo etc.<br>
-<br>
-Currently there are 100 expert crew members. Visit spaceports with an outfitter to find the missions(4% chance). In every of the following regions  you can find 5 experts: Rim, South, Dirt Belt, Deep, Near Earth, Core, North, Paradise, Hai, Bunrodea(after first contact), Remnant, Wanderer(after translation device), Kor Efret(after Rek went to the Kor Efret), Gegno, Successor, Avgi(after first contact), Incipias, Arachi, Kimek, Saryd(last 3 after coalition first contact).<br>
-Their technology fields are: combat(10) cooling(10) energy(10) engine(10) fuel(10) hull(10) jamming(10) scanner(10) shield(9) storage(10).<br>
-In case you can't afford their daily wage you can store them at the outfitter without daily costs.<br>
-They have the positive stats of a small human outfit, at the cost of a bunk and a daily salary of 200 to 500 credits. On a small ship they make a huge difference, while on a heavy warship the stats are minor.<br>
-If you collect them all, you'll get a special mission.<br>
-See <a href='https://github.com/zuckung/endless-sky-plugins/blob/main/myplugins/expert.crew.members/crew.list.txt'>crew.list.txt</a> of this plugin for locations, and stat infos.<br>
-<br>
 <br>
 Changelog:<br>
 <br>
-2026-04-28<br>
-fixed new plural errors from ES 0.11.1<br>
+2025-04-16<br>
+By @vibqetowi
+
+Changed spawn probability to 4.0% to align with 8 year timeline (using 95% confidence interval on a Poisson distribution).
+
+Reduced the salary by 10x to account for objectively bad ROI compared to buying small outfits outright (paying for space premium is reasonable but original 2k-5k is too much in my opinion)
+
+@zuckung slowly lowered chances for balance reasons but I disagree. Most people won't really exceed eight years of game time and expert crews make the most difference in early game.
+
 <br>
 2025-06-25<br>
 used wrong script on last update, incipias and expertcounter were messed up, fixed<br>
