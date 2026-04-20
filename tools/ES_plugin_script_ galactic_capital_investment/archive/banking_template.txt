@@ -62,7 +62,7 @@ mission "gci banking terminal"
 			`	&[deposit] credits (&[available] credits available, with daily transfer subtracted)`
 			`	&[dailyincome] credits daily interest (4% p.a.) + &[salary: Galactic Capital Transfer] credits daily cash transfer`
 			``
-			`Daily investment salary to your cash chip: &[salary: Galactic Capital] credits`
+			`Daily investment salary to your cash chip: &[salary: GCI Private Markets] credits`
 			`Stock depot value: &[stocktotalvalue] credits (12% p.a. but risky, quarterly paid)`
 			`Family trust: &[global: familytrust] credits (for all pilots, 0% p.a.)`
 			``
@@ -479,7 +479,7 @@ mission "gci banking terminal"
 			`Cash chip:`
 			`	&[credits] credits`
 			`Investment salary:`
-			`	&[salary: Galactic Capital]`
+			`	&[salary: GCI Private Markets]`
 			``
 			choice
 				`	[sell investment of 100,000 daily credits for 220,000,000 credits]`

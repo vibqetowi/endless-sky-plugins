@@ -49,7 +49,8 @@ mission "Galactic Capital Intro B"
 		conversation
 			scene "scene/gci_galactic_capital"
 			`Fitting the largest bank in human space, GCI headquarters is a towering pyramid of glass and polished stone. You are escorted to Warren Goulding's office.`
-			`"Let's get to business. We offer exclusive Private Equity allocations. Our analysts identify undervalued assets, deploy seed capital, and our partners collect a risk-adjusted yield."`
+			`"Take a seat Captain <last>, let's get to business. We offer exclusive Private Equity allocations to discerning individuals like yourself."`
+			`"Our analysts identify undervalued assets not listed on public markets, deploy seed capital, increase revenue, and our investors collect a guaranteed daily yield."`
 			choice
 				`	(Nod)`
 					goto nod

@@ -28,7 +28,7 @@ def set_globals():
 	fsource = 'crew.list.txt' # input
 	foutfits = 'outfits.txt' # output
 	fmissions = 'missions.txt' # output
-	percent = 93 # mission chance
+	percent = 4 # mission chance
 	names, fields, locations, races, sexes, images, money, stat1, stat2, stat3, saveedit1, saveedit2, saveedit3, sourcelines = [], [], [], [], [], [], [], [], [], [], [], [], [], []
 
 
@@ -291,7 +291,7 @@ def write_files():
 					missions_file.writelines('\tto offer\n')
 					if tooffer != '':
 						missions_file.writelines(tooffer)
-					missions_file.writelines('\t\trandom > ' + str(percent) + '\n')
+					missions_file.writelines('\t\trandom <= ' + str(percent) + '\n')
 					missions_file.writelines('\ton decline\n')
 					missions_file.writelines('\t\toutfit "' + fields[index] + ' ' + names[index] + '" 1\n')
 					missions_file.writelines('\ton offer\n')

@@ -17,19 +17,8 @@ DIVIDEND_TIERS =[1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 
 STOCK_TIERS =[10000000000, 1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1]
 MONEY_TIERS =[1000000000000, 100000000000, 10000000000, 1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1]
 
-FRICTION = {
-	10000000000: {"buy": 1636644, "sell": 363356},
-	1000000000:  {"buy": 1201325, "sell": 798675},
-	100000000:   {"buy": 1063664, "sell": 936336},
-	10000000:	{"buy": 1020132, "sell": 979868},
-	1000000:	 {"buy": 1006366, "sell": 993634},
-	100000:	  {"buy": 1002013, "sell": 997987},
-	10000:	   {"buy": 1000637, "sell": 999363},
-	1000:	   {"buy": 1000201, "sell": 999799}
-}
-
 def fmt(n):
-	mapping = {
+	mapping = {	
 		1000000000000: "1 trillion",
 		100000000000: "100 billion",
 		10000000000: "10 billion",
@@ -46,7 +35,9 @@ def fmt(n):
 	}
 	return mapping.get(n, str(n))
 
-def gen_fluctuation(stock, indent="\t\t\t\t"):		
+base_indent="\t\t\t\t"
+
+def gen_fluctuation(stock):		
 	name = stock['name']
 	is_div = stock['type'] == 'Dividend'
 	m_base = "10200" if is_div else "10400"
@@ -59,63 +50,71 @@ def gen_fluctuation(stock, indent="\t\t\t\t"):
 	m5 = "10100" if is_div else "10200"
 	lbl = "dividend" if is_div else "growth"
 	
-	return f"""{indent[:-1]}action
-{indent}"stock roll {name}" = "roll: 100"
-{indent}"stock multiplier {name}" = {m_base}
-{indent[:-1]}branch "{lbl} roll 1 {name}"
-{indent}"stock roll {name}" == 1
-{indent[:-1]}branch "{lbl} roll 2 {name}"
-{indent}"stock roll {name}" <= {r2}
-{indent[:-1]}branch "{lbl} roll 3 {name}"
-{indent}"stock roll {name}" <= {r3}
-{indent[:-1]}branch "{lbl} roll 4 {name}"
-{indent}"stock roll {name}" <= {r4}
-{indent[:-1]}branch "{lbl} roll 5 {name}"
-{indent}"stock roll {name}" <= {r5}
-{indent[:-1]}branch "apply {name}"
-{indent[:-1]}label "{lbl} roll 1 {name}"
-{indent[:-1]}action
-{indent}"stock multiplier {name}" = 8874
-{indent[:-1]}branch "apply {name}"
-{indent[:-1]}label "{lbl} roll 2 {name}"
-{indent[:-1]}action
-{indent}"stock multiplier {name}" = {m2}
-{indent[:-1]}branch "apply {name}"
-{indent[:-1]}label "{lbl} roll 3 {name}"
-{indent[:-1]}action
-{indent}"stock multiplier {name}" = {m3}
-{indent[:-1]}branch "apply {name}"
-{indent[:-1]}label "{lbl} roll 4 {name}"
-{indent[:-1]}action
-{indent}"stock multiplier {name}" = 10000
-{indent[:-1]}branch "apply {name}"
-{indent[:-1]}label "{lbl} roll 5 {name}"
-{indent[:-1]}action
-{indent}"stock multiplier {name}" = {m5}
-{indent[:-1]}label "apply {name}"
-{indent[:-1]}action
-{indent}"stock value {name}" = "stock value {name}" * "stock multiplier {name}" / 10000
-{indent[:-1]}branch "floor check {name}"
-{indent}"stock value {name}" >= 100
-{indent[:-1]}action
-{indent}"stock value {name}" = "stock value {name}" = 1000
-{indent}"stock amount {name}" = "stock amount {name}" % 10
-{indent[:-1]}label "floor check {name}"
-{indent[:-1]}branch "ceil check {name}"
-{indent}"stock value {name}" <= 10000
-{indent[:-1]}action
-{indent}"stock value {name}" = "stock value {name}" = 1000
-{indent}"stock amount {name}" = "stock amount {name}" * 10
-{indent[:-1]}label "ceil check {name}"
+	return f"""{base_indent[:-1]}action
+{base_indent}"stock roll {name}" = "roll: 100"
+{base_indent}"stock multiplier {name}" = {m_base}
+{base_indent[:-1]}branch "{lbl} roll 1 {name}"
+{base_indent}"stock roll {name}" == 1
+{base_indent[:-1]}branch "{lbl} roll 2 {name}"
+{base_indent}"stock roll {name}" <= {r2}
+{base_indent[:-1]}branch "{lbl} roll 3 {name}"
+{base_indent}"stock roll {name}" <= {r3}
+{base_indent[:-1]}branch "{lbl} roll 4 {name}"
+{base_indent}"stock roll {name}" <= {r4}
+{base_indent[:-1]}branch "{lbl} roll 5 {name}"
+{base_indent}"stock roll {name}" <= {r5}
+{base_indent[:-1]}branch "apply {name}"
+{base_indent[:-1]}label "{lbl} roll 1 {name}"
+{base_indent[:-1]}action
+{base_indent}"stock multiplier {name}" = 8874
+{base_indent[:-1]}branch "apply {name}"
+{base_indent[:-1]}label "{lbl} roll 2 {name}"
+{base_indent[:-1]}action
+{base_indent}"stock multiplier {name}" = {m2}
+{base_indent[:-1]}branch "apply {name}"
+{base_indent[:-1]}label "{lbl} roll 3 {name}"
+{base_indent[:-1]}action
+{base_indent}"stock multiplier {name}" = {m3}
+{base_indent[:-1]}branch "apply {name}"
+{base_indent[:-1]}label "{lbl} roll 4 {name}"
+{base_indent[:-1]}action
+{base_indent}"stock multiplier {name}" = 10000
+{base_indent[:-1]}branch "apply {name}"
+{base_indent[:-1]}label "{lbl} roll 5 {name}"
+{base_indent[:-1]}action
+{base_indent}"stock multiplier {name}" = {m5}
+{base_indent[:-1]}label "apply {name}"
+{base_indent[:-1]}action
+{base_indent}"stock value {name}" = "stock value {name}" * "stock multiplier {name}" / 10000
+{base_indent[:-1]}branch "floor check {name}"
+{base_indent}"stock value {name}" >= 100
+{base_indent[:-1]}action
+{base_indent}"stock value {name}" *= 10
+{base_indent}"stock amount {name}" /=  10
+{base_indent[:-1]}label "floor check {name}"
+{base_indent[:-1]}branch "ceil check {name}"
+{base_indent}"stock value {name}" <= 10000
+{base_indent[:-1]}action
+{base_indent}"stock value {name}" /= 10
+{base_indent}"stock amount {name}" *= 10
+{base_indent[:-1]}label "ceil check {name}"
 \n"""
 
 BASE_TEMPLATE = """# See ES_plugin_script_galactic_capital_investment.py for the code that generates this script.
-	mission "gci banking account initial"
+
+mission "gci init"
 	non-blocking
 	invisible
 	landing
+	repeat
+	to offer
+		or
+			"stock value Delta V = 0"
+			not "gci init: failed"
 	on offer
 		lastvisit = "days since start"
+		"stock last day" = "days since start"
+%SETUP_VARS%
 		fail
 
 mission "gci banking account update"
@@ -124,24 +123,12 @@ mission "gci banking account update"
 	repeat
 	landing
 	to offer
-		has "gci banking account initial: failed"
+		has "gci init: failed"
 	on offer
 		datedifference = "days since start" - lastvisit
 		lastvisit = "days since start"
 		dailyincome = deposit * 149 / 100000 - "salary: Galactic Capital Transfer"
 		deposit += datedifference * dailyincome
-		fail
-
-mission "gci stock setup"
-	landing
-	invisible
-	repeat
-	to offer
-		"stock value Delta V" = 0
-	on offer
-		action
-			"stock last day" = "days since start"
-%SETUP_VARS%
 		fail
 
 mission "gci stock dividends"
@@ -192,14 +179,14 @@ mission "gci banking terminal"
 	name "Galactic Capital Investment"
 	color selected "gci job: selected"
 	color unselected "gci job: unselected"
-	description "Access to your savings account, family trust, cash withdrawals, and investments."
+	description "Smart Captains invest their money."
 	job
 	repeat
 	"apparent payment" 99999999999999999999999999999999
 	"offer precedence" 9999999
 	priority
 	to offer
-		has "gci banking account initial: failed"
+		has "gci init: failed"
 	on accept
 		conversation
 			action
@@ -214,7 +201,6 @@ mission "gci banking terminal"
 			label "calculations end"
 			action
 				"stock last day" = "days since start"
-
 			label singleline
 				goto menu
 			label menu
@@ -227,19 +213,19 @@ mission "gci banking terminal"
 				stockroute = 1
 			goto "calc stocktotal"
 			label "calc stocktotal return menu"
-				action
+			action		
 %TOTAL_PRINCIPAL_ACTIONS%
-					"current_val_total" = "stocktotalvalue"
-				branch "calc total roi"
-					"total_principal" > 0
-				action
-					"total_up_alltime" = 0
-				branch "calc total roi end"
-				label "calc total roi"
-				action
-					"total_roi" = "current_val_total" * 100 / "total_principal"
-					"total_up_alltime" = "total_roi" - 100
-				label "calc total roi end"
+				"current_val_total" = "stocktotalvalue"
+			branch "calc total roi"
+				"total_principal" > 0
+			action
+				"total_up_alltime" = 0
+			branch "calc total roi end"
+			label "calc total roi"
+			action
+				"total_roi" = "current_val_total" * 100 / "total_principal"
+				"total_up_alltime" = "total_roi" - 100
+			label "calc total roi end"
 
 			`Welcome to "Galactic Capital Investment Service"! Your last visit is &[datedifference] day/s ago.`
 			``
@@ -249,10 +235,9 @@ mission "gci banking terminal"
 			`	&[deposit] credits`
 			`	&[dailyincome] credits daily interest + &[salary: Galactic Capital Transfer] credits daily cash withdrawals`
 			``
-			`Daily investment salary to your cash chip: &[salary: Galactic Capital] credits`
-			`Stock portfolio value: &[stocktotalvalue] credits`
+			`Daily investment salary to your cash chip: &[salary: GCI Private Markets] credits`
+			`Stock Portfolio value: &[stocktotalvalue] credits (up &[total_up_alltime]% all-time)`
 			`Family trust: &[global: familytrust] credits (0% monthly, for all pilots)`
-			`GCI Portfolio Performance: Up &[total_up_alltime]% All-Time`
 			``
 			choice
 				`	[access to your savings account]`
@@ -304,8 +289,7 @@ mission "gci banking terminal"
 			branch "menu"
 
 			label "calc stocktotal"
-			action
-%CALC_STOCKTOTAL_MATH%
+			%CALC_STOCKTOTAL_BLOCK%
 			branch "calc stocktotal return menu"
 				stockroute == 1
 			branch "calc stocktotal return stockoverview"
@@ -327,12 +311,11 @@ mission "gci banking terminal"
 			`Welcome to Galactic Stock Exchange`
 			``
 			`Cash chip balance: &[credits]`
-			`Value of all owned stocks: &[stocktotalvalue] credits`
-			`Stock portfolio Performance: Up &[total_up_alltime]% All-Time`
+			`Portfolio Value: &[stocktotalvalue] credits (up &[total_up_alltime]% all-time)`
 			``
 			`Stock Categories:`
 			`  Dividend Stocks: These companies pay you a steady 1.22% cash dividend every month based on your share value.`
-			`  Growth Stocks: These companies do not pay dividends, but their share prices are more volatile. High risk, high reward.`
+			`  Growth Stocks: These companies do not pay dividends in exchange for potentially higher returns in share price.`
 			``
 			choice
 %STOCK_OVERVIEW_CHOICES%
@@ -369,69 +352,72 @@ def build_script():
 	# 1. SETUP_VARS
 	setup_vars = ""
 	for s in STOCKS:
-		setup_vars += f'\t\t\t"stock value {s["name"]}" = {s["init"]}\n'
-		setup_vars += f'\t\t\t"{s["abbr"]}_anchor_monthly" = {s["init"]}\n'
-		setup_vars += f'\t\t\t"stock amount {s["name"]}" = 0\n'
-		setup_vars += f'\t\t\t"{s["abbr"]}_avg_price" = 0\n'
+		setup_vars += f'{base_indent[:-2]}"stock value {s["name"]}" = {s["init"]}\n'
+		setup_vars += f'{base_indent[:-2]}"{s["abbr"]}_anchor_monthly" = {s["init"]}\n'
+		setup_vars += f'{base_indent[:-2]}"stock amount {s["name"]}" = 0\n'
+		setup_vars += f'{base_indent[:-2]}"{s["abbr"]}_avg_price" = 0\n'
+		setup_vars += f'{base_indent[:-2]}"{s["abbr"]}_daily_notional_volume" = 0\n'
 
 	# 2. DIVIDENDS
 	div_cond = ""
 	for s in STOCKS:
 		if s['type'] == 'Dividend':
-			div_cond += f'\t\t\t"stock amount {s["name"]}" > 0\n'
+			div_cond += f'{base_indent[:-1]}"stock amount {s["name"]}" > 0\n'
 		
 	div_fluc = ""
 	for s in STOCKS:
-		div_fluc += gen_fluctuation(s, "\t\t\t\t")
+		div_fluc += gen_fluctuation(s)
 
 	div_anchors = ""
 	for s in STOCKS:
-		div_anchors += f'\t\t\t\t"{s["abbr"]}_anchor_monthly" = "stock value {s["name"]}"\n'
+		div_anchors += f'{base_indent}"{s["abbr"]}_anchor_monthly" = "stock value {s["name"]}"\n'
 
 	div_math = ""
 	div_adds =[]
 	for s in STOCKS:
 		if s['type'] == 'Dividend':
-			div_math += f'\t\t\t\t"dividend {s["name"]}" = "stock amount {s["name"]}" * "stock value {s["name"]}" * 1217 / 100000\n'
+			div_math += f'{base_indent}"dividend {s["name"]}" = "stock amount {s["name"]}" * "stock value {s["name"]}" * 1217 / 100000\n'
 			div_adds.append(f'"dividend {s["name"]}"')
 		else:
-			div_math += f'\t\t\t\t"dividend {s["name"]}" = 0\n'
+			div_math += f'{base_indent}"dividend {s["name"]}" = 0\n'
 			div_adds.append(f'"dividend {s["name"]}"')
 
-	div_math += f'\t\t\t\t"stock dividends addi" = {" + ".join(div_adds)}\n'
-	div_math += '\t\t\t\t"stock all dividends" = "stock dividends addi"\n'
+	div_math += f'{base_indent}"stock dividends addi" = {" + ".join(div_adds)}\n'
+	div_math += f'{base_indent}"stock all dividends" = "stock dividends addi"\n'
 
 	div_wf = ""
 	for i in range(len(DIVIDEND_TIERS)):
 		tier = DIVIDEND_TIERS[i]
 		next_lbl = DIVIDEND_TIERS[i+1] if i + 1 < len(DIVIDEND_TIERS) else "done"
-		div_wf += f'\t\t\tlabel "dividends payment {tier}"\n'
-		div_wf += f'\t\t\tbranch "dividends payment {next_lbl}"\n'
-		div_wf += f'\t\t\t\t"stock dividends addi" < {tier}\n'
-		div_wf += f'\t\t\taction\n'
-		div_wf += f'\t\t\t\tpayment {tier}\n'
-		div_wf += f'\t\t\t\t"stock dividends addi" -= {tier}\n'
-		div_wf += f'\t\t\tbranch "dividends payment {tier}"\n\n'
+		div_wf += f'{base_indent[:-1]}label "dividends payment {tier}"\n'
+		div_wf += f'{base_indent[:-1]}branch "dividends payment {next_lbl}"\n'
+		div_wf += f'{base_indent}"stock dividends addi" < {tier}\n'
+		div_wf += f'{base_indent[:-1]}action\n'
+		div_wf += f'{base_indent}payment {tier}\n'
+		div_wf += f'{base_indent}"stock dividends addi" -= {tier}\n'
+		div_wf += f'{base_indent[:-1]}branch "dividends payment {tier}"\n\n'
 
 	div_disp = ""
 	for s in STOCKS:
 		rate = "1.22%" if s['type'] == 'Dividend' else "0%"
-		div_disp += f'\t\t\t`You hold &[stock amount {s["name"]}] "{s["name"]}" stocks at &[stock value {s["name"]}] credits each. Monthly dividend ({rate}): &[dividend {s["name"]}]`\n'
-		div_disp += f'\t\t\t\tto display\n'
-		div_disp += f'\t\t\t\t\t"stock amount {s["name"]}" > 0\n'
+		div_disp += f'{base_indent[:-1]}`You hold &[stock amount {s["name"]}] "{s["name"]}" stocks at &[stock value {s["name"]}] credits each. Monthly dividend ({rate}): &[dividend {s["name"]}]`\n'
+		div_disp += f'{base_indent}to display\n'
+		div_disp += f'{base_indent}\t"stock amount {s["name"]}" > 0\n'
 
 	# 3. TERMINAL FLUCTUATIONS
 	term_fluc = ""
 	for s in STOCKS:
-		term_fluc += gen_fluctuation(s, "\t\t\t\t")
+		term_fluc += f'{base_indent}"{s["abbr"]}_daily_notional_volume" = 0\n'
+	for s in STOCKS:
+		term_fluc += gen_fluctuation(s)
 
-	# 4. MATH TOTALS
-	total_principal_actions = '\t\t\t\t\t"total_principal" = 0\n'
+# 4. MATH TOTALS
+	total_principal_actions = f'{base_indent}"total_principal" = 0\n'
 	for s in STOCKS:
 		abbr = s['abbr']
 		name = s['name']
-		total_principal_actions += f'\t\t\t\t\t"{abbr}_cost_basis" = "{abbr}_avg_price" * "stock amount {name}"\n'
-		total_principal_actions += f'\t\t\t\t\t"total_principal" += "{abbr}_cost_basis"\n'
+		total_principal_actions += f'{base_indent}"{abbr}_cost_basis" = "{abbr}_avg_price" * "stock amount {name}"\n'
+		total_principal_actions += f'{base_indent}"total_principal" += "{abbr}_cost_basis"\n'
 
 	# 5. BANK MENUS (Omitted generic builders for brevity, preserving exact UI string)
 	bank_menus = ""
@@ -482,11 +468,11 @@ def build_script():
 			``
 			choice\n"""
 	for tier in MONEY_TIERS:
-		bank_menus += f'\t\t\t\t`\t[deposit {fmt(tier)} credits]`\n'
-		bank_menus += f'\t\t\t\t\tto display\n'
-		bank_menus += f'\t\t\t\t\t\t"credits" >= {tier}\n'
-		bank_menus += f'\t\t\t\t\tgoto d{tier}\n'
-	bank_menus += '\t\t\t\t`\t[back]`\n\t\t\t\t\tgoto linebankaccount\n'
+		bank_menus += f'{base_indent}`\t[deposit {fmt(tier)} credits]`\n'
+		bank_menus += f'{base_indent}\tto display\n'
+		bank_menus += f'{base_indent}\t\t"credits" >= {tier}\n'
+		bank_menus += f'{base_indent}\tgoto d{tier}\n'
+	bank_menus += f'{base_indent}`\t[back]`\n{base_indent}\tgoto linebankaccount\n'
 
 	for tier in MONEY_TIERS:
 		bank_menus += f'''			label d{tier}
@@ -518,11 +504,11 @@ def build_script():
 			``
 			choice\n"""
 	for tier in MONEY_TIERS:
-		bank_menus += f'\t\t\t\t`\t[withdraw {fmt(tier)} credits]`\n'
-		bank_menus += f'\t\t\t\t\tto display\n'
-		bank_menus += f'\t\t\t\t\t\tavailable >= {tier}\n'
-		bank_menus += f'\t\t\t\t\tgoto w{tier}\n'
-	bank_menus += '\t\t\t\t`\t[back]`\n\t\t\t\t\tgoto linebankaccount\n'
+		bank_menus += f'{base_indent}`\t[withdraw {fmt(tier)} credits]`\n'
+		bank_menus += f'{base_indent}\tto display\n'
+		bank_menus += f'{base_indent}\t\tavailable >= {tier}\n'
+		bank_menus += f'{base_indent}\tgoto w{tier}\n'
+	bank_menus += f'{base_indent}`\t[back]`\n{base_indent}\tgoto linebankaccount\n'
 
 	for tier in MONEY_TIERS:
 		bank_menus += f'''			label w{tier}
@@ -566,11 +552,11 @@ def build_script():
 			``
 			choice\n"""
 	for tier in MONEY_TIERS:
-		bank_menus += f'\t\t\t\t`\t[deposit {fmt(tier)} credits]`\n'
-		bank_menus += f'\t\t\t\t\tto display\n'
-		bank_menus += f'\t\t\t\t\t\t"credits" >= {tier}\n'
-		bank_menus += f'\t\t\t\t\tgoto td{tier}\n'
-	bank_menus += '\t\t\t\t`\t[back]`\n\t\t\t\t\tgoto linefamilytrust\n'
+		bank_menus += f'{base_indent}`\t[deposit {fmt(tier)} credits]`\n'
+		bank_menus += f'{base_indent}\tto display\n'
+		bank_menus += f'{base_indent}\t\t"credits" >= {tier}\n'
+		bank_menus += f'{base_indent}\tgoto td{tier}\n'
+	bank_menus += f'{base_indent}`\t[back]`\n{base_indent}\tgoto linefamilytrust\n'
 
 	for tier in MONEY_TIERS:
 		bank_menus += f'''			label td{tier}
@@ -593,11 +579,11 @@ def build_script():
 			``
 			choice\n"""
 	for tier in MONEY_TIERS:
-		bank_menus += f'\t\t\t\t`\t[withdraw {fmt(tier)} credits]`\n'
-		bank_menus += f'\t\t\t\t\tto display\n'
-		bank_menus += f'\t\t\t\t\t\t"global: familytrust" >= {tier}\n'
-		bank_menus += f'\t\t\t\t\tgoto tw{tier}\n'
-	bank_menus += '\t\t\t\t`\t[back]`\n\t\t\t\t\tgoto linefamilytrust\n'
+		bank_menus += f'{base_indent}`\t[withdraw {fmt(tier)} credits]`\n'
+		bank_menus += f'{base_indent}\tto display\n'
+		bank_menus += f'{base_indent}\t\t"global: familytrust" >= {tier}\n'
+		bank_menus += f'{base_indent}\tgoto tw{tier}\n'
+	bank_menus += f'{base_indent}`\t[back]`\n{base_indent}\tgoto linefamilytrust\n'
 
 	for tier in MONEY_TIERS:
 		bank_menus += f'''			label tw{tier}
@@ -656,11 +642,11 @@ def build_script():
 			``
 			choice\n"""
 	for tier in MONEY_TIERS:
-		bank_menus += f'\t\t\t\t`\t[transfer {fmt(tier)} credits of your daily interest]`\n'
-		bank_menus += f'\t\t\t\t\tto display\n'
-		bank_menus += f'\t\t\t\t\t\t"dailyincome" >= {tier}\n'
-		bank_menus += f'\t\t\t\t\tgoto t{tier}\n'
-	bank_menus += '\t\t\t\t`\t[back]`\n\t\t\t\t\tgoto linecashtransfer\n'
+		bank_menus += f'{base_indent}`\t[transfer {fmt(tier)} credits of your daily interest]`\n'
+		bank_menus += f'{base_indent}\tto display\n'
+		bank_menus += f'{base_indent}\t\t"dailyincome" >= {tier}\n'
+		bank_menus += f'{base_indent}\tgoto t{tier}\n'
+	bank_menus += f'{base_indent}`\t[back]`\n{base_indent}\tgoto linecashtransfer\n'
 
 	bank_menus += """			label linetransferb
 			``
@@ -681,11 +667,11 @@ def build_script():
 			``
 			choice\n"""
 	for tier in MONEY_TIERS:
-		bank_menus += f'\t\t\t\t`\t[transfer {fmt(tier)} credits back to your daily interest]`\n'
-		bank_menus += f'\t\t\t\t\tto display\n'
-		bank_menus += f'\t\t\t\t\t\t"salary: Galactic Capital Transfer" >= {tier}\n'
-		bank_menus += f'\t\t\t\t\tgoto b{tier}\n'
-	bank_menus += '\t\t\t\t`\t[back]`\n\t\t\t\t\tgoto linecashtransfer\n'
+		bank_menus += f'{base_indent}`\t[transfer {fmt(tier)} credits back to your daily interest]`\n'
+		bank_menus += f'{base_indent}\tto display\n'
+		bank_menus += f'{base_indent}\t\t"salary: Galactic Capital Transfer" >= {tier}\n'
+		bank_menus += f'{base_indent}\tgoto b{tier}\n'
+	bank_menus += f'{base_indent}`\t[back]`\n{base_indent}\tgoto linecashtransfer\n'
 
 	for tier in MONEY_TIERS:
 		bank_menus += f'''			label t{tier}
@@ -715,17 +701,17 @@ def build_script():
 			`Cash chip:`
 			`	&[credits] credits`
 			`Private market annuities:`
-			`	&[salary: Galactic Capital]`
+			`	&[salary: GCI Private Markets]`
 			``
 			choice\n"""
 	
 	for tier in MONEY_TIERS:
 		val = int(tier * 70)
-		bank_menus += f'\t\t\t\t`\t[sell investment of {fmt(tier)} daily credits for {fmt(val)} credits]`\n'
-		bank_menus += f'\t\t\t\t\tto display\n'
-		bank_menus += f'\t\t\t\t\t\t"salary: Galactic Capital" >= {tier}\n'
-		bank_menus += f'\t\t\t\t\tgoto si{tier}\n'
-	bank_menus += '\t\t\t\t`\t[back]`\n\t\t\t\t\tgoto menu\n'
+		bank_menus += f'{base_indent}`\t[sell investment of {fmt(tier)} daily credits for {fmt(val)} credits]`\n'
+		bank_menus += f'{base_indent}\tto display\n'
+		bank_menus += f'{base_indent}\t\t"salary: Galactic Capital" >= {tier}\n'
+		bank_menus += f'{base_indent}\tgoto si{tier}\n'
+	bank_menus += f'{base_indent}`\t[back]`\n{base_indent}\tgoto menu\n'
 
 	bank_menus += """			label "blood_money_lock"
 			`I wouldn't do that if I were you, Captain <last>.`
@@ -743,16 +729,31 @@ def build_script():
 				goto sellinvestment\n'''
 		
 	# 6. CALC STOCKTOTAL
-	calc_stock_math = ""
+	calc_stocktotal_block = f'{base_indent[:-1]}action\n'
+	calc_stock_math_simple = ""
 	for s in STOCKS:
-		calc_stock_math += f'\t\t\t\t"val {s["abbr"]}" = "stock amount {s["name"]}" * "stock value {s["name"]}"\n'
-		calc_stock_math += f'\t\t\t\t"{s["name"]} up monthly" = "stock value {s["name"]}" * 100 / "{s["abbr"]}_anchor_monthly"\n'
-		calc_stock_math += f'\t\t\t\t"{s["name"]} up monthly" -= 100\n'
-	calc_stock_math += '\t\t\t\tstocktotalvalue = ' + ' + '.join([f'"val {s["abbr"]}"' for s in STOCKS]) + '\n'
+		abbr = s['abbr']
+		name = s['name']
+		calc_stocktotal_block += f'{base_indent}"val {abbr}" = "stock amount {name}" * "stock value {name}"\n'
+		calc_stock_math_simple += f'{base_indent}"val {abbr}" = "stock amount {name}" * "stock value {name}"\n'
+		calc_stocktotal_block += f'{base_indent[:-1]}branch "calc up monthly zero {abbr}"\n'
+		calc_stocktotal_block += f'{base_indent}"{abbr}_anchor_monthly" == 0\n'
+		calc_stocktotal_block += f'{base_indent[:-1]}branch "calc up monthly div {abbr}"\n'
+		calc_stocktotal_block += f'{base_indent[:-1]}action\n'
+		calc_stocktotal_block += f'{base_indent}"{name} up monthly" = 0\n'
+		calc_stocktotal_block += f'{base_indent[:-1]}branch "calc up monthly done {abbr}"\n'
+		calc_stocktotal_block += f'{base_indent[:-1]}label "calc up monthly div {abbr}"\n'
+		calc_stocktotal_block += f'{base_indent[:-1]}action\n'
+		calc_stocktotal_block += f'{base_indent}"{name} up monthly" = "stock value {name}" * 100 / "{abbr}_anchor_monthly"\n'
+		calc_stocktotal_block += f'{base_indent}"{name} up monthly" -= 100\n'
+		calc_stocktotal_block += f'{base_indent[:-1]}label "calc up monthly done {abbr}"\n'
+	calc_stocktotal_block += f'{base_indent[:-1]}action\n'
+	calc_stocktotal_block += f'{base_indent}stocktotalvalue = ' + ' + '.join([f'"val {s["abbr"]}"' for s in STOCKS]) + '\n'
+	calc_stock_math_simple += f'{base_indent}stocktotalvalue = ' + ' + '.join([f'"val {s["abbr"]}"' for s in STOCKS]) + '\n'
 	
 	calc_stock_branches = ""
 	for i, s in enumerate(STOCKS):
-		calc_stock_branches += f'\t\t\tbranch "calc stocktotal return {s["name"]}"\n\t\t\t\tstockroute == {i+3}\n'
+		calc_stock_branches += f'{base_indent[:-1]}branch "calc stocktotal return {s["name"]}"\n{base_indent}stockroute == {i+3}\n'
 
 	# 7. STOCK OVERVIEW
 	stock_overview_choices = ""
@@ -761,8 +762,8 @@ def build_script():
 		if s['type'] == 'Growth':
 			div_txt = "Growth"
 			
-		stock_overview_choices += f'\t\t\t\t`	[{s["name"]} ({div_txt}), price &[stock value {s["name"]}], up &[{s["name"]} up monthly]% this month.]`\n'
-		stock_overview_choices += f'\t\t\t\t\tgoto "line{s["name"]}"\n'
+		stock_overview_choices += f'{base_indent}`	[{s["name"]} ({div_txt}), price &[stock value {s["name"]}], up &[{s["name"]} up monthly]% this month.]`\n'
+		stock_overview_choices += f'{base_indent}\tgoto "line{s["name"]}"\n'
 
 # 8. INDIVIDUAL STOCK PAGES
 	stock_pages = ""
@@ -771,16 +772,14 @@ def build_script():
 		abbr = s['abbr']
 		
 		ui_precalc = ""
+		ui_precalc += f'{base_indent}"buy price {name}" = "stock value {name}" * 10130 / 10000\n'
+		ui_precalc += f'{base_indent}"sell price {name}" = "stock value {name}" * 9870 / 10000\n'
+		ui_precalc += f'{base_indent}"liquidity {name}" = 96400000000\n'
+		ui_precalc += f'{base_indent}"liquidity {name}" -= "{abbr}_daily_notional_volume"\n'
 		for tier in STOCK_TIERS:
 			mult_str = f" {tier}" if tier > 1 else ""
-			if tier >= 10000:
-				b_mult = FRICTION[tier]['buy']
-				s_mult = FRICTION[tier]['sell']
-				ui_precalc += f'\t\t\t\t"buy val {name}{mult_str}" = "stock value {name}" * {b_mult} / 1000000 * {tier}\n'
-				ui_precalc += f'\t\t\t\t"sell val {name}{mult_str}" = "stock value {name}" * {s_mult} / 1000000 * {tier}\n'
-			else:
-				ui_precalc += f'\t\t\t\t"buy val {name}{mult_str}" = "stock value {name}" * {tier}\n'
-				ui_precalc += f'\t\t\t\t"sell val {name}{mult_str}" = "stock value {name}" * {tier}\n'
+			ui_precalc += f'{base_indent}"buy val {name}{mult_str}" = "buy price {name}" * {tier}\n'
+			ui_precalc += f'{base_indent}"sell val {name}{mult_str}" = "sell price {name}" * {tier}\n'
 
 		stock_pages += f'''			label "line{name}"
 			``
@@ -791,19 +790,28 @@ def build_script():
 				stockroute = {i+3}
 			goto "calc stocktotal"
 			label "calc stocktotal return {name}"
-			branch "{abbr} alltime calc"
-				"{abbr}_avg_price" > 0
-			action
-				"stock_up_alltime" = 0
-			branch "{abbr} monthly calc"
+			branch "{abbr} alltime zero"
+				"{abbr}_avg_price" == 0
 			label "{abbr} alltime calc"
 			action
 				"stock_roi" = "stock value {name}" * 100 / "{abbr}_avg_price"
 				"stock_up_alltime" = "stock_roi" - 100
+			branch "{abbr} monthly check"
+			label "{abbr} alltime zero"
+			action
+				"stock_up_alltime" = 0
+			label "{abbr} monthly check"
+			branch "{abbr} monthly zero"
+				"{abbr}_anchor_monthly" == 0
 			label "{abbr} monthly calc"
 			action
 				"stock_mtd_roi" = "stock value {name}" * 100 / "{abbr}_anchor_monthly"
 				"stock_up_monthly" = "stock_mtd_roi" - 100
+			branch "{abbr} monthly done"
+			label "{abbr} monthly zero"
+			action
+				"stock_up_monthly" = 0
+			label "{abbr} monthly done"
 			scene "scene/stock_chart_analysis"
 			`{name}`
 			``
@@ -817,10 +825,12 @@ def build_script():
 				`	Buy {name} shares`
 					to display
 						"credits" >= "buy val {name}"
+						"liquidity {name}" >= "buy val {name}"
 					goto "lineBuy {name}"
 				`	Sell {name} shares`
 					to display
 						"stock amount {name}" > 0
+						"liquidity {name}" >= "sell val {name}"
 					goto "lineSell {name}"
 				`	[back]`
 					goto "linestockoverview"
@@ -829,43 +839,59 @@ def build_script():
 			``
 			label "Buy {name}"
 			action
-{ui_precalc}{calc_stock_math}			scene "scene/stock_chart_analysis"
+{ui_precalc}{calc_stock_math_simple}			scene "scene/stock_chart_analysis"
 			`{name}`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
 			`You hold: &[stock amount {name}] shares at &[{abbr}_avg_price] credits on average.`
+			branch "Buy liquidity open {name}"
+				"liquidity {name}" >= "buy val {name}"
+			`No more sellers today for this stock.`
+			choice
+				`	[back]`
+					goto "line{name}"
+			label "Buy liquidity open {name}"
 			choice\n'''
 		for tier in STOCK_TIERS:
 			txt_amt = fmt(tier)
 			mult = f" {tier}" if tier > 1 else ""
-			stock_pages += f'\t\t\t\t`	Buy {txt_amt} shares for &[buy val {name}{mult}] credits.`\n'
-			stock_pages += f'\t\t\t\t\tto display\n'
-			stock_pages += f'\t\t\t\t\t\t"credits" >= "buy val {name}{mult}"\n'
-			stock_pages += f'\t\t\t\t\tgoto "Buy {tier} {name}"\n'
-		stock_pages += f'\t\t\t\t`	[back]`\n\t\t\t\t\tgoto "line{name}"\n\n'
+			stock_pages += f'{base_indent}`	Buy {txt_amt} shares for &[buy val {name}{mult}] credits.`\n'
+			stock_pages += f'{base_indent}\tto display\n'
+			stock_pages += f'{base_indent}\t\t"credits" >= "buy val {name}{mult}"\n'
+			stock_pages += f'{base_indent}\t\t"liquidity {name}" >= "buy val {name}{mult}"\n'
+			stock_pages += f'{base_indent}\tgoto "Buy {tier} {name}"\n'
+		stock_pages += f'{base_indent}`	[back]`\n{base_indent}\tgoto "line{name}"\n\n'
 
 		stock_pages += f'''			label "lineSell {name}"
 			``
 			label "Sell {name}"
 			action
-{ui_precalc}{calc_stock_math}			scene "scene/stock_chart_analysis"
+{ui_precalc}{calc_stock_math_simple}			scene "scene/stock_chart_analysis"
 			`{name}`
 			``
 			`Cash chip balance: &[credits] credits`
 			`Value of all owned stocks: &[stocktotalvalue] credits`
 			``
 			`You hold: &[stock amount {name}] shares at &[{abbr}_avg_price] credits on average.`
+			branch "Sell liquidity open {name}"
+				"liquidity {name}" >= "sell val {name}"
+			`No more buyers today for this stock.`
+			choice
+				`	[back]`
+					goto "line{name}"
+			label "Sell liquidity open {name}"
 			choice\n'''
 		for tier in STOCK_TIERS:
 			txt_amt = fmt(tier)
 			mult = f" {tier}" if tier > 1 else ""
-			stock_pages += f'\t\t\t\t`	Sell {txt_amt} shares for &[sell val {name}{mult}] credits.`\n'
-			stock_pages += f'\t\t\t\t\tto display\n'
-			stock_pages += f'\t\t\t\t\t\t"stock amount {name}" >= {tier}\n'
-			stock_pages += f'\t\t\t\t\tgoto "Sell {tier} {name}"\n'
-		stock_pages += f'\t\t\t\t`	[back]`\n\t\t\t\t\tgoto "line{name}"\n\n'
+			stock_pages += f'{base_indent}`	Sell {txt_amt} shares for &[sell val {name}{mult}] credits.`\n'
+			stock_pages += f'{base_indent}\tto display\n'
+			stock_pages += f'{base_indent}\t\t"stock amount {name}" >= {tier}\n'
+			stock_pages += f'{base_indent}\t\t"liquidity {name}" >= "sell val {name}{mult}"\n'
+			stock_pages += f'{base_indent}\tgoto "Sell {tier} {name}"\n'
+		stock_pages += f'{base_indent}`	[back]`\n{base_indent}\tgoto "line{name}"\n\n'
 		
 	# 9. STOCK WATERFALLS
 	stock_wfs = ""
@@ -876,38 +902,58 @@ def build_script():
 		for tier in STOCK_TIERS:
 			stock_wfs += f'			label "Buy {tier} {name}"\n'
 			stock_wfs += f'			action\n'
-			if tier >= 10000:
-				b_mult = FRICTION[tier]['buy']
-				stock_wfs += f'\t\t\t\t"stock value {name}" = "stock value {name}" * {b_mult} / 1000000\n'
-			
-			stock_wfs += f'\t\t\t\t"actual_cost" = "stock value {name}" * {tier}\n'
-			stock_wfs += f'\t\t\t\t"temp_hist" = "{abbr}_avg_price" * "stock amount {name}"\n'
-			stock_wfs += f'\t\t\t\t"temp_hist" += "actual_cost"\n'
-			stock_wfs += f'\t\t\t\t"temp_vol" = "stock amount {name}" + {tier}\n'
-			stock_wfs += f'\t\t\t\t"{abbr}_avg_price" = "temp_hist" / "temp_vol"\n'
-			stock_wfs += f'\t\t\t\t"stock amount {name}" += {tier}\n'
-			stock_wfs += f'\t\t\t\t"waterfall_cost" = "actual_cost"\n'
-			stock_wfs += f'\t\t\t`Bought {fmt(tier)} {name}`\n'
-			stock_wfs += f'\t\t\t\tgoto "buy stocks {name}"\n\n'
+			mult_str = f" {tier}" if tier > 1 else ""
+			stock_wfs += f'{base_indent}"actual_cost" = "buy val {name}{mult_str}"\n'
+			stock_wfs += f'{base_indent}"BEFORE" = "{abbr}_daily_notional_volume"\n'
+			stock_wfs += f'{base_indent}"BEFORE" /= 308440520\n'
+			stock_wfs += f'{base_indent}"{abbr}_daily_notional_volume" += "actual_cost"\n'
+			stock_wfs += f'{base_indent}"AFTER" = "{abbr}_daily_notional_volume"\n'
+			stock_wfs += f'{base_indent}"AFTER" /= 308440520\n'
+			stock_wfs += f'{base_indent}"IMPACT" = "AFTER"\n'
+			stock_wfs += f'{base_indent}"IMPACT" -= "BEFORE"\n'
+			stock_wfs += f'{base_indent}"stock value {name}" += "IMPACT"\n'
+			stock_wfs += f'{base_indent}"temp_hist" = "{abbr}_avg_price" * "stock amount {name}"\n'
+			stock_wfs += f'{base_indent}"temp_hist" += "actual_cost"\n'
+			stock_wfs += f'{base_indent}"temp_vol" = "stock amount {name}" + {tier}\n'
+			stock_wfs += f'{base_indent[:-1]}branch "avg price zero {abbr} {tier}"\n'
+			stock_wfs += f'{base_indent}"temp_vol" == 0\n'
+			stock_wfs += f'{base_indent[:-1]}branch "avg price div {abbr} {tier}"\n'
+			stock_wfs += f'{base_indent[:-1]}action\n'
+			stock_wfs += f'{base_indent}"{abbr}_avg_price" = 0\n'
+			stock_wfs += f'{base_indent[:-1]}branch "avg price done {abbr} {tier}"\n'
+			stock_wfs += f'{base_indent[:-1]}label "avg price div {abbr} {tier}"\n'
+			stock_wfs += f'{base_indent[:-1]}action\n'
+			stock_wfs += f'{base_indent}"{abbr}_avg_price" = "temp_hist" / "temp_vol"\n'
+			stock_wfs += f'{base_indent[:-1]}label "avg price done {abbr} {tier}"\n'
+			stock_wfs += f'{base_indent[:-1]}action\n'
+			stock_wfs += f'{base_indent}"stock amount {name}" += {tier}\n'
+			stock_wfs += f'{base_indent}"waterfall_cost" = "actual_cost"\n'
+			stock_wfs += f'{base_indent[:-1]}`Bought {fmt(tier)} {name}`\n'
+			stock_wfs += f'{base_indent}goto "buy stocks {name}"\n\n'
 
 		for tier in STOCK_TIERS:
 			stock_wfs += f'			label "Sell {tier} {name}"\n'
 			stock_wfs += f'			action\n'
-			if tier >= 10000:
-				s_mult = FRICTION[tier]['sell']
-				stock_wfs += f'\t\t\t\t"stock value {name}" = "stock value {name}" * {s_mult} / 1000000\n'
-				stock_wfs += f'\t\t\tbranch "friction floor {abbr} {tier}"\n'
-				stock_wfs += f'\t\t\t\t"stock value {name}" >= 100\n'
-				stock_wfs += f'\t\t\taction\n'
-				stock_wfs += f'\t\t\t\t"stock value {name}" = 100\n'
-				stock_wfs += f'\t\t\tlabel "friction floor {abbr} {tier}"\n'
-				stock_wfs += f'\t\t\taction\n'
-			
-			stock_wfs += f'\t\t\t\t"actual_cost" = "stock value {name}" * {tier}\n'
-			stock_wfs += f'\t\t\t\t"stock amount {name}" -= {tier}\n'
-			stock_wfs += f'\t\t\t\t"waterfall_cost" = "actual_cost"\n'
-			stock_wfs += f'\t\t\t`Sold {fmt(tier)} {name}`\n'
-			stock_wfs += f'\t\t\t\tgoto "sell stocks {name}"\n\n'
+			mult_str = f" {tier}" if tier > 1 else ""
+			stock_wfs += f'{base_indent}"actual_cost" = "sell val {name}{mult_str}"\n'
+			stock_wfs += f'{base_indent}"BEFORE" = "{abbr}_daily_notional_volume"\n'
+			stock_wfs += f'{base_indent}"BEFORE" /= 308440520\n'
+			stock_wfs += f'{base_indent}"{abbr}_daily_notional_volume" += "actual_cost"\n'
+			stock_wfs += f'{base_indent}"AFTER" = "{abbr}_daily_notional_volume"\n'
+			stock_wfs += f'{base_indent}"AFTER" /= 308440520\n'
+			stock_wfs += f'{base_indent}"IMPACT" = "AFTER"\n'
+			stock_wfs += f'{base_indent}"IMPACT" -= "BEFORE"\n'
+			stock_wfs += f'{base_indent}"stock value {name}" -= "IMPACT"\n'
+			stock_wfs += f'{base_indent[:-1]}branch "friction floor done {abbr} {tier}"\n'
+			stock_wfs += f'{base_indent}"stock value {name}" >= 100\n'
+			stock_wfs += f'{base_indent[:-1]}action\n'
+			stock_wfs += f'{base_indent}"stock value {name}" = 100\n'
+			stock_wfs += f'{base_indent[:-1]}label "friction floor done {abbr} {tier}"\n'
+			stock_wfs += f'{base_indent[:-1]}action\n'
+			stock_wfs += f'{base_indent}"stock amount {name}" -= {tier}\n'
+			stock_wfs += f'{base_indent}"waterfall_cost" = "actual_cost"\n'
+			stock_wfs += f'{base_indent[:-1]}`Sold {fmt(tier)} {name}`\n'
+			stock_wfs += f'{base_indent}goto "sell stocks {name}"\n\n'
 
 		stock_wfs += f'			label "buy stocks {name}"\n'
 		for i in range(len(MONEY_TIERS)):
@@ -953,7 +999,7 @@ def build_script():
 	output = output.replace('%TOTAL_PRINCIPAL_ACTIONS%', total_principal_actions)
 	
 	output = output.replace('%BANK_MENUS%', bank_menus)
-	output = output.replace('%CALC_STOCKTOTAL_MATH%', calc_stock_math)
+	output = output.replace('%CALC_STOCKTOTAL_BLOCK%', calc_stocktotal_block)
 	output = output.replace('%CALC_STOCKTOTAL_BRANCHES%', calc_stock_branches)
 	output = output.replace('%STOCK_OVERVIEW_CHOICES%', stock_overview_choices)
 	output = output.replace('%INDIVIDUAL_STOCK_PAGES%', stock_pages)
