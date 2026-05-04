@@ -37,68 +37,88 @@ def fmt(n):
 
 base_indent="\t\t\t\t"
 
-def gen_fluctuation(stock):		
-	name = stock['name']
-	is_div = stock['type'] == 'Dividend'
-	m_base = "10200" if is_div else "10400"
-	r2 = "7" if is_div else "16"
-	r3 = "22" if is_div else "39"
-	r4 = "45" if is_div else "43"
-	r5 = "88" if is_div else "75"
-	m2 = "9800" if is_div else "9600"
-	m3 = "9900" if is_div else "9800"
-	m5 = "10100" if is_div else "10200"
-	lbl = "dividend" if is_div else "growth"
-	
-	return f"""{base_indent[:-1]}action
-{base_indent}"stock roll {name}" = "roll: 100"
-{base_indent}"stock multiplier {name}" = {m_base}
-{base_indent[:-1]}branch "{lbl} roll 1 {name}"
-{base_indent}"stock roll {name}" == 1
-{base_indent[:-1]}branch "{lbl} roll 2 {name}"
-{base_indent}"stock roll {name}" <= {r2}
-{base_indent[:-1]}branch "{lbl} roll 3 {name}"
-{base_indent}"stock roll {name}" <= {r3}
-{base_indent[:-1]}branch "{lbl} roll 4 {name}"
-{base_indent}"stock roll {name}" <= {r4}
-{base_indent[:-1]}branch "{lbl} roll 5 {name}"
-{base_indent}"stock roll {name}" <= {r5}
-{base_indent[:-1]}branch "apply {name}"
-{base_indent[:-1]}label "{lbl} roll 1 {name}"
-{base_indent[:-1]}action
-{base_indent}"stock multiplier {name}" = 8874
-{base_indent[:-1]}branch "apply {name}"
-{base_indent[:-1]}label "{lbl} roll 2 {name}"
-{base_indent[:-1]}action
-{base_indent}"stock multiplier {name}" = {m2}
-{base_indent[:-1]}branch "apply {name}"
-{base_indent[:-1]}label "{lbl} roll 3 {name}"
-{base_indent[:-1]}action
-{base_indent}"stock multiplier {name}" = {m3}
-{base_indent[:-1]}branch "apply {name}"
-{base_indent[:-1]}label "{lbl} roll 4 {name}"
-{base_indent[:-1]}action
-{base_indent}"stock multiplier {name}" = 10000
-{base_indent[:-1]}branch "apply {name}"
-{base_indent[:-1]}label "{lbl} roll 5 {name}"
-{base_indent[:-1]}action
-{base_indent}"stock multiplier {name}" = {m5}
-{base_indent[:-1]}label "apply {name}"
-{base_indent[:-1]}action
-{base_indent}"stock value {name}" = "stock value {name}" * "stock multiplier {name}" / 10000
-{base_indent[:-1]}branch "floor check {name}"
-{base_indent}"stock value {name}" >= 100
-{base_indent[:-1]}action
-{base_indent}"stock value {name}" *= 10
-{base_indent}"stock amount {name}" /=  10
-{base_indent[:-1]}label "floor check {name}"
-{base_indent[:-1]}branch "ceil check {name}"
-{base_indent}"stock value {name}" <= 10000
-{base_indent[:-1]}action
-{base_indent}"stock value {name}" /= 10
-{base_indent}"stock amount {name}" *= 10
-{base_indent[:-1]}label "ceil check {name}"
-\n"""
+def gen_fluctuation(stock):
+    name = stock['name']
+    abbr = stock['abbr']
+    is_div = stock['type'] == 'Dividend'
+    
+    # Define distinct buckets based on the README Appendix 3
+    if is_div:
+        # Dividend: Lower volatility, smaller upside
+        # Black Swan: 0, Lose Big: 1-6, Lose Small: 7-21, Flat: 22-44, Win Small: 45-87, Win Big: 88-99
+        buckets = [
+            ("black swan", "== 0", 8874),
+            ("lose big",   "<= 6", 9800),
+            ("lose small", "<= 21", 9900),
+            ("flat",       "<= 44", 10000),
+            ("win small",  "<= 87", 10100),
+            ("win big",    None,    10200), # Default catch-all
+        ]
+    else:
+        # Growth: Higher volatility, larger upside/downside
+        # Black Swan: 0, Lose Big: 1-6, Lose Small: 7-21, Flat: 22-44, Win Small: 45-75, Win Big: 76-99
+        buckets = [
+            ("black swan", "== 0", 8874),
+            ("lose big",   "<= 6", 9600),
+            ("lose small", "<= 21", 9800),
+            ("flat",       "<= 44", 10000),
+            ("win small",  "<= 75", 10200),
+            ("win big",    None,    10400), # Default catch-all
+        ]
+    
+    lbl = "dividend" if is_div else "growth"
+    lines = []
+    
+    # 1. Reset Daily Notional Volume (Critical for Market Impact Model)
+    # This must happen every day before the roll
+    lines.append(f'{base_indent[:-1]}action')
+    lines.append(f'{base_indent}"{abbr}_daily_notional_volume" = 0')
+    
+    # 2. Perform the Roll
+    lines.append(f'{base_indent}"stock roll {name}" = "roll: 100"')
+    
+    # 3. Branch Logic (Skip if condition is TRUE)
+    # The logic: If roll matches bucket, branch to label. If not, continue to next check.
+    # Since branch skips on TRUE, we check the upper bounds.
+    for label, condition, _ in buckets:
+        if condition is not None:
+            lines.append(f'{base_indent[:-1]}branch "{label} {name}"')
+            lines.append(f'{base_indent}"stock roll {name}" {condition}')
+    
+    # If no branches were taken, it falls through to the last bucket (Win Big)
+    lines.append(f'{base_indent[:-1]}branch "apply {name}"')
+    
+    # 4. Apply Multipliers
+    for label, _, mult in buckets:
+        lines.append(f'{base_indent[:-1]}label "{label} {name}"')
+        lines.append(f'{base_indent[:-1]}action')
+        lines.append(f'{base_indent}"stock multiplier {name}" = {mult}')
+        lines.append(f'{base_indent[:-1]}branch "apply {name}"')
+    
+    # 5. Apply Multiplier to Stock Value
+    lines.append(f'{base_indent[:-1]}label "apply {name}"')
+    lines.append(f'{base_indent[:-1]}action')
+    lines.append(f'{base_indent}"stock value {name}" = "stock value {name}" * "stock multiplier {name}" / 10000')
+    
+    # 6. Floor Check (Reverse Split Logic)
+    # If price < 100, multiply price by 10, divide shares by 10
+    lines.append(f'{base_indent[:-1]}branch "floor check {name}"')
+    lines.append(f'{base_indent}"stock value {name}" >= 100')
+    lines.append(f'{base_indent[:-1]}action')
+    lines.append(f'{base_indent}"stock value {name}" *= 10')
+    lines.append(f'{base_indent}"stock amount {name}" /= 10')
+    lines.append(f'{base_indent[:-1]}label "floor check {name}"')
+    
+    # 7. Ceil Check (Forward Split Logic)
+    # If price > 10000, divide price by 10, multiply shares by 10
+    lines.append(f'{base_indent[:-1]}branch "ceil check {name}"')
+    lines.append(f'{base_indent}"stock value {name}" <= 10000')
+    lines.append(f'{base_indent[:-1]}action')
+    lines.append(f'{base_indent}"stock value {name}" /= 10')
+    lines.append(f'{base_indent}"stock amount {name}" *= 10')
+    lines.append(f'{base_indent[:-1]}label "ceil check {name}"')
+    
+    return "\n".join(lines) + "\n"
 
 BASE_TEMPLATE = """# See ES_plugin_script_galactic_capital_investment.py for the code that generates this script.
 
@@ -117,31 +137,17 @@ mission "gci init"
 %SETUP_VARS%
 		fail
 
-mission "gci banking account update"
-	non-blocking
-	invisible
-	repeat
-	landing
-	to offer
-		has "gci init: failed"
-	on offer
-		datedifference = "days since start" - lastvisit
-		lastvisit = "days since start"
-		dailyincome = deposit * 149 / 100000 - "salary: Galactic Capital Transfer"
-		deposit += datedifference * dailyincome
-		fail
 
-mission "gci stock dividends"
+mission "gci daily update"
 	entering
 	invisible
 	repeat
 	non-blocking
-	destination "Earth"
 	to offer
-		"day" == 1
-		or
-%DIVIDEND_OFFER_CONDITIONS%
+		has "gci init: failed"
 	on offer
+		dailyincome = deposit * 149 / 100000 - "salary: Galactic Capital Transfer"
+		deposit += datedifference * dailyincome
 		conversation
 			label "start"
 			action
@@ -150,30 +156,36 @@ mission "gci stock dividends"
 			label "days loop"
 			branch "end"
 				"passed days" == 0
-%DIVIDEND_FLUCTUATIONS%
+%STOCK_FLUCTUATIONS%
 			action
 				"passed days" -= 1
 			branch "days loop"
 			label "end"
 			action
 				"stock last day" = "days since start"
-			branch "monthly anchor update"
-				"day" == 1
-			branch "monthly anchor update end"
-			label "monthly anchor update"
-			action
+		decline
+
+mission "gci dividends"
+	entering
+	invisible
+	repeat
+	non-blocking
+	to offer
+		and
+			has "gci init: failed"
+			"day" == 1			
+	action
 %DIVIDEND_ANCHORS%
-			label "monthly anchor update end"
-			action
+	label "monthly anchor update end"
+	action
 %DIVIDEND_MATH%
 %DIVIDEND_WATERFALL%
-			label "dividends payment done"
-			scene "scene/stock_chart_analysis"
-			`This is your monthly stock report and dividend payout.`
+	label "dividends payment done"
+	scene "scene/stock_chart_analysis"
+	`This is your monthly stock report and dividend payout.`
 %DIVIDEND_DISPLAY%
-			``
-			`All dividend payouts: &[stock all dividends]`
-				decline
+	``
+	`All dividend payouts: &[stock all dividends]`
 
 mission "gci banking terminal"
 	name "Galactic Capital Investment"
@@ -194,7 +206,6 @@ mission "gci banking terminal"
 			label "calculations loop"
 			branch "calculations end"
 				"passed days" == 0
-%TERMINAL_FLUCTUATIONS%
 			action
 				"passed days" -= 1
 			branch "calculations loop"
@@ -358,12 +369,6 @@ def build_script():
 		setup_vars += f'{base_indent[:-2]}"{s["abbr"]}_avg_price" = 0\n'
 		setup_vars += f'{base_indent[:-2]}"{s["abbr"]}_daily_notional_volume" = 0\n'
 
-	# 2. DIVIDENDS
-	div_cond = ""
-	for s in STOCKS:
-		if s['type'] == 'Dividend':
-			div_cond += f'{base_indent[:-1]}"stock amount {s["name"]}" > 0\n'
-		
 	div_fluc = ""
 	for s in STOCKS:
 		div_fluc += gen_fluctuation(s)
@@ -403,13 +408,6 @@ def build_script():
 		div_disp += f'{base_indent[:-1]}`You hold &[stock amount {s["name"]}] "{s["name"]}" stocks at &[stock value {s["name"]}] credits each. Monthly dividend ({rate}): &[dividend {s["name"]}]`\n'
 		div_disp += f'{base_indent}to display\n'
 		div_disp += f'{base_indent}\t"stock amount {s["name"]}" > 0\n'
-
-	# 3. TERMINAL FLUCTUATIONS
-	term_fluc = ""
-	for s in STOCKS:
-		term_fluc += f'{base_indent}"{s["abbr"]}_daily_notional_volume" = 0\n'
-	for s in STOCKS:
-		term_fluc += gen_fluctuation(s)
 
 # 4. MATH TOTALS
 	total_principal_actions = f'{base_indent}"total_principal" = 0\n'
@@ -770,7 +768,6 @@ def build_script():
 	for i, s in enumerate(STOCKS):
 		name = s['name']
 		abbr = s['abbr']
-		
 		ui_precalc = ""
 		ui_precalc += f'{base_indent}"buy price {name}" = "stock value {name}" * 10130 / 10000\n'
 		ui_precalc += f'{base_indent}"sell price {name}" = "stock value {name}" * 9870 / 10000\n'
@@ -988,14 +985,12 @@ def build_script():
 	# INJECT INTO TEMPLATE
 	output = BASE_TEMPLATE
 	output = output.replace('%SETUP_VARS%', setup_vars)
-	output = output.replace('%DIVIDEND_OFFER_CONDITIONS%', div_cond)
-	output = output.replace('%DIVIDEND_FLUCTUATIONS%', div_fluc)
+	output = output.replace('%STOCK_FLUCTUATIONS%', div_fluc)
 	output = output.replace('%DIVIDEND_ANCHORS%', div_anchors)
 	output = output.replace('%DIVIDEND_MATH%', div_math)
 	output = output.replace('%DIVIDEND_WATERFALL%', div_wf)
 	output = output.replace('%DIVIDEND_DISPLAY%', div_disp)
 	
-	output = output.replace('%TERMINAL_FLUCTUATIONS%', term_fluc)
 	output = output.replace('%TOTAL_PRINCIPAL_ACTIONS%', total_principal_actions)
 	
 	output = output.replace('%BANK_MENUS%', bank_menus)

@@ -4,16 +4,35 @@ Galactic Capital Investments (GCI) became the largest bank in human space thanks
 
 In addition to the Galactic Stock Exchange, they control over 40% of financial infrastructure in Human, Hai and Quarg space. Their recent public filings show daily transaction volume in the trillions.
 
+![screenshot](../../screenshots/galactic.capital.investment02.jpg)
+
+
 
 ## Table of Contents
 
 - [Purpose](#purpose)
 - [Features](#features)
 - [Design Around Endless Sky Meta](#design-around-endless-sky-meta)
-- [Appendix 1: US Market Equivalency Table](#appendix-1-us-market-equivalency-table)
+- [Appendix 1: US Market Proxy Table](#appendix-1-us-market-proxy-table)
 - [Appendix 2: Private Market Yield Schedules](#appendix-2-private-market-yield-schedules)
+    - [Investment Jobs (Repeatable)](#21-investment-jobs-repeatable)
+    - [Mission-Chain Investments](#22-mission-chain-investments)
 - [Appendix 3: Stock Math (Stochastic Market Simulation)](#appendix-3-stock-math-stochastic-market-simulation)
-- [Appendix 4: Market Impact Model (Price Democracy)](#appendix-4-market-impact-model-price-democracy)
+    - [Theory](#31-theory)
+    - [Engine Limitations](#32-engine-limitations)
+    - [Backcalculating Probabilities](#33-backcalculating-probabilities)
+    - [Daily Probability Matrices](#34-daily-probability-matrices)
+    - [Stock Splitting](#35-stock-splitting)
+- [Appendix 4: Market Impact Model](#appendix-4-market-impact-model)
+    - [From Stock Simulation to Trading Simulation](#41-from-stock-simulation-to-trading-simulation)
+    - [Modelling Market Impact for Block Trades](#42-modelling-market-impact-for-block-trades)
+    - [Wealth Scale Anchors](#43-wealth-scale-anchors)
+    - [Procedural Execution](#44-procedural-execution)
+        - [Buy Logic](#441-buy-logic)
+        - [Sell Logic](#442-sell-logic)
+    - [Arbitrage Calibration Strategy](#45-arbitrage-calibration-strategy)
+        - [Deriving Spread S](#451-deriving-spread-s)
+        - [Single Stock Manipulation ROI Table](#452-single-stock-manipulation-roi-table)
 
 
 ## Purpose
@@ -37,7 +56,7 @@ In addition to a mission chain unlocking absolutely ludicrous returns, the syste
 *   **Post-Vanilla Meta:** All income becomes obsolete for plugin-scale assets (1B+ ships). The system's ROI architecture specifically shortens payback periods as you invest more, becoming the primary economic engine for trillion-credit fleets.
 
 
-## Appendix 1: US Market Equivalency Table
+## Appendix 1: US Market Proxy Table
 
 | Game Product | Game Daily Interest | Game Yearly Interest | Yearly IRL Interest | US Market Equivalent |
 | :--- | :--- | :--- | :--- |  :--- |
@@ -48,37 +67,34 @@ In addition to a mission chain unlocking absolutely ludicrous returns, the syste
 | High-Interest Loan | 0.4% | 329.344% | 21.075% | Subprime / Credit Card |
 | Growth Stocks | 0.419% | 359.419% | 23% | Tech Stocks (GOOGL) |
 | Penalty Loan | 0.6% | 787.693% | 50.406% | Loan shark |
-
-
 ## Appendix 2: Private Market Yield Schedules
 
-GCI uses the player's capital to fund private high-growth ventures, absorbing the risk and paying the player a guaranteed daily perpetuity (after fees). 
+GCI uses the player's capital to fund high-growth ventures through structured debt, absorbing the equity risk and paying the player a guaranteed daily perpetuity (after fees). 
 
-We're basically conflating Private Credit, Venture Capital and Private Equity.
+We are modeling Private Credit, Venture Debt, and High-Yield Bonds.
 
 
 ### Contents
 
-1. [Investment Jobs (Repeatable)](#31-investment-jobs-repeatable)
-2. [Mission-Chain Investments](#32-mission-chain-investments)
+1. [Investment Jobs (Repeatable)](#21-investment-jobs-repeatable)
+2. [Mission-Chain Investments](#22-mission-chain-investments)
 
 *Note: Tiers above 1B deliberately break the 15.627x macroeconomic model, defaulting to a flat 1% daily yield to accelerate access to post-vanilla plugin content. They might look ridiculous using real world logic, but are extremely realistic in game. See Appendix 4*
 
 ### 2.1 Investment Jobs (Repeatable)
 
-| Tier | Principal | Daily Yield | Rate | Payback Period |
-| :--- | :--- | ---: | :--- | ---: |
-| Angel Entry | 100k | 500 | 0.5% | 200 days |
-| Seed Venture | 1M | 2,500 | 0.25% | 400 days |
-| IPO Invitation | 10M | 25k | 0.25% | 400 days |
-| Corporate Takeover | 100M | 250k | 0.25% | 400 days |
-| Planetary Terraforming| 1B | 10M | 1% | 100 days |
-| Forbidden R&D | 10B | 100M | 1% | 100 days |
-| War Bonds | 100B | 1B | 1% | 100 days |
-| Sovereign Wealth Fund| 1T | 10B | 1% | 100 days |
+| Tier | Instrument | Principal | Daily Yield | Rate | Payback Period |
+| :--- | :--- | :--- | ---: | :--- | ---: |
+| 100k | Subordinated Debt Note | 100k | 500 | 0.5% | 200 days |
+| 1M | Venture Debt Facility | 1M | 2,500 | 0.25% | 400 days |
+| 10M | Pre-IPO Convertible Note | 10M | 25k | 0.25% | 400 days |
+| 100M | Leveraged Buyout Bond | 100M | 250k | 0.25% | 400 days |
+| 1B | Terraforming Land Lease | 1B | 10M | 1% | 100 days |
+| 10B | Quarg Tech Royalty | 10B | 100M | 1% | 100 days |
+| 100B | War Bonds | 100B | 1B | 1% | 100 days |
+| 1T | Sovereign Wealth Fund | 1T | 10B | 1% | 100 days |
 
 The penalty for early selling is 30% of the principal which is on the high end of real Private Credit. To balance the 1% daily returns, selling is disabled after the terraforming mission chain.
-
 
 ### 2.2 Mission-Chain Investments
 
@@ -88,12 +104,13 @@ The penalty for early selling is 30% of the principal which is on the high end o
 A fair warning: the terraforming chain mission is very much a dark story, but so is the ES combat system. Most pirates are canonically downtrodden teenagers.
 ## Appendix 3: Stock Math (Stochastic Market Simulation)
 
+
 ### Contents
 
 1. [Theory](#31-theory)
 2. [Engine Limitations](#32-engine-limitations)
 3. [Backcalculating Probabilities](#33-backcalculating-probabilities)
-4. [Application: The Probability Matrices](#34-application-the-probability-matrices)
+4. [Daily Probability Matrices](#34-daily-probability-matrices)
 5. [Stock Splitting](#35-stock-splitting)
 
 ### 3.1 Theory
@@ -137,15 +154,15 @@ We map real-world assets to the game using the 15.627x macro multiplier (see *Ap
 *   **Dividend Stocks (SPY):** From a rounded 11% + 1% dividends annualized returns, we target 171.896% APY (2.719x drift) + 1.217% monthly dividend. 
 *   **Growth Stocks (GOOGL):** From a rounded 23% annualized returns, we target  359.419% APY (4.594x drift). Zero dividend.
 
-**Step 2: Inject the Black Swan** <br>
-We must backcalculate the log impact to match IRL tail risk (a 15–20% drop roughly every 8 years).
+**Step 2: Inject Tail Risk (Market Crashes)** <br>
+We must backcalculate the log impact to match IRL tail risk (a 15–20% drop roughly every 8 years). Standard models account for unpredictable "Black Swan" events, but engine limitations require us to model this as a fixed programmatic drag.
 *   **Frequency:** Since the game rolls 0-99, the smallest frequency is **1% daily probability** (approx. 3.65 crashes/year).
 *   **Deriving the Jump Size ($J$):**
     $$ \text{Daily Log Drag} = \frac{1}{8 \text{ years}} \times \ln(0.8) \times 15.627 \div 365 \text{ days} = -0.001194 $$
     Since this drag comes from a 1% probability event ($P=0.01$):
     $$ 0.01 \times \ln(J) = -0.001194 $$
     $$ \ln(J) = -0.1194 \implies J = e^{-0.1194} \approx 0.8874 $$
-    **Result:** A **-11.26%** drop occurs exactly when the random roll is `0`. This multiplier is **fixed** for both asset classes.
+    **Result:** A **-11.26%** drop occurs exactly when the random roll is `0`. This multiplier is **fixed** for both asset classes to simulate structural market breaks.
 
 **Step 3: Define Arbitrary Multipliers**
 We define 5 additional arbitrary daily price movement bins (e.g., "Lose Big" = 0.98, "Win Small" = 1.01). These are **designer choices**, not derived from a model. They serve as the "buckets" for the random roll.
@@ -164,7 +181,7 @@ $$ \sum (P_i \times \ln(X_i)) = \text{Target Daily Log Return} $$
 
 | Scenario | Roll | Multiplier ($X$) | $\ln(X)$ | Prob ($P$) | Expected Log ($P \times \ln(X)$) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Black Swan | 0 | 0.8874 | -0.1195 | 0.01 | -0.0012 |
+| Crash| 0 | 0.8874 | -0.1195 | 0.01 | -0.0012 |
 | Lose Big | 1–6 | 0.98 | -0.0202 | 0.06 | -0.0012 |
 | Lose Small | 7–21 | 0.99 | -0.0101 | 0.15 | -0.0015 |
 | Flat | 22–44 | 1.00 | 0.0000 | 0.23 | 0.0000 |
@@ -179,7 +196,7 @@ $$ \sum (P_i \times \ln(X_i)) = \text{Target Daily Log Return} $$
 
 | Scenario | Roll | Multiplier ($X$) | $\ln(X)$ | Prob ($P$) | Expected Log ($P \times \ln(X)$) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| Black Swan | 0 | 0.8874 | -0.1195 | 0.01 | -0.0012 |
+| Crash | 0 | 0.8874 | -0.1195 | 0.01 | -0.0012 |
 | Lose Big | 1–6 | 0.96 | -0.0408 | 0.15 | -0.0061 |
 | Lose Small | 7–21 | 0.98 | -0.0202 | 0.23 | -0.0046 |
 | Flat | 22–44 | 1.00 | 0.0000 | 0.04 | 0.0000 |
@@ -205,18 +222,20 @@ This mirrors the **Trading Range Hypothesis** (Fama et al., 1969). In real marke
 
 **Note:** Because the engine truncates decimals, the remainder is lost during reverse splits (e.g., 9 shares / 10 = 0 shares). This un-modeled negative drift destroys up to 9 × 100 credits per split, which is basically a rounding error and can be safely ignored.
 
-## Appendix 4: Market Impact Model (Price Democracy)
+## Appendix 4: Market Impact Model 
 
-### Contents
 
 ### Contents
 
 1. [From Stock Simulation to Trading Simulation](#41-from-stock-simulation-to-trading-simulation)
-2. [Modelling Friction](#42-modelling-friction)
-3. [Math Calibration](#43-math-calibration)
+2. [Modelling Market Impact for Block Trades](#42-modelling-market-impact-for-block-trades)
+3. [Wealth Scale Anchors](#43-wealth-scale-anchors)
 4. [Procedural Execution](#44-procedural-execution)
-5. [Alpha Calibration Strategy](#45-alpha-calibration-strategy)
-6. [ROI Table: Velocity Calibration](#46-roi-table-velocity-calibration)
+    - [Buy Logic](#441-buy-logic)
+    - [Sell Logic](#442-sell-logic)
+5. [Arbitrage Calibration Strategy](#45-arbitrage-calibration-strategy)
+    - [Deriving Spread S](#451-deriving-spread-s)
+    - [Single Stock Manipulation ROI Table](#452-single-stock-manipulation-roi-table)
 
 
 ### 4.1 From Stock Simulation to Trading Simulation
@@ -229,11 +248,9 @@ This section implements **Liquidity Friction** so that large trades become progr
 
 The critical design decision here is driven by **Appendix 3 (Stock Splits)**.
 
-If we calculated friction based on **Share Count**, a stock split would instantly break the math (e.g., a 10:1 split would make the friction constant 10x too weak).
+If we calculated friction based on **Share Count**, a stock split would instantly break the math (e.g., a 10:1 split would make the friction constant 10x too weak).The solution is to calculate friction based on **Notional Flow** (Total Credits Traded). 1 Billion credits traded is 1 Billion credits traded.
 
-The solution is to calculate friction based on **Notional Flow** (Total Credits Traded). 1 Billion credits traded is 1 Billion credits traded, regardless of whether that buys 1 million shares at $1,000 or 10 million shares at $100.
-
-The game engine processes trades as instantaneous, discrete blocks. To model the market impact of these block trades, we use the industry-standard framework: Kyle's Lambda (Kyle, 1985) which provides a direct, linear formula for the permanent price shift caused by a single trade.
+The game engine processes trades as instantaneous, discrete blocks. To model the market impact of these block trades, we adapted the core linear principle of Kyle's Lambda (Kyle, 1985), providing a simplified, direct formula for the permanent price shift caused by a single trade.
 
 $$\Delta P = \lambda \cdot Q$$
 *(Where $\Delta P$ is Price Change, $Q$ is Notional Flow, and $\lambda$ is the market's depth/sensitivity).*
@@ -241,7 +258,7 @@ $$\Delta P = \lambda \cdot Q$$
 Because $\lambda$ is a tiny decimal, we invert the metric to create a whole-number Friction Constant ($C = \frac{1}{\lambda}$). This translates the academic theory into a functioning integer rule: 'For every $C$ credits traded ($Q$), change the price by 1.'
 
 
-### 4.3 Math Calibration
+### 4.3 Wealth Scale Anchors
 
 Since we cannot derive numbers from in game logic, we constructed a "Sense of Scale" using real-world ratios and arbitrary caps.
 
@@ -291,31 +308,26 @@ The sell process mirrors the buy logic but reduces the price:
 8. Determine the price impact: `IMPACT = AFTER - BEFORE`.
 9. Update the price: `price = price - IMPACT`.
 
-*Note: Players can exploit this mechanic by preventing price drop during dumping thus generating ~20% more alpha. This is not patched because I respect the grind.*
+*Note: Players can exploit this mechanic by preventing price drop during dumping thus generating ~20% more profit. This is not patched because I respect the grind.*
 
-### 4.5 Alpha Calibration Strategy
+### 4.5 Arbitrage Calibration Strategy
 
-The Market Impact Model is calibrated for a **22-day transition** from 1 Trillion Credits to the 4 Trillion Credit endgame cap. This velocity is achieved by tuning the **Bid-Ask Spread ($S$)** against the fixed friction of the market.
-
-#### 4.5.1 Defining Alpha
-In finance, **Alpha ($\alpha$)** represents the "active return" on an investment—the performance of a strategy above and beyond a market benchmark or a risk-adjusted expected return. It is the primary metric used to evaluate the skill of a fund manager or the effectiveness of a specific trading strategy.
-
-In game, **Alpha** is the return earned in excess of the stock's natural stochastic movement (**Drift**) using the market impact model.
+The Market Impact Model is calibrated for a **22-day transition** from 1 Trillion Credits to the 4 Trillion Credit endgame cap. This velocity is achieved by tuning the **Bid-Ask Spread ($S$)** against the fixed friction of the market to achieve the desired **Arbitrage Yield** (profit from market manipulation).
 
 **The Formula:**
-$$\text{Alpha} = \frac{1 + \text{I}}{D} - 1$$
+$$\text{Arbitrage Yield} = \frac{1 + \text{I}}{D} - 1$$
 
-The maximum practical alpha is achieved as follows:
-1.  **Day 1 (Buy):** Purchase 100% of a stock's ADV ($96.4\text{B}$ credits). This creates **Impact ($I$)**, raising the price for the next day.
+The maximum practical arbitrage is achieved as follows:
+1.  **Day 1 (Buy):** Purchase 100% of a stock's ADV ($96.4\text{B}$ credits). This creates a deterministic **Impact ($I$)**, raising the price for the next day.
 2.  **Overnight (Hold):** Hold the position through the daily stochastic move (**Drift**).
 3.  **Day 2 (Sell):** Liquidate the entire position at the new higher price.
 
-#### 4.5.2 Deriving Spread S
+#### 4.5.1 Deriving Spread S
 The **Spread ($S$)** is the only remaining tunable variable. It is calculated by working backward from the 22-day wealth progression target, using the fixed Market Drift and Friction constants.
 
 **Underlying Drift D**
 
-The expected daily movement is derived from the expected log returns ($E[\ln(X)]$) calculated in the stochastic probability matrices (Section 4.4):
+The expected daily movement is derived from the expected log returns ($E[\ln(X)]$) calculated in the stochastic probability matrices (Section 3.4):
 *   **Dividend:** $E[\ln(X)] = 0.0027 \implies M_D = e^{0.0027} \approx \mathbf{1.002704}$
 *   **Growth:** $E[\ln(X)] = 0.0042 \implies M_G = e^{0.0042} \approx \mathbf{1.004209}$
 *   **Market Drift ($D$):** For a 10-stock market (5 of each), the average overnight move is:
@@ -333,11 +345,9 @@ We align the **Potential Return** (Pump + Drift) with the **Target Velocity** ($
 *   **Equation:** $1.282912 = 1.316534 \times \frac{1 - S}{1 + S}$
 *   **Solution:** **$S = 1.30\%$** half spread ($130$ bps) which is 2.60% total.
 
-### 4.6 ROI Table: Velocity Calibration
+### 4.5.2 Single Stock Manipulation ROI Table
 
-*Averaged across 10 Stocks | $S = 1.30\%$ | $C = 308,440,520$*
-
-| Buy Volume (% of ADV) | Budget Required | Expected Total ROI (2-Day) | Manipulation Alpha |
+| Buy Volume (% of ADV) | Budget Required | Expected Total ROI (2-Day) | Manipulation Yield |
 | :--- | :--- | :--- | :--- |
 | 1% | $964\text{M}$ | **-1.92%** | **-2.26%** |
 | 8.5% | **$8.2\text{B}$** | **+0.35%** | **0.00%** |
